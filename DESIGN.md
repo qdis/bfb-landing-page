@@ -1,59 +1,56 @@
 # Design System: Big Fat Board coming soon
 
-This marketing surface ships five visual worlds over one copy contract. It is not the authenticated BFB work map. Sister product tokens (Schibsted, Azeret, crimson, daylight canvas) appear only in the Dispatch variant.
+One darkroom waitlist. The official Redline Control Room mockup is the first viewport. The page is theme-locked dark.
 
 ## Creative direction
 
-A coming-soon page with one job: say the old software is dead, name the board, take an email. Each variant is a different physical object from that claim, not a theme swap.
+A night operations room under one photographic safelight. The product plane is the largest object. The only action is Get BFB.
 
-| Variant | World | Type | Color | Layout |
-| --- | --- | --- | --- | --- |
-| Obit | Broadsheet death notice | Source Serif 4 + Source Sans 3 | Newsprint and ink, crimson stamp | Centered masthead, two columns, classified plate |
-| Dispatch | Daylight dispatch floor | Schibsted Grotesk + Azeret Mono | Canvas, copper, crimson | Split hero, horizontal project lanes |
-| Stencil | Warehouse safety field | Barlow Condensed + Barlow | Safety yellow and black | Stacked stencil type, black dock plate |
-| Split | Indictment wall | Geist | Charcoal and bone, oxide accent | 58/42 split, charge sheet |
-| Tape | Studio kraft board | Archivo + Figtree | Charcoal, kraft, orange tape | Board on wall, tape strips |
-| Grid | Swiss International Style | Chivo | White, black, signal red | Modular poster, rival index |
-| Chapter | Institutional manifesto | Manrope | Stone, ink, oxblood | Numbered chapters after Aleph Alpha |
-| Notice | Public Notice mockup | Archivo Black + Archivo | Paper, municipal ink, notice crimson | Declaration over an edge-attached project board |
-| Redline | Redline Control Room mockup | Geologica | Near-black, oxblood safelight | Night ops split, desk still, dark board |
-| Sector | Red Sector mockup | Anybody + Onest | Committed crimson, chalk | Stage plus switcher board |
-| Workmap | Work Map mockup | Schibsted Grotesk | Daylight canvas, crimson | Light board under the statement |
-| Ledger | Machine Ledger mockup | Archivo Black | Paper, acceptance crimson | Proof split: ledger left, claim right |
+**Dials:** variance 8, motion 6, density 5.
 
-Home `/` uses Obit. `/v/{slug}` serves each world.
+## Color
 
-## Color roles
+| Token | Value | Role |
+| --- | --- | --- |
+| Blackout | `oklch(0.135 0.014 26)` | page canvas |
+| Chamber | `oklch(0.185 0.024 27)` | board and raised sections |
+| Raised | `oklch(0.235 0.032 27)` | selected controls |
+| Bone | `oklch(0.945 0.010 72)` | primary text |
+| Smoke | `oklch(0.705 0.018 35)` | supporting text |
+| Crimson | `oklch(0.464 0.169 26.9)` | action, human gate |
+| Safelight | `oklch(0.625 0.190 27)` | hover and active |
+| Hairline | `oklch(0.335 0.040 27)` | structural rules |
+| Oxblood | `oklch(0.22 0.09 26)` | committed field |
 
-One accent per world. No mid-page theme flip except Split, which is a single two-field composition.
-
-- Obit: `#d9d2c3` field, `#1b1814` ink, `#7a1d1d` action
-- Dispatch: `#f3eee6` field, `#221b16` ink, `#9a2b24` action
-- Stencil: `#f0c400` field, `#111` ink, yellow-on-black plate
-- Split: `#161616` / `#efece6`, `#b54a2d` action
-- Tape: `#1c1916` studio, `#c9a56a` board, `#e25a12` tape
-- Grid: `#f3f3f1` field, `#111` ink, `#d00000` signal
-- Chapter: `#efece6` stone, `#1c1b19` ink, `#8a2a24` oxblood
-- Notice: `oklch(0.985 0.005 70)` paper, `oklch(0.145 0.012 25)` ink, `oklch(0.464 0.169 26.9)` crimson
+Crimson is scarce. It marks an action, a human gate, or hover. It does not decorate empty corners.
 
 ## Typography
 
-Self-hosted via fontsource. No Inter. Display faces stay inside their world. Body measure stays short. Italic descenders keep extra leading on Split.
+Geologica for human language. Azeret Mono for checkout, hash, duration, and measured labels. No Inter. Display tracking sits at `-0.035em`. Body measure stays near 62ch.
+
+## Shape
+
+Controls are 4px. The outer plane is 8px. No pills.
 
 ## Components
 
-- Shared signup: label above field, hint under, status live region, 48px targets.
-- Variant switch is a one-line nav, under 80px.
-- Corners follow the world: 0 on Obit/Stencil/Tape, 4-8px on Dispatch, 2px on Split.
+- Sticky 64px masthead: BFB, Coming soon, Product, How it works, Get BFB.
+- Hero: two-line manifesto, one crimson button, perspective operational plane.
+- Product: left stacked manifesto.
+- Solves: type plus safelight still. Ticket machines as struck names.
+- Promises: oxblood lead band plus a 2x2 operational surface.
+- Loop: five verbs, not numbered stages.
+- Close: oxblood field and the only email form.
 
 ## Motion
 
-CSS hover and active only. Reduced motion collapses transitions.
+Hero exposure and rise. Working-row spinner. Button hover and press. Reduced motion collapses all of it.
 
 ## Assets
 
-Atmosphere photographs in `public/images/` are synthetic. Prompts are embedded in the JPEGs.
+- `/images/og.png` is the official mockup.
+- `/images/safelight-desk.jpg` is a synthetic night-ops still. Both carry embedded provenance.
 
 ## Accessibility
 
-WCAG 2.2 AA target. Focus rings, skip link, labeled email field, contrast against each field color.
+WCAG 2.2 AA target. Skip link, labeled email field, live status, visible focus, section scroll-margin under the sticky nav.

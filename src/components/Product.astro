@@ -1,0 +1,50 @@
+---
+// ABOUTME: Says what Big Fat Board is, in one stacked manifesto block.
+// ABOUTME: No eyebrow, no split header, no second visual system.
+
+import { COPY } from "../lib/copy";
+
+const { headline, lead, body } = COPY.what;
+---
+
+<section class="product" id="product">
+  <h2>{headline}</h2>
+  <p class="lead">{lead}</p>
+  <p>{body}</p>
+</section>
+
+<style>
+  .product {
+    padding: 5.5rem 1.25rem 5rem;
+    background: var(--blackout);
+  }
+
+  h2 {
+    margin: 0 0 1.4rem;
+    max-width: 18ch;
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    font-weight: 650;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  p {
+    max-width: 62ch;
+    margin: 0;
+    font-size: 1.08rem;
+    line-height: 1.55;
+    color: var(--smoke);
+  }
+
+  .lead {
+    margin-bottom: 0.9rem;
+    color: var(--bone);
+    font-weight: 500;
+  }
+
+  @media (min-width: 768px) {
+    .product {
+      padding: 7rem 2rem 6.5rem;
+    }
+  }
+</style>

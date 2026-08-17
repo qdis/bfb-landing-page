@@ -8,46 +8,49 @@ web
 
 ## Stack
 
-delegated: Astro + `@astrojs/cloudflare` + Wrangler, chosen from the landing brief (Cloudflare Workers, Astro or similar) so the marketing origin matches the BFB control-plane host.
+delegated: Astro + `@astrojs/cloudflare` + Wrangler. The marketing origin stays on the same host family as the BFB control plane.
 
 ## Users
 
-Inferred from `/Users/timo/work/tenira/bfb` and the landing brief: small technical teams (roughly three people, several Macs, several coding agents) who already run Claude Code, Codex, and Grok. They arrive to understand what Big Fat Board is and leave an email for launch. This file is the marketing surface, not the authenticated product.
+Small technical teams and hands-on engineering leaders who already run Claude Code, Codex, and Grok across real local checkouts. Typical envelope: a few people, several repos, named agent profiles, more than one Mac. They arrive to understand Big Fat Board and leave an email for launch.
 
 ## Product Purpose
 
-Big Fat Board is an attention-first, provider-neutral board where humans and coding agents share work. This site is only the coming-soon landing: say the product exists, state the seed claims, and collect an email. Success is a visitor who can repeat the offer and join the list without a product tour.
+This site is the public coming-soon landing for Big Fat Board. It explains what the product is, what it promises, and what it solves, then collects a waitlist email. Success is a visitor who can repeat the offer and join the list without a product tour.
+
+Big Fat Board itself is a provider-neutral control plane: start an agent in an exact approved checkout on an enrolled Mac, see live work and human attention, and review immutable evidence. The landing does not ship the authenticated product.
 
 ## Positioning
 
-Inferred: traditional team-management software is dead; Jira is dead. Big Fat Board is the first AI-native board for agents and humans to collaborate, with integrated time tracking, remote start of agents on your machine, and Grok, Codex, and Claude Code talking to each other to solve problems together. The sister architecture is explicit that v0.1 is not a Jira replacement and does not run agents in the cloud; this landing does not claim otherwise.
+Traditional ticket-first coordination was built for humans filing status. Agents do not file tickets. Big Fat Board is the first AI-native board for agents and humans to collaborate. It starts work on the operator's machine, routes attention, and keeps review on a hash.
 
 ## Operating Context
 
-Visitors meet the page from a link or an LLM citation. They compare it to Jira, Linear, and chat-thread agent workflows. They may read `/llms.txt` or `/sitemap.xml` before the HTML. Signup is stored by the Worker. No ESP, no blog, no docs, no pricing.
+Visitors arrive from a link or an LLM citation. They compare BFB to Jira, Linear, and chat-thread agent workflows. They may read `/llms.txt` or `/sitemap.xml` before the HTML. Signup is stored by the Worker in KV. No ESP, no blog, no docs, no pricing, no GitHub or fork call to action.
 
 ## Capabilities and Constraints
 
-- Seven visually distinct variants of one coming-soon page, plus SEO files.
-- Copy names Jira plus Linear, Asana, Monday, ClickUp, Azure Boards, YouTrack, Shortcut, Trello, and Notion as the dead ticket-machine category.
-- Feature text is taken from the sister BFB architecture: attention inbox, project lanes, remote start on an enrolled Mac, Claude/Codex/Grok, time with provenance, immutable review, GitHub as evidence, MCP, self-host.
-- Email signup accepts a valid address and persists it; invalid addresses are rejected.
-- No third-party newsletter, no production custom domain in this repo, no port of the BFB app.
-- Copy is limited to the seed claims. No invented customers, benchmarks, or ship dates.
+- One scrollable landing page. No visual variants.
+- Required claims stay visible: Coming soon; traditional team management software is dead; Jira is dead; first AI-native board for agents and humans to collaborate; integrated time tracking; start agents remotely on your machine; Grok, Codex, and Claude Code talk to each other to solve problems together.
+- Ticket-machine category named in copy: Jira, Linear, Asana, Monday, ClickUp, Azure Boards, YouTrack, Shortcut, Trello, Notion.
+- Feature claims are limited to the sister BFB architecture. No invented customers, benchmarks, or ship dates.
+- Email signup accepts a valid address and persists it. Invalid addresses are rejected.
+- No third-party newsletter. No production custom domain in this repo. No port of the BFB app.
+- No GitHub, source, or fork links on the page.
 
 ## Brand Commitments
 
-Inferred from `apps/web/PRODUCT.md`: direct, irreverent, operational. Funny only when it stays clear. Binding anti-references: Jira-style workflow chrome; generic SaaS cards, glass, gradients, and soft shadows; terminal cosplay.
+Name: Big Fat Board / BFB. Voice: direct, operational, dry. One joke is enough. Binding visual for this surface: the official Redline Control Room mockup (`mockup.png`), darkroom blackout with one crimson channel, Geologica + Azeret Mono. Binding anti-references: Jira workflow chrome; generic AI-purple SaaS; terminal cosplay; polite gray card stacks; GitHub/fork marketing.
 
 ## Evidence on Hand
 
-Read-only sister sources: `/Users/timo/work/tenira/bfb/README.md`, `ARCHITECTURE.md`, `apps/web/PRODUCT.md`, `apps/web/DESIGN.md`. No photography, logo lockup, or customer quotes exist for the marketing site. Generated atmosphere images on this landing are synthetic.
+Sister product truth: `/Users/timo/work/tenira/bfb/PRODUCT.md`, `ARCHITECTURE.md`, `README.md`, `apps/web/PRODUCT.md`. Official first-viewport reference: `test-website/redline-control-room/mockup.png` (same file as `bfb/docs/design/directions/redline-control-room/mockup.png`). No customer quotes. Atmosphere stills on this landing are synthetic.
 
 ## Product Principles
 
-1. One offer, one action: the claims plus an email field.
-2. Do not invent product facts the sister repo does not support.
-3. Variants change composition, not the contract.
+1. One offer, one action: understand the board, leave an email.
+2. Do not invent product facts the sister architecture does not support.
+3. Show the machine working in the first viewport.
 4. Speak like a sharp teammate. No ceremony, no SaaS fog.
 
 ## Accessibility & Inclusion

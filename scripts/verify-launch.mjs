@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ABOUTME: Hits the live Worker and asserts copy, SEO files, and signup behavior.
-// ABOUTME: Used for the two required launch proofs; writes a log to stdout.
+// ABOUTME: Used for launch proofs; writes a log to stdout.
 
 const base = process.argv[2] ?? "http://127.0.0.1:8787";
 
@@ -14,27 +14,18 @@ const phrases = [
   "Grok, Codex, and Claude Code talk to each other to solve problems together",
 ];
 
-const pages = [
-  "/",
-  "/v/obit",
-  "/v/dispatch",
-  "/v/stencil",
-  "/v/split",
-  "/v/tape",
-  "/v/grid",
-  "/v/chapter",
-  "/v/notice",
-  "/v/redline",
-  "/v/sector",
-  "/v/workmap",
-  "/v/ledger",
-];
+const pages = ["/"];
 
 async function read(path, init) {
   const url = new URL(path, base);
   const response = await fetch(url, init);
   const text = await response.text();
-  return { url: url.href, status: response.status, text, contentType: response.headers.get("content-type") };
+  return {
+    url: url.href,
+    status: response.status,
+    text,
+    contentType: response.headers.get("content-type"),
+  };
 }
 
 function requirePhrases(label, text) {
@@ -54,8 +45,12 @@ for (const path of pages) {
     throw new Error(`${path} returned ${page.status}`);
   }
   requirePhrases(path, page.text);
-  if (!page.text.includes('name="email"') && !page.text.includes("type=\"email\"")) {
+  if (!page.text.includes('name="email"') && !page.text.includes('type="email"')) {
     throw new Error(`${path} has no email signup control`);
+  }
+  const lower = page.text.toLowerCase();
+  if (lower.includes("github.com") || lower.includes("view source") || lower.includes("fork it")) {
+    throw new Error(`${path} still markets GitHub or forking`);
   }
 }
 
@@ -64,10 +59,8 @@ console.log(`GET ${sitemap.url} -> ${sitemap.status}`);
 if (sitemap.status !== 200) {
   throw new Error(`sitemap returned ${sitemap.status}`);
 }
-for (const path of pages) {
-  if (!sitemap.text.includes(path === "/" ? "https://bigfatboard.com/" : `https://bigfatboard.com${path}`)) {
-    throw new Error(`sitemap missing ${path}`);
-  }
+if (!sitemap.text.includes("https://bigfatboard.com/")) {
+  throw new Error("sitemap missing home");
 }
 
 const llms = await read("/llms.txt");
@@ -81,10 +74,8 @@ if (!llms.text.startsWith("# ")) {
 if (!llms.text.includes("\n> ")) {
   throw new Error("llms.txt missing blockquote");
 }
-for (const path of pages) {
-  if (!llms.text.includes(path)) {
-    throw new Error(`llms.txt missing ${path}`);
-  }
+if (!llms.text.includes("/")) {
+  throw new Error("llms.txt missing home");
 }
 
 const robots = await read("/robots.txt");

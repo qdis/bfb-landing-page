@@ -1,0 +1,231 @@
+---
+// ABOUTME: Five product promises as one operational surface, not equal cards.
+// ABOUTME: Lead band plus a 2x2 of trio, time, attention, and review.
+
+import { COPY } from "../lib/copy";
+import Icon from "./Icon.astro";
+
+const [lead, trio, time, attention, review] = COPY.promises.items;
+---
+
+<section class="promises" id="promises">
+  <h2>{COPY.promises.headline}</h2>
+
+  <div class="lead">
+    <div>
+      <h3>{lead.title}</h3>
+      <p>{lead.body}</p>
+    </div>
+    <div class="session" aria-hidden="true">
+      <span class="rail">
+        <Icon name="RocketLaunch" size={22} />
+        Start a session
+      </span>
+      <span class="providers">
+        {
+          COPY.promises.providers.map((name, index) => (
+            <span class:list={["chip", { on: index === 0 }]}>{name}</span>
+          ))
+        }
+      </span>
+    </div>
+  </div>
+
+  <div class="grid">
+    <article class="cell trio">
+      <h3>{trio.title}</h3>
+      <p>{trio.body}</p>
+      <div class="providers" aria-hidden="true">
+        {
+          COPY.promises.providers.map((name) => (
+            <span class="chip">{name}</span>
+          ))
+        }
+      </div>
+    </article>
+
+    <article class="cell">
+      <h3>{time.title}</h3>
+      <p>{time.body}</p>
+      <ul>
+        {
+          COPY.promises.measures.map((measure) => (
+            <li>{measure}</li>
+          ))
+        }
+      </ul>
+    </article>
+
+    <article class="cell gate">
+      <h3>{attention.title}</h3>
+      <p>{attention.body}</p>
+      <div class="need" aria-hidden="true">
+        <Icon name="HandPalm" size={18} />
+        Human needed
+      </div>
+    </article>
+
+    <article class="cell">
+      <h3>{review.title}</h3>
+      <p>{review.body}</p>
+      <p class="hash" aria-hidden="true">sha-256 · artifact v3</p>
+    </article>
+  </div>
+</section>
+
+<style>
+  .promises {
+    padding: 5rem 1.25rem 5.25rem;
+    background: var(--blackout);
+    border-top: 1px solid var(--hairline);
+  }
+
+  h2 {
+    margin: 0 0 1.75rem;
+    max-width: 16ch;
+    font-size: clamp(1.9rem, 4vw, 3.1rem);
+    font-weight: 650;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  h3 {
+    margin: 0 0 0.55rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    margin: 0;
+    max-width: 54ch;
+    color: var(--smoke);
+    line-height: 1.5;
+  }
+
+  .lead {
+    display: grid;
+    gap: 1.25rem;
+    padding: 1.4rem 1.2rem 1.35rem;
+    margin-bottom: 0.7rem;
+    background: var(--oxblood);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-panel);
+  }
+
+  .lead p {
+    color: color-mix(in oklab, var(--bone) 82%, var(--smoke));
+  }
+
+  .session {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.7rem 1rem;
+    padding-top: 0.4rem;
+  }
+
+  .rail {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bone);
+  }
+
+  .providers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0 0.7rem;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-control);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+
+  .chip.on {
+    color: var(--bone);
+    background: var(--raised);
+  }
+
+  .grid {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .cell {
+    padding: 1.25rem 1.15rem 1.2rem;
+    background: var(--chamber);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-panel);
+  }
+
+  .gate {
+    background: color-mix(in oklab, var(--crimson) 16%, var(--chamber));
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem 1rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li,
+  .need,
+  .hash {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+    color: var(--bone);
+  }
+
+  .need {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    color: var(--safelight);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.7rem;
+  }
+
+  .hash {
+    margin-top: 1rem;
+    color: var(--smoke);
+  }
+
+  @media (min-width: 768px) {
+    .promises {
+      padding: 6.25rem 2rem 6.5rem;
+    }
+
+    .lead {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+      align-items: end;
+      padding: 1.7rem 1.6rem 1.5rem;
+    }
+
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

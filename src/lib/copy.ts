@@ -1,4 +1,4 @@
-// ABOUTME: Single source of landing copy, required claim phrases, and variant inventory.
+// ABOUTME: Single source of landing copy, required claim phrases, and public URLs.
 // ABOUTME: Pages, SEO files, and tests all read this module so claims cannot drift.
 
 export const SITE_NAME = "Big Fat Board";
@@ -18,21 +18,29 @@ export const COPY = {
   comingSoon: "Coming soon",
   name: SITE_NAME,
   shortName: "BFB",
-  tagline: "The board for agents and humans.",
+  tagline: "The board where agents and humans actually work.",
   description:
-    "Big Fat Board is the first AI-native board for agents and humans to collaborate. Coming soon. Traditional team management software is dead. Jira is dead. Linear, Asana, Monday, ClickUp, Azure Boards, YouTrack, Shortcut, Trello, and Notion boards are the same status-column machine.",
-  claims: {
-    traditionalDead: "Traditional team management software is dead.",
-    jiraDead: "Jira is dead.",
-    aiNative:
-      "Big Fat Board is the first AI-native board for agents and humans to collaborate.",
-    timeTracking: "Integrated time tracking is part of the work, not a timesheet bolted on later.",
-    remoteStart: "Start agents remotely on your machine.",
-    trio: "Grok, Codex, and Claude Code talk to each other to solve problems together.",
+    "Big Fat Board is the first AI-native board for agents and humans to collaborate. Coming soon. Traditional team management software is dead. Jira is dead. Start agents remotely on your machine. Integrated time tracking. Grok, Codex, and Claude Code talk to each other to solve problems together.",
+  hero: {
+    display: "THE TICKET ERA IS OVER.",
+    sub: "Launch Claude, Codex, or Grok in the exact checkout. Watch work, attention, and evidence move live.",
+    cta: "Get BFB",
   },
-  rivals: {
-    heading: "Same machine, different skin",
-    line: "Jira is dead. Linear, Asana, Monday, ClickUp, Azure Boards, YouTrack, Shortcut, Trello, and Notion boards are the same status-column machine.",
+  nav: {
+    product: "Product",
+    how: "How it works",
+    cta: "Get BFB",
+  },
+  what: {
+    headline: "You already run the agents. You still cannot see the work.",
+    lead: "Big Fat Board is the first AI-native board for agents and humans to collaborate.",
+    body: "Start Claude, Codex, or Grok on an enrolled Mac, in the checkout you approved. The board shows who is working, what they are doing, and the moment a person has to decide. Evidence stays attached to the work.",
+  },
+  solves: {
+    headline: "Traditional team management software is dead.",
+    jira: "Jira is dead.",
+    body: "Linear, Asana, Monday, ClickUp, Azure Boards, YouTrack, Shortcut, Trello, and Notion still organize status. Agents do not file tickets. They work, they stall, they wait for a human who never saw the question.",
+    punch: "The ticket says in progress. BFB says Claude needs you.",
     names: [
       "Jira",
       "Linear",
@@ -46,66 +54,61 @@ export const COPY = {
       "Notion",
     ],
   },
+  promises: {
+    headline: "What the board actually does",
+    items: [
+      {
+        title: "Start on your machine",
+        body: "Start agents remotely on your machine. The provider opens in the exact registered checkout. Cloudflare coordinates. Your Mac executes. Credentials stay local.",
+      },
+      {
+        title: "Three agents, one task",
+        body: "Grok, Codex, and Claude Code talk to each other to solve problems together. Same task. Same context. Named actors, not a blended assistant.",
+      },
+      {
+        title: "Time with a source",
+        body: "Integrated time tracking is part of the work, not a timesheet bolted on later. Human minutes, agent active time, attention wait, and tokens, each labeled for how it was measured.",
+      },
+      {
+        title: "Attention that explains itself",
+        body: "The first question is what needs you now. Every request says why you, and whether another agent can take it.",
+      },
+      {
+        title: "Review that binds",
+        body: "Plans, diffs, previews, and evidence are versioned artifacts. Approval binds a hash, not a filename.",
+      },
+    ],
+    measures: ["Human time", "Agent time", "Wait", "Tokens"],
+    providers: ["Claude", "Codex", "Grok"],
+  },
   loop: {
-    heading: "The loop",
+    headline: "The work, start to finish",
     steps: [
-      "A human creates or promotes a task.",
-      "They pick an agent profile and an enrolled Mac, then press Start.",
-      "That Mac opens Claude Code, Codex, or Grok in the exact registered checkout.",
-      "Questions land in a cross-project attention inbox instead of a buried terminal.",
-      "Plans, diffs, previews, and evidence are reviewed as immutable artifacts.",
-      "The agent submits a result. A human decides whether the work is done.",
+      { title: "Create", body: "A human names the work and the outcome." },
+      { title: "Start", body: "Pick Claude, Codex, or Grok and the exact checkout." },
+      { title: "Watch", body: "State, attention, and evidence move live." },
+      { title: "Answer", body: "You only see what actually needs a person." },
+      { title: "Accept", body: "A human decides whether the work is done." },
     ],
   },
-  boundary:
-    "Cloudflare coordinates. Enrolled Macs execute. The cloud never receives a local provider credential and never sends a shell command. Agents do not run on BFB compute.",
-  scale: "Built for a small technical team: a few people, several repos, named agent profiles, more than one Mac.",
-  features: [
-    {
-      title: "Attention first",
-      body: "The home screen is what needs a person now. Inventory and status columns wait.",
-    },
-    {
-      title: "Project lanes",
-      body: "Horizontal lanes are projects. They never become workflow-state columns.",
-    },
-    {
-      title: "Remote start",
-      body: "Start agents remotely on your machine, in the exact registered checkout.",
-    },
-    {
-      title: "Three providers",
-      body: "Grok, Codex, and Claude Code talk to each other to solve problems together, on the same task and context contracts.",
-    },
-    {
-      title: "Cloud coordinates",
-      body: "The board lives on Cloudflare. The Mac does the work. No stolen tokens. No remote shell.",
-    },
-    {
-      title: "Time with provenance",
-      body: "Integrated time tracking: human minutes, agent active time, attention wait, and tokens, each labeled for how it was measured.",
-    },
-    {
-      title: "Immutable review",
-      body: "Plans, diffs, previews, and evidence are versioned artifacts. Approval binds a hash, not a filename.",
-    },
-    {
-      title: "GitHub as evidence",
-      body: "Pushes, pull requests, and checks attach as facts. BFB tasks stay canonical. No issue-sync theatre.",
-    },
-    {
-      title: "MCP both ways",
-      body: "Local run-scoped MCP for the agent on the Mac. Remote OAuth MCP for tools that must speak from outside.",
-    },
-    {
-      title: "Same repo, two homes",
-      body: "Managed BFB Cloud, or self-host into your own Cloudflare account from the same repository.",
-    },
-  ],
+  close: {
+    headline: "Get a seat on the board.",
+    body: "Coming soon. Leave a work email. We write once, when the board opens.",
+  },
+  claims: {
+    traditionalDead: "Traditional team management software is dead.",
+    jiraDead: "Jira is dead.",
+    aiNative:
+      "Big Fat Board is the first AI-native board for agents and humans to collaborate.",
+    timeTracking:
+      "Integrated time tracking is part of the work, not a timesheet bolted on later.",
+    remoteStart: "Start agents remotely on your machine.",
+    trio: "Grok, Codex, and Claude Code talk to each other to solve problems together.",
+  },
   signup: {
     label: "Work email",
-    hint: "One note when the board opens. No drip. No deck.",
-    cta: "Get a seat",
+    hint: "One note when the board opens. No drip.",
+    cta: "Get BFB",
     sending: "Saving your seat.",
     success: "You are on the list. We will write when the board opens.",
     duplicate: "You are already on the list.",
@@ -113,161 +116,14 @@ export const COPY = {
     missing: "Email is required.",
     network: "Network failed. Try again.",
   },
+  plane: {
+    label:
+      "Sample BFB board: a human gate, a live Claude Code run, a committed review, and a session start for Claude, Codex, or Grok.",
+  },
 } as const;
 
-export type VariantSlug =
-  | "obit"
-  | "dispatch"
-  | "stencil"
-  | "split"
-  | "tape"
-  | "grid"
-  | "chapter"
-  | "notice"
-  | "redline"
-  | "sector"
-  | "workmap"
-  | "ledger";
-
-export type Variant = {
-  slug: VariantSlug;
-  path: string;
-  title: string;
-  layout: string;
-  type: string;
-  color: string;
-  themeColor: string;
-  ogImage: string;
-};
-
-export const DEFAULT_VARIANT: VariantSlug = "obit";
-
-export const VARIANTS: readonly Variant[] = [
-  {
-    slug: "obit",
-    path: "/v/obit",
-    title: "Obit",
-    layout: "broadsheet-death-notice",
-    type: "source-serif-newsprint",
-    color: "newsprint-ink-crimson-stamp",
-    themeColor: "#d9d2c3",
-    ogImage: "/images/og-obit.jpg",
-  },
-  {
-    slug: "dispatch",
-    path: "/v/dispatch",
-    title: "Dispatch",
-    layout: "horizontal-project-lanes",
-    type: "schibsted-azeret-dispatch",
-    color: "daylight-canvas-crimson",
-    themeColor: "#f4f1ea",
-    ogImage: "/images/og-dispatch.jpg",
-  },
-  {
-    slug: "stencil",
-    path: "/v/stencil",
-    title: "Stencil",
-    layout: "warehouse-safety-field",
-    type: "barlow-condensed-stencil",
-    color: "safety-yellow-black",
-    themeColor: "#f0c400",
-    ogImage: "/images/og-stencil.jpg",
-  },
-  {
-    slug: "split",
-    path: "/v/split",
-    title: "Split",
-    layout: "asymmetric-indictment-split",
-    type: "geist-indictment",
-    color: "charcoal-bone-oxide",
-    themeColor: "#161616",
-    ogImage: "/images/og-split.jpg",
-  },
-  {
-    slug: "tape",
-    path: "/v/tape",
-    title: "Tape",
-    layout: "physical-kraft-board",
-    type: "archivo-figtree-studio",
-    color: "charcoal-kraft-orange-tape",
-    themeColor: "#1c1916",
-    ogImage: "/images/og-tape.jpg",
-  },
-  {
-    slug: "grid",
-    path: "/v/grid",
-    title: "Grid",
-    layout: "swiss-modular-poster",
-    type: "chivo-helvetica-grid",
-    color: "white-black-signal-red",
-    themeColor: "#f3f3f1",
-    ogImage: "/images/og-grid.jpg",
-  },
-  {
-    slug: "chapter",
-    path: "/v/chapter",
-    title: "Chapter",
-    layout: "institutional-numbered-chapters",
-    type: "manrope-sovereign-editorial",
-    color: "stone-ink-oxblood",
-    themeColor: "#efece6",
-    ogImage: "/images/og-chapter.jpg",
-  },
-  {
-    slug: "notice",
-    path: "/v/notice",
-    title: "Notice",
-    layout: "public-notice-attached-board",
-    type: "archivo-black-municipal",
-    color: "paper-ink-notice-crimson",
-    themeColor: "#f7f4ef",
-    ogImage: "/images/og-notice.png",
-  },
-  {
-    slug: "redline",
-    path: "/v/redline",
-    title: "Redline",
-    layout: "night-ops-attached-board",
-    type: "geologica-control-room",
-    color: "near-black-oxblood-safelight",
-    themeColor: "#120e0e",
-    ogImage: "/images/og-redline.png",
-  },
-  {
-    slug: "sector",
-    path: "/v/sector",
-    title: "Sector",
-    layout: "crimson-switcher-stage",
-    type: "anybody-onest-broadcast",
-    color: "committed-crimson-chalk",
-    themeColor: "#7a2420",
-    ogImage: "/images/og-sector.png",
-  },
-  {
-    slug: "workmap",
-    path: "/v/workmap",
-    title: "Workmap",
-    layout: "daylight-dispatch-board",
-    type: "schibsted-work-map",
-    color: "canvas-ink-crimson",
-    themeColor: "#f6f3ee",
-    ogImage: "/images/og-workmap.png",
-  },
-  {
-    slug: "ledger",
-    path: "/v/ledger",
-    title: "Ledger",
-    layout: "proof-split-ledger",
-    type: "archivo-machine-ledger",
-    color: "paper-ink-acceptance-crimson",
-    themeColor: "#f4f2ef",
-    ogImage: "/images/og-ledger.png",
-  },
-] as const;
-
-export function variantBySlug(slug: string | undefined): Variant | undefined {
-  return VARIANTS.find((variant) => variant.slug === slug);
-}
+export const OG_IMAGE = "/images/og.png";
+export const THEME_COLOR = "#161010";
 
 export function publicPages(): { path: string; title: string; summary: string }[] {
   return [
@@ -276,11 +132,6 @@ export function publicPages(): { path: string; title: string; summary: string }[
       title: `${SITE_NAME} - Coming soon`,
       summary: COPY.description,
     },
-    ...VARIANTS.map((variant) => ({
-      path: variant.path,
-      title: `${SITE_NAME} - ${variant.title}`,
-      summary: COPY.description,
-    })),
   ];
 }
 
@@ -294,18 +145,28 @@ export function visibleCopyText(): string {
     COPY.name,
     COPY.tagline,
     COPY.description,
+    COPY.hero.display,
+    COPY.hero.sub,
+    COPY.what.headline,
+    COPY.what.lead,
+    COPY.what.body,
+    COPY.solves.headline,
+    COPY.solves.jira,
+    COPY.solves.body,
+    COPY.solves.punch,
+    COPY.solves.names.join(" "),
+    COPY.promises.headline,
+    ...COPY.promises.items.map((item) => `${item.title} ${item.body}`),
+    COPY.loop.headline,
+    ...COPY.loop.steps.map((step) => `${step.title} ${step.body}`),
+    COPY.close.headline,
+    COPY.close.body,
     COPY.claims.traditionalDead,
     COPY.claims.jiraDead,
     COPY.claims.aiNative,
     COPY.claims.timeTracking,
     COPY.claims.remoteStart,
     COPY.claims.trio,
-    COPY.rivals.line,
-    COPY.rivals.names.join(" "),
-    COPY.boundary,
-    COPY.scale,
-    ...COPY.loop.steps,
-    ...COPY.features.map((feature) => `${feature.title} ${feature.body}`),
     COPY.signup.label,
     COPY.signup.hint,
     COPY.signup.cta,

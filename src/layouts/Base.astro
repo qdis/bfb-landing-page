@@ -1,25 +1,30 @@
 ---
-// ABOUTME: Shared document shell for every coming-soon variant.
+// ABOUTME: Document shell for the single Big Fat Board coming-soon page.
 // ABOUTME: Writes title, description, canonical, Open Graph, and llms.txt link.
 
-import { COPY, SITE_NAME, type Variant } from "../lib/copy";
+import "@fontsource/geologica/latin-400.css";
+import "@fontsource/geologica/latin-500.css";
+import "@fontsource/geologica/latin-600.css";
+import "@fontsource/geologica/latin-700.css";
+import "@fontsource/azeret-mono/latin-500.css";
+import "@fontsource/azeret-mono/latin-600.css";
+import { COPY, OG_IMAGE, SITE_NAME, THEME_COLOR } from "../lib/copy";
 import { absoluteUrl } from "../lib/site";
 
 interface Props {
-  variant: Variant;
-  path: string;
+  path?: string;
 }
 
-const { variant, path } = Astro.props;
+const path = Astro.props.path ?? "/";
 const origin = Astro.site ?? "https://bigfatboard.com";
 const canonical = absoluteUrl(path, origin);
-const title = path === "/" ? `${SITE_NAME} - Coming soon` : `${SITE_NAME} - ${variant.title}`;
+const title = `${SITE_NAME} - Coming soon`;
 const description = COPY.description;
-const ogImage = absoluteUrl(variant.ogImage, origin);
+const ogImage = absoluteUrl(OG_IMAGE, origin);
 ---
 
 <!doctype html>
-<html lang="en" data-variant={variant.slug}>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,18 +42,19 @@ const ogImage = absoluteUrl(variant.ogImage, origin);
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    <meta name="theme-color" content={variant.themeColor} />
+    <meta name="theme-color" content={THEME_COLOR} />
+    <meta name="color-scheme" content="dark" />
     <meta name="robots" content="index,follow" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <slot name="head" />
   </head>
   <body>
     <!--
-      THESIS: Five visual worlds, one coming-soon contract. Refuses the generic SaaS hero of three cards on a dark mesh.
-      OWN-WORLD: Per-variant palette, type, and composition (obit, dispatch, stencil, split, tape).
-      STORY: Visitor learns Jira-class software is dead, what the board is, and leaves an email.
-      FIRST VIEWPORT: Coming soon, the death claims, and the signup field are visible without hunting.
-      FORM: Five-variant coming-soon landing; seed key unattended/full-auto (no concept-seed lock).
+      THESIS: One darkroom waitlist. The product plane is the hero. Refuses variant galleries, GitHub marketing, and three-card SaaS.
+      OWN-WORLD: Blackout canvas, deep oxblood field, scarce crimson controls, Geologica voice, Azeret only for machine facts.
+      STORY: Visitor sees the board working, learns what BFB is and solves, leaves an email.
+      FIRST VIEWPORT: 64px masthead, THE TICKET ERA IS OVER on the left, perspective control plane bleeding right and bottom, Get BFB as the only action.
+      FORM: Pinned Redline Control Room mockup; seed key pinned-mockup (user-locked, no concept-seed).
       FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
     -->
     <a class="skip" href="#signup">Skip to email signup</a>
@@ -58,7 +64,31 @@ const ogImage = absoluteUrl(variant.ogImage, origin);
 
 <style is:global>
   :root {
-    color-scheme: light;
+    color-scheme: dark;
+    --blackout: oklch(0.135 0.014 26);
+    --chamber: oklch(0.185 0.024 27);
+    --raised: oklch(0.235 0.032 27);
+    --bone: oklch(0.945 0.010 72);
+    --smoke: oklch(0.705 0.018 35);
+    --crimson: oklch(0.464 0.169 26.9);
+    --safelight: oklch(0.625 0.190 27);
+    --hairline: oklch(0.335 0.040 27);
+    --oxblood: oklch(0.22 0.09 26);
+    --oxblood-deep: oklch(0.16 0.055 26);
+    --font-sans: "Geologica", "Arial Narrow", Arial, sans-serif;
+    --font-mono: "Azeret Mono", ui-monospace, monospace;
+    --radius-control: 4px;
+    --radius-panel: 8px;
+    --nav-h: 64px;
+    --signup-line: var(--hairline);
+    --signup-radius: var(--radius-control);
+    --signup-field: var(--raised);
+    --signup-ink: var(--bone);
+    --signup-muted: var(--smoke);
+    --signup-accent: var(--crimson);
+    --signup-on-accent: var(--bone);
+    --signup-error: oklch(0.78 0.12 26);
+    --signup-ok: var(--bone);
   }
 
   * {
@@ -69,10 +99,22 @@ const ogImage = absoluteUrl(variant.ogImage, origin);
   body {
     margin: 0;
     min-height: 100%;
+    background: var(--blackout);
+    color: var(--bone);
+  }
+
+  html {
+    scrollbar-color: var(--crimson) var(--blackout);
   }
 
   body {
     min-height: 100dvh;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    caret-color: var(--crimson);
   }
 
   img {
@@ -82,6 +124,21 @@ const ogImage = absoluteUrl(variant.ogImage, origin);
 
   a {
     color: inherit;
+    text-decoration: none;
+  }
+
+  #top,
+  #product,
+  #solves,
+  #promises,
+  #how,
+  #signup {
+    scroll-margin-top: var(--nav-h);
+  }
+
+  button,
+  input {
+    font: inherit;
   }
 
   .skip {
@@ -90,8 +147,10 @@ const ogImage = absoluteUrl(variant.ogImage, origin);
     top: -3rem;
     z-index: 20;
     padding: 0.5rem 0.75rem;
-    background: #111;
-    color: #f4f1ea;
+    background: var(--chamber);
+    color: var(--bone);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-control);
   }
 
   .skip:focus {
@@ -99,12 +158,19 @@ const ogImage = absoluteUrl(variant.ogImage, origin);
   }
 
   :focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 3px;
+    outline: 2px solid var(--bone);
+    outline-offset: 2px;
   }
 
   ::selection {
-    background: color-mix(in oklab, currentColor 25%, transparent);
+    background: color-mix(in oklab, var(--crimson) 42%, transparent);
+    color: var(--bone);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -114,6 +180,7 @@ const ogImage = absoluteUrl(variant.ogImage, origin);
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 </style>

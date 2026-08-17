@@ -1,19 +1,27 @@
 ---
-// ABOUTME: Default public route for the coming-soon landing.
-// ABOUTME: Renders the obit variant with root canonical and shared SEO.
+// ABOUTME: Public coming-soon landing for Big Fat Board.
+// ABOUTME: One Redline page: mockup hero, product story, waitlist signup.
 
 import Base from "../layouts/Base.astro";
-import VariantRoot from "../components/VariantRoot.astro";
-import { DEFAULT_VARIANT, variantBySlug } from "../lib/copy";
+import SiteNav from "../components/SiteNav.astro";
+import Hero from "../components/Hero.astro";
+import Product from "../components/Product.astro";
+import Solves from "../components/Solves.astro";
+import Promises from "../components/Promises.astro";
+import Loop from "../components/Loop.astro";
+import Close from "../components/Close.astro";
 
 export const prerender = true;
-
-const variant = variantBySlug(DEFAULT_VARIANT);
-if (!variant) {
-  throw new Error("Default landing variant is missing.");
-}
 ---
 
-<Base variant={variant} path="/">
-  <VariantRoot variant={variant} />
+<Base path="/">
+  <SiteNav />
+  <main>
+    <Hero />
+    <Product />
+    <Solves />
+    <Promises />
+    <Loop />
+    <Close />
+  </main>
 </Base>

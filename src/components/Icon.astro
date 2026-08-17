@@ -1,0 +1,25 @@
+---
+// ABOUTME: Renders one official Phosphor glyph from the shared path table.
+// ABOUTME: Used for the sample board and promise surfaces, one family only.
+
+import { ICONS, type IconName } from "../lib/icons";
+
+interface Props {
+  name: IconName;
+  size?: number;
+}
+
+const { name, size = 24 } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 256 256"
+  fill="currentColor"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d={ICONS[name]}></path>
+</svg>

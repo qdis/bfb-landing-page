@@ -1,0 +1,96 @@
+---
+// ABOUTME: Single-line masthead for the waitlist landing.
+// ABOUTME: Product and How it works jump in-page; Get BFB is the only action.
+
+import { COPY } from "../lib/copy";
+
+const { nav, comingSoon, shortName } = COPY;
+---
+
+<header class="mast">
+  <a class="brand" href="#top">{shortName}</a>
+  <p class="soon">{comingSoon}</p>
+  <nav class="links" aria-label="Page">
+    <a href="#product">{nav.product}</a>
+    <a href="#how">{nav.how}</a>
+  </nav>
+  <a class="cta" href="#signup">{nav.cta}</a>
+</header>
+
+<style>
+  .mast {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    height: var(--nav-h);
+    padding: 0 1.5rem;
+    background: var(--blackout);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .brand {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .soon {
+    margin: 0;
+    color: var(--smoke);
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  .links {
+    display: none;
+    gap: 1.5rem;
+    margin-left: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .links a:hover {
+    color: var(--safelight);
+  }
+
+  .cta {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    height: 2.25rem;
+    padding: 0 0.95rem;
+    border: 1px solid var(--crimson);
+    border-radius: var(--radius-control);
+    color: var(--crimson);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .cta:hover {
+    background: var(--crimson);
+    color: var(--bone);
+  }
+
+  .cta:active {
+    transform: translateY(1px);
+  }
+
+  @media (min-width: 768px) {
+    .mast {
+      padding: 0 2rem;
+    }
+
+    .links {
+      display: flex;
+    }
+  }
+</style>
