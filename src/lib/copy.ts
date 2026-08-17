@@ -122,7 +122,8 @@ export type VariantSlug =
   | "split"
   | "tape"
   | "grid"
-  | "chapter";
+  | "chapter"
+  | "notice";
 
 export type Variant = {
   slug: VariantSlug;
@@ -207,6 +208,16 @@ export const VARIANTS: readonly Variant[] = [
     color: "stone-ink-oxblood",
     themeColor: "#efece6",
     ogImage: "/images/og-chapter.jpg",
+  },
+  {
+    slug: "notice",
+    path: "/v/notice",
+    title: "Notice",
+    layout: "public-notice-attached-board",
+    type: "archivo-black-municipal",
+    color: "paper-ink-notice-crimson",
+    themeColor: "#f7f4ef",
+    ogImage: "/images/og-obit.jpg",
   },
 ] as const;
 

@@ -6,5 +6,6 @@ dist/
 .DS_Store
 *.log
 .impeccable/config.local.json
+.ref/
 test-results/
 playwright-report/

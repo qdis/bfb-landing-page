@@ -6,6 +6,7 @@ import { COPY, type Variant } from "../lib/copy";
 import Chapter from "../variants/Chapter.astro";
 import Dispatch from "../variants/Dispatch.astro";
 import Grid from "../variants/Grid.astro";
+import Notice from "../variants/Notice.astro";
 import Obit from "../variants/Obit.astro";
 import Split from "../variants/Split.astro";
 import Stencil from "../variants/Stencil.astro";
@@ -40,4 +41,7 @@ void copy;
 }
 {
   variant.slug === "chapter" && <Chapter variant={variant} />
+}
+{
+  variant.slug === "notice" && <Notice variant={variant} />
 }
