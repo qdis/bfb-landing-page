@@ -1,0 +1,19 @@
+---
+// ABOUTME: Default public route for the coming-soon landing.
+// ABOUTME: Renders the obit variant with root canonical and shared SEO.
+
+import Base from "../layouts/Base.astro";
+import VariantRoot from "../components/VariantRoot.astro";
+import { DEFAULT_VARIANT, variantBySlug } from "../lib/copy";
+
+export const prerender = true;
+
+const variant = variantBySlug(DEFAULT_VARIANT);
+if (!variant) {
+  throw new Error("Default landing variant is missing.");
+}
+---
+
+<Base variant={variant} path="/">
+  <VariantRoot variant={variant} />
+</Base>

@@ -1,0 +1,119 @@
+---
+// ABOUTME: Shared document shell for every coming-soon variant.
+// ABOUTME: Writes title, description, canonical, Open Graph, and llms.txt link.
+
+import { COPY, SITE_NAME, type Variant } from "../lib/copy";
+import { absoluteUrl } from "../lib/site";
+
+interface Props {
+  variant: Variant;
+  path: string;
+}
+
+const { variant, path } = Astro.props;
+const origin = Astro.site ?? "https://bigfatboard.com";
+const canonical = absoluteUrl(path, origin);
+const title = path === "/" ? `${SITE_NAME} - Coming soon` : `${SITE_NAME} - ${variant.title}`;
+const description = COPY.description;
+const ogImage = absoluteUrl(variant.ogImage, origin);
+---
+
+<!doctype html>
+<html lang="en" data-variant={variant.slug}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="describedby" href={absoluteUrl("/llms.txt", origin)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="theme-color" content={variant.themeColor} />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <slot name="head" />
+  </head>
+  <body>
+    <!--
+      THESIS: Five visual worlds, one coming-soon contract. Refuses the generic SaaS hero of three cards on a dark mesh.
+      OWN-WORLD: Per-variant palette, type, and composition (obit, dispatch, stencil, split, tape).
+      STORY: Visitor learns Jira-class software is dead, what the board is, and leaves an email.
+      FIRST VIEWPORT: Coming soon, the death claims, and the signup field are visible without hunting.
+      FORM: Five-variant coming-soon landing; seed key unattended/full-auto (no concept-seed lock).
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+    -->
+    <a class="skip" href="#signup">Skip to email signup</a>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    min-height: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  .skip {
+    position: absolute;
+    left: 0.75rem;
+    top: -3rem;
+    z-index: 20;
+    padding: 0.5rem 0.75rem;
+    background: #111;
+    color: #f4f1ea;
+  }
+
+  .skip:focus {
+    top: 0.75rem;
+  }
+
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, currentColor 25%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>

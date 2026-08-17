@@ -13,8 +13,8 @@ pnpm build
 pnpm preview:worker
 ```
 
-- `pnpm dev` runs Astro locally
-- `pnpm preview:worker` serves the built Worker with Wrangler (signup KV included)
+- `pnpm dev` runs Astro locally on the Workers runtime
+- `pnpm build && pnpm preview` serves the built Worker at `http://127.0.0.1:8787` with the SIGNUPS KV binding
 - Public SEO files: `/sitemap.xml`, `/llms.txt`, `/robots.txt`
 
 ## Variants

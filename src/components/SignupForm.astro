@@ -1,0 +1,161 @@
+---
+// ABOUTME: Shared waitlist form used by every landing variant.
+// ABOUTME: Posts to /api/signup and shows success or validation errors inline.
+
+import { COPY } from "../lib/copy";
+
+const copy = COPY.signup;
+---
+
+<form class="signup" data-signup method="post" action="/api/signup" novalidate>
+  <div class="field">
+    <label for="email">{copy.label}</label>
+    <input
+      id="email"
+      name="email"
+      type="email"
+      autocomplete="email"
+      inputmode="email"
+      required
+      spellcheck="false"
+    />
+    <p class="hint">{copy.hint}</p>
+  </div>
+  <button type="submit">{copy.cta}</button>
+  <p class="status" data-signup-status role="status" aria-live="polite" hidden></p>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-signup]");
+  if (form) {
+    const status = form.querySelector<HTMLElement>("[data-signup-status]");
+    const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
+    const input = form.querySelector<HTMLInputElement>("input[name=email]");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!status || !button || !input) {
+        return;
+      }
+      button.disabled = true;
+      status.hidden = false;
+      status.dataset.state = "pending";
+      status.textContent = "Saving your seat.";
+      try {
+        const response = await fetch("/api/signup", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            accept: "application/json",
+          },
+          body: JSON.stringify({ email: input.value }),
+        });
+        const payload = (await response.json()) as {
+          ok?: boolean;
+          created?: boolean;
+          error?: string;
+        };
+        if (!response.ok || !payload.ok) {
+          status.dataset.state = "error";
+          status.textContent = payload.error ?? "Could not save that address.";
+          return;
+        }
+        status.dataset.state = "ok";
+        status.textContent =
+          payload.created === false
+            ? "You are already on the list."
+            : "You are on the list. We will write when the board opens.";
+        form.reset();
+      } catch {
+        status.dataset.state = "error";
+        status.textContent = "Network failed. Try again.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>
+
+<style>
+  .signup {
+    display: grid;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 28rem;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  label {
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+
+  input {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--signup-line, currentColor);
+    border-radius: var(--signup-radius, 4px);
+    background: var(--signup-field, #fff);
+    color: var(--signup-ink, #161616);
+    padding: 0.7rem 0.85rem;
+    font: inherit;
+    font-size: 1rem;
+  }
+
+  input::placeholder {
+    color: color-mix(in oklab, var(--signup-ink, #161616) 45%, transparent);
+  }
+
+  .hint {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.4;
+    color: var(--signup-muted, inherit);
+  }
+
+  button {
+    min-height: 48px;
+    border: 0;
+    border-radius: var(--signup-radius, 4px);
+    background: var(--signup-accent, #161616);
+    color: var(--signup-on-accent, #f6f3ea);
+    font: inherit;
+    font-weight: 650;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    padding: 0.75rem 1.1rem;
+    width: fit-content;
+  }
+
+  button:hover {
+    filter: brightness(1.06);
+  }
+
+  button:active {
+    transform: translateY(1px);
+  }
+
+  button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .status {
+    margin: 0;
+    min-height: 1.4em;
+    font-size: 0.95rem;
+  }
+
+  .status[data-state="error"] {
+    color: var(--signup-error, #8a1f1f);
+  }
+
+  .status[data-state="ok"] {
+    color: var(--signup-ok, inherit);
+  }
+</style>

@@ -1,0 +1,23 @@
+---
+// ABOUTME: Static paths for the five visual variants of the landing.
+// ABOUTME: Unknown slugs 404; known slugs reuse the shared copy and signup.
+
+import Base from "../../layouts/Base.astro";
+import VariantRoot from "../../components/VariantRoot.astro";
+import { VARIANTS, variantBySlug } from "../../lib/copy";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return VARIANTS.map((variant) => ({ params: { slug: variant.slug } }));
+}
+
+const variant = variantBySlug(Astro.params.slug);
+if (!variant) {
+  return new Response("Not found", { status: 404 });
+}
+---
+
+<Base variant={variant} path={variant.path}>
+  <VariantRoot variant={variant} />
+</Base>
