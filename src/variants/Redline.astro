@@ -1,0 +1,176 @@
+---
+// ABOUTME: Redline Control Room landing from the BFB design-study mockup.
+// ABOUTME: Night ops field, Geologica type, desk still, dark attached board.
+
+import "@fontsource/geologica/400.css";
+import "@fontsource/geologica/600.css";
+import "@fontsource/geologica/700.css";
+import FeatureIndex from "../components/FeatureIndex.astro";
+import NoticeBoard from "../components/NoticeBoard.astro";
+import RivalIndex from "../components/RivalIndex.astro";
+import SignupForm from "../components/SignupForm.astro";
+import VariantSwitch from "../components/VariantSwitch.astro";
+import { COPY, type Variant } from "../lib/copy";
+
+interface Props {
+  variant: Variant;
+}
+
+const { variant } = Astro.props;
+const copy = COPY;
+---
+
+<div class="redline">
+  <header>
+    <a class="mark" href="/">{copy.shortName}</a>
+    <VariantSwitch current={variant} />
+    <a class="enter" href="#signup">Enter board</a>
+  </header>
+  <section class="hero">
+    <div>
+      <p class="soon">{copy.comingSoon}</p>
+      <h1>Your agents are working. Your tickets are guessing.</h1>
+      <p class="sub">See who works where, what needs you, and what can go straight to another agent.</p>
+      <div class="actions">
+        <a class="use" href="#signup">Open the board</a>
+        <a class="src" href="https://github.com/qdis/bfb">View source</a>
+      </div>
+    </div>
+    <img src="/images/redline-desk.jpg" alt="Dark desk under a single operations spotlight" width="1200" height="900" />
+  </section>
+  <NoticeBoard theme="redline" />
+  <main>
+    <p>{copy.claims.traditionalDead} {copy.claims.jiraDead}</p>
+    <p>{copy.claims.aiNative}</p>
+    <p>{copy.claims.timeTracking}</p>
+    <p>{copy.claims.remoteStart}</p>
+    <p>{copy.claims.trio}</p>
+    <RivalIndex />
+    <FeatureIndex />
+    <section id="signup">
+      <h2>Get BFB</h2>
+      <SignupForm />
+    </section>
+  </main>
+</div>
+
+<style>
+  .redline {
+    --signup-field: #1a1212;
+    --signup-ink: #f4ece6;
+    --signup-line: #8a2a24;
+    --signup-accent: #8a2a24;
+    --signup-on-accent: #f4ece6;
+    --signup-muted: #c9b8b2;
+    --signup-radius: 2px;
+    min-height: 100dvh;
+    background: #120e0e;
+    color: #f4ece6;
+    font-family: Geologica, Arial, sans-serif;
+  }
+
+  header {
+    min-height: 64px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1.1rem;
+    border-bottom: 1px solid #2a1c1c;
+  }
+
+  .mark {
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+  }
+
+  .enter {
+    border: 1px solid #8a2a24;
+    color: #f4ece6;
+    text-decoration: none;
+    padding: 0.55rem 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 1.2rem;
+    align-items: end;
+    padding: 1.4rem 1.1rem 1.2rem;
+    background:
+      linear-gradient(90deg, #120e0e 42%, transparent 42%),
+      linear-gradient(#3a1414, #120e0e);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2.4rem, 5.4vw, 4.4rem);
+    letter-spacing: -0.04em;
+    line-height: 0.94;
+    max-width: 12ch;
+  }
+
+  .soon,
+  .sub {
+    margin: 0 0 0.7rem;
+    max-width: 36ch;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .use,
+  .src {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1rem;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.8rem;
+  }
+
+  .use {
+    background: #8a2a24;
+    color: #f4ece6;
+  }
+
+  .src {
+    border: 1px solid #8a2a24;
+  }
+
+  img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    opacity: 0.85;
+  }
+
+  main {
+    padding: 2rem 1.1rem 3.5rem;
+    display: grid;
+    gap: 0.85rem;
+    width: min(980px, 100%);
+  }
+
+  main > p {
+    margin: 0;
+    max-width: 62ch;
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -123,7 +123,11 @@ export type VariantSlug =
   | "tape"
   | "grid"
   | "chapter"
-  | "notice";
+  | "notice"
+  | "redline"
+  | "sector"
+  | "workmap"
+  | "ledger";
 
 export type Variant = {
   slug: VariantSlug;
@@ -217,7 +221,47 @@ export const VARIANTS: readonly Variant[] = [
     type: "archivo-black-municipal",
     color: "paper-ink-notice-crimson",
     themeColor: "#f7f4ef",
-    ogImage: "/images/og-obit.jpg",
+    ogImage: "/images/og-notice.png",
+  },
+  {
+    slug: "redline",
+    path: "/v/redline",
+    title: "Redline",
+    layout: "night-ops-attached-board",
+    type: "geologica-control-room",
+    color: "near-black-oxblood-safelight",
+    themeColor: "#120e0e",
+    ogImage: "/images/og-redline.png",
+  },
+  {
+    slug: "sector",
+    path: "/v/sector",
+    title: "Sector",
+    layout: "crimson-switcher-stage",
+    type: "anybody-onest-broadcast",
+    color: "committed-crimson-chalk",
+    themeColor: "#7a2420",
+    ogImage: "/images/og-sector.png",
+  },
+  {
+    slug: "workmap",
+    path: "/v/workmap",
+    title: "Workmap",
+    layout: "daylight-dispatch-board",
+    type: "schibsted-work-map",
+    color: "canvas-ink-crimson",
+    themeColor: "#f6f3ee",
+    ogImage: "/images/og-workmap.png",
+  },
+  {
+    slug: "ledger",
+    path: "/v/ledger",
+    title: "Ledger",
+    layout: "proof-split-ledger",
+    type: "archivo-machine-ledger",
+    color: "paper-ink-acceptance-crimson",
+    themeColor: "#f4f2ef",
+    ogImage: "/images/og-ledger.png",
   },
 ] as const;
 

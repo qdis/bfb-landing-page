@@ -15,7 +15,11 @@ A coming-soon page with one job: say the old software is dead, name the board, t
 | Tape | Studio kraft board | Archivo + Figtree | Charcoal, kraft, orange tape | Board on wall, tape strips |
 | Grid | Swiss International Style | Chivo | White, black, signal red | Modular poster, rival index |
 | Chapter | Institutional manifesto | Manrope | Stone, ink, oxblood | Numbered chapters after Aleph Alpha |
-| Notice | BFB Public Notice from `origin/design/landing-directions` | Archivo Black + Archivo | Paper, municipal ink, notice crimson | Declaration over an edge-attached project board |
+| Notice | Public Notice mockup | Archivo Black + Archivo | Paper, municipal ink, notice crimson | Declaration over an edge-attached project board |
+| Redline | Redline Control Room mockup | Geologica | Near-black, oxblood safelight | Night ops split, desk still, dark board |
+| Sector | Red Sector mockup | Anybody + Onest | Committed crimson, chalk | Stage plus switcher board |
+| Workmap | Work Map mockup | Schibsted Grotesk | Daylight canvas, crimson | Light board under the statement |
+| Ledger | Machine Ledger mockup | Archivo Black | Paper, acceptance crimson | Proof split: ledger left, claim right |
 
 Home `/` uses Obit. `/v/{slug}` serves each world.
 

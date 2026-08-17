@@ -24,6 +24,10 @@ const pages = [
   "/v/grid",
   "/v/chapter",
   "/v/notice",
+  "/v/redline",
+  "/v/sector",
+  "/v/workmap",
+  "/v/ledger",
 ];
 
 async function read(path, init) {

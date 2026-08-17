@@ -27,4 +27,8 @@ pnpm preview:worker
 - `/v/tape` kraft board
 - `/v/grid` Swiss modular
 - `/v/chapter` institutional chapters
-- `/v/notice` BFB Public Notice (design-study brutalist)
+- `/v/notice` Public Notice
+- `/v/redline` Redline Control Room
+- `/v/sector` Red Sector
+- `/v/workmap` Work Map
+- `/v/ledger` Machine Ledger

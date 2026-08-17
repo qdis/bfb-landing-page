@@ -6,11 +6,15 @@ import { COPY, type Variant } from "../lib/copy";
 import Chapter from "../variants/Chapter.astro";
 import Dispatch from "../variants/Dispatch.astro";
 import Grid from "../variants/Grid.astro";
+import Ledger from "../variants/Ledger.astro";
 import Notice from "../variants/Notice.astro";
 import Obit from "../variants/Obit.astro";
+import Redline from "../variants/Redline.astro";
+import Sector from "../variants/Sector.astro";
 import Split from "../variants/Split.astro";
 import Stencil from "../variants/Stencil.astro";
 import Tape from "../variants/Tape.astro";
+import Workmap from "../variants/Workmap.astro";
 
 interface Props {
   variant: Variant;
@@ -44,4 +48,16 @@ void copy;
 }
 {
   variant.slug === "notice" && <Notice variant={variant} />
+}
+{
+  variant.slug === "redline" && <Redline variant={variant} />
+}
+{
+  variant.slug === "sector" && <Sector variant={variant} />
+}
+{
+  variant.slug === "workmap" && <Workmap variant={variant} />
+}
+{
+  variant.slug === "ledger" && <Ledger variant={variant} />
 }

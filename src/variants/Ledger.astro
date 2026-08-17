@@ -1,0 +1,273 @@
+---
+// ABOUTME: Machine Ledger landing from the BFB design-study mockup.
+// ABOUTME: Proof surface on the left, declaration and signup on the right.
+
+import "@fontsource/archivo-black";
+import "@fontsource/archivo/400.css";
+import "@fontsource/archivo/700.css";
+import FeatureIndex from "../components/FeatureIndex.astro";
+import RivalIndex from "../components/RivalIndex.astro";
+import SignupForm from "../components/SignupForm.astro";
+import VariantSwitch from "../components/VariantSwitch.astro";
+import { COPY, type Variant } from "../lib/copy";
+
+interface Props {
+  variant: Variant;
+}
+
+const { variant } = Astro.props;
+const copy = COPY;
+---
+
+<div class="ledger">
+  <header>
+    <a class="mark" href="/">{copy.shortName}</a>
+    <VariantSwitch current={variant} />
+    <a class="run" href="#signup">Run ledger</a>
+  </header>
+  <div class="split">
+    <section class="proof" aria-label="Demonstration ledger. Synthetic run data.">
+      <p class="synth">Demonstration ledger. Synthetic run. Not live product data.</p>
+      <div class="status">
+        <p>Run result<br /><strong>Submitted</strong></p>
+        <p>Execution<br /><strong>Ended 16:24:08</strong></p>
+        <p class="need">Acceptance<br /><strong>Human required</strong></p>
+      </div>
+      <dl>
+        <div><dt>Agent active</dt><dd>01:42:16</dd></div>
+        <div><dt>Human review</dt><dd>00:08:04</dd></div>
+        <div><dt>Elapsed</dt><dd>03:18:40</dd></div>
+        <div><dt>Waiting</dt><dd>01:28:20</dd></div>
+        <div><dt>Tokens</dt><dd>84,210<span>provider reported</span></dd></div>
+      </dl>
+      <h2>Committed events</h2>
+      <ul>
+        <li>Result submitted <span>Codex / provider hook</span></li>
+        <li>Artifact published <span>runner-isolation.mmd / version 3</span></li>
+        <li>Attention requested <span>Human decision required</span></li>
+        <li>Checkout verified <span>bfb-main@76ab1f9</span></li>
+      </ul>
+      <p class="accept">Human acceptance required. Result submitted by Codex. No completion is recorded until a permitted human accepts this version.</p>
+    </section>
+    <section class="claim">
+      <p class="soon">{copy.comingSoon}</p>
+      <h1>Every claim needs proof.</h1>
+      <p class="sub">See who acted, what changed, what it cost, and exactly which human accepted the result.</p>
+      <a class="use" href="#signup">Inspect the ledger</a>
+      <a class="src" href="https://github.com/qdis/bfb">View source</a>
+      <p class="fork">Use it. Fork it. Or build your own.</p>
+    </section>
+  </div>
+  <main>
+    <p>{copy.claims.traditionalDead} {copy.claims.jiraDead}</p>
+    <p>{copy.claims.aiNative}</p>
+    <p>{copy.claims.timeTracking}</p>
+    <p>{copy.claims.remoteStart}</p>
+    <p>{copy.claims.trio}</p>
+    <RivalIndex />
+    <FeatureIndex />
+    <section id="signup">
+      <h2>Inspect the ledger</h2>
+      <SignupForm />
+    </section>
+  </main>
+</div>
+
+<style>
+  .ledger {
+    --signup-field: #f7f5f2;
+    --signup-ink: #1a1816;
+    --signup-line: #1a1816;
+    --signup-accent: #1a1816;
+    --signup-on-accent: #f7f5f2;
+    --signup-muted: #4a4540;
+    --signup-radius: 2px;
+    min-height: 100dvh;
+    background: #f4f2ef;
+    color: #1a1816;
+    font-family: Archivo, Arial, sans-serif;
+  }
+
+  header {
+    min-height: 64px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1.1rem;
+    border-bottom: 1px solid #d8d2cb;
+  }
+
+  .mark {
+    font-family: "Archivo Black", Arial, sans-serif;
+    text-decoration: none;
+    letter-spacing: -0.03em;
+  }
+
+  .run {
+    color: oklch(0.464 0.169 26.9);
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    min-height: 70dvh;
+  }
+
+  .proof {
+    padding: 1.3rem 1.2rem;
+    border-right: 1px solid #d8d2cb;
+  }
+
+  .synth {
+    margin: 0 0 0.8rem;
+    font-size: 0.75rem;
+  }
+
+  .status,
+  dl {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.7rem;
+    margin: 0 0 1rem;
+  }
+
+  dl {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .status p,
+  dt {
+    margin: 0;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  strong,
+  dd {
+    display: block;
+    margin: 0.2rem 0 0;
+    font-size: 1.05rem;
+    letter-spacing: -0.03em;
+    text-transform: none;
+  }
+
+  .need strong,
+  .need {
+    color: oklch(0.464 0.169 26.9);
+  }
+
+  dd span {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #5a544e;
+  }
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  li span {
+    display: block;
+    color: #5a544e;
+    font-size: 0.85rem;
+  }
+
+  .accept {
+    margin: 0;
+    padding: 0.8rem;
+    border: 1px solid oklch(0.464 0.169 26.9);
+    background: #f8e8e6;
+    max-width: 62ch;
+  }
+
+  .claim {
+    padding: 2rem 1.4rem;
+    display: grid;
+    align-content: center;
+    gap: 0.85rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-family: "Archivo Black", Arial, sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.6rem, 5vw, 4.4rem);
+    letter-spacing: -0.035em;
+    line-height: 0.9;
+    max-width: 10ch;
+  }
+
+  .sub {
+    margin: 0;
+    max-width: 28ch;
+    font-size: 1.15rem;
+  }
+
+  .use,
+  .src {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1rem;
+    text-decoration: none;
+    font-weight: 700;
+    max-width: 22rem;
+  }
+
+  .use {
+    background: #1a1816;
+    color: #f4f2ef;
+  }
+
+  .src {
+    border: 1px solid #1a1816;
+  }
+
+  .fork {
+    margin: 0.4rem 0 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  main {
+    padding: 2rem 1.1rem 3.5rem;
+    display: grid;
+    gap: 0.85rem;
+    border-top: 1px solid #d8d2cb;
+  }
+
+  main > p {
+    margin: 0;
+    max-width: 62ch;
+  }
+
+  @media (max-width: 767px) {
+    .split,
+    .status,
+    dl {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

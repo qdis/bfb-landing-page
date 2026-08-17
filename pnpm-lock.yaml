@@ -27,6 +27,9 @@ importers:
       '@fontsource-variable/source-serif-4':
         specifier: ^5.3.0
         version: 5.3.0
+      '@fontsource/anybody':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource/archivo':
         specifier: ^5.3.0
         version: 5.3.0
@@ -48,7 +51,13 @@ importers:
       '@fontsource/figtree':
         specifier: ^5.3.0
         version: 5.3.0
+      '@fontsource/geologica':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource/manrope':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/onest':
         specifier: ^5.3.0
         version: 5.3.0
       '@fontsource/schibsted-grotesk':
@@ -617,6 +626,9 @@ packages:
   '@fontsource-variable/source-serif-4@5.3.0':
     resolution: {integrity: sha512-9vch9WqxjaaA+1o9Ur8pOgIGbCYLjRReOUel23A6lOpD1syptgjtkORevvNmldJ5kGXQL29onQUqI5Ltz0s3bQ==}
 
+  '@fontsource/anybody@5.3.0':
+    resolution: {integrity: sha512-OSH1GXXbUhmFXhrQhQXE/UHbJUW6qks6ZM1iaBIISnScNPPaTBx6QKon+cNIoJb3sJz1j6+hjgz21WtFUbacag==}
+
   '@fontsource/archivo-black@5.3.0':
     resolution: {integrity: sha512-7EsTIQ+Blf96ktpzTUpI7msi+u9/AJxM/GZxOSkEubVd1jSTrFSTNxMgfpX/8rQsjZ+19a+qvRbtcTEp5J/72g==}
 
@@ -638,8 +650,14 @@ packages:
   '@fontsource/figtree@5.3.0':
     resolution: {integrity: sha512-/iTcTXL1eRBGhvD7NN9dnKzXzWqDLVZVEUFI9xIxAC1G/hXU8tCyYeXCAuPOuvSYPInFUP7H6KLGgygmDfy1SA==}
 
+  '@fontsource/geologica@5.3.0':
+    resolution: {integrity: sha512-a8QzhXXHGedNmVm4/VKY3JZGBR2wGEYyIP3lbsExwxROmnN5kidT9eJrptrb8BfVSkoHZiAi03zZB6p6X2VMQg==}
+
   '@fontsource/manrope@5.3.0':
     resolution: {integrity: sha512-obJ1Dv3+uCA6HlHgW8u4BGYxJR9In2HW7gjJhlflEvkrj1X1iSEwu0fToL+JYGC/FEKFfIz1sBuPduvcL2gIAA==}
+
+  '@fontsource/onest@5.3.0':
+    resolution: {integrity: sha512-+RavnZZ3Ql/CnxaOCqkRPCO2JR7Eh9WO6vwsb+bF0806Ta65No7ekm3+ye9+piadhqjQ7Dvu4cJo96RniquNFw==}
 
   '@fontsource/schibsted-grotesk@5.3.0':
     resolution: {integrity: sha512-9k+Fd2eg7umKxI2JV2HtDcOkXEM0iJx0u4Iu1b+QHikVU8Sl/MtozJ/mtZfsltR6xnVGSQjpcxXQeJPW0KGpIA==}
@@ -2594,6 +2612,8 @@ snapshots:
 
   '@fontsource-variable/source-serif-4@5.3.0': {}
 
+  '@fontsource/anybody@5.3.0': {}
+
   '@fontsource/archivo-black@5.3.0': {}
 
   '@fontsource/archivo@5.3.0': {}
@@ -2608,7 +2628,11 @@ snapshots:
 
   '@fontsource/figtree@5.3.0': {}
 
+  '@fontsource/geologica@5.3.0': {}
+
   '@fontsource/manrope@5.3.0': {}
+
+  '@fontsource/onest@5.3.0': {}
 
   '@fontsource/schibsted-grotesk@5.3.0': {}
 

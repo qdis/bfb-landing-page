@@ -40,7 +40,7 @@ describe("landing copy", () => {
 
 describe("variant inventory", () => {
   it("ships distinct visual strategies for every variant", () => {
-    expect(VARIANTS.length).toBeGreaterThanOrEqual(8);
+    expect(VARIANTS.length).toBeGreaterThanOrEqual(12);
     expect(new Set(VARIANTS.map((variant) => variant.slug)).size).toBe(VARIANTS.length);
     expect(new Set(VARIANTS.map((variant) => variant.layout)).size).toBe(VARIANTS.length);
     expect(new Set(VARIANTS.map((variant) => variant.type)).size).toBe(VARIANTS.length);

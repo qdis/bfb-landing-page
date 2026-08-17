@@ -2,6 +2,12 @@
 // ABOUTME: Public Notice product fixture: Needs Now deck over project lanes.
 // ABOUTME: Demonstration data from the BFB design study. Lanes are projects, never status columns.
 
+interface Props {
+  theme?: "ink" | "paper" | "redline" | "sector";
+}
+
+const { theme = "ink" } = Astro.props;
+
 const needs = [
   {
     project: "BFB MAC",
@@ -111,7 +117,7 @@ const lanes = [
 ];
 ---
 
-<section class="board" aria-label="Demonstration board. Synthetic workspace data from the BFB design study.">
+<section class="board" data-theme={theme} aria-label="Demonstration board. Synthetic workspace data from the BFB design study.">
   <p class="synth">Demonstration board. Synthetic workspace. Not live product data.</p>
   <div class="truth">
     <span>5 agents active</span>
@@ -331,6 +337,37 @@ const lanes = [
   .need[data-priority="P0 BLOCKING"] .act {
     background: oklch(0.464 0.169 26.9);
     border-color: oklch(0.464 0.169 26.9);
+  }
+
+  .board[data-theme="paper"] {
+    background: oklch(0.99 0.004 70);
+    color: oklch(0.16 0.015 30);
+    border: 1px solid oklch(0.84 0.012 27);
+    border-radius: 8px;
+  }
+
+  .board[data-theme="paper"] article {
+    background: oklch(0.995 0.002 70);
+    border-color: oklch(0.84 0.012 27);
+    border-radius: 6px;
+  }
+
+  .board[data-theme="paper"] .truth {
+    border-bottom-color: oklch(0.84 0.012 27);
+  }
+
+  .board[data-theme="redline"],
+  .board[data-theme="sector"] {
+    border-radius: 10px;
+  }
+
+  .board[data-theme="sector"] {
+    border-radius: 18px;
+  }
+
+  .board[data-theme="redline"] article,
+  .board[data-theme="sector"] article {
+    border-radius: 8px;
   }
 
   @media (max-width: 767px) {
