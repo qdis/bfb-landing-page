@@ -14,7 +14,16 @@ const phrases = [
   "Grok, Codex, and Claude Code talk to each other to solve problems together",
 ];
 
-const pages = ["/", "/v/obit", "/v/dispatch", "/v/stencil", "/v/split", "/v/tape"];
+const pages = [
+  "/",
+  "/v/obit",
+  "/v/dispatch",
+  "/v/stencil",
+  "/v/split",
+  "/v/tape",
+  "/v/grid",
+  "/v/chapter",
+];
 
 async function read(path, init) {
   const url = new URL(path, base);

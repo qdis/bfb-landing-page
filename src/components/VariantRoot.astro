@@ -3,7 +3,9 @@
 // ABOUTME: Keeps claim text in src/lib/copy.ts so variants cannot drift.
 
 import { COPY, type Variant } from "../lib/copy";
+import Chapter from "../variants/Chapter.astro";
 import Dispatch from "../variants/Dispatch.astro";
+import Grid from "../variants/Grid.astro";
 import Obit from "../variants/Obit.astro";
 import Split from "../variants/Split.astro";
 import Stencil from "../variants/Stencil.astro";
@@ -32,4 +34,10 @@ void copy;
 }
 {
   variant.slug === "tape" && <Tape variant={variant} />
+}
+{
+  variant.slug === "grid" && <Grid variant={variant} />
+}
+{
+  variant.slug === "chapter" && <Chapter variant={variant} />
 }

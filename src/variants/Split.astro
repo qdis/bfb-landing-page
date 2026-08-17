@@ -3,6 +3,8 @@
 // ABOUTME: Claims stack as a charge sheet on the right, not as cards.
 
 import "@fontsource-variable/geist";
+import FeatureIndex from "../components/FeatureIndex.astro";
+import RivalIndex from "../components/RivalIndex.astro";
 import SignupForm from "../components/SignupForm.astro";
 import VariantSwitch from "../components/VariantSwitch.astro";
 import { COPY, type Variant } from "../lib/copy";
@@ -43,6 +45,8 @@ const copy = COPY;
         <li>{copy.claims.remoteStart}</li>
         <li>{copy.claims.trio}</li>
       </ol>
+      <RivalIndex />
+      <FeatureIndex />
       <section id="signup">
         <h2>Hold a seat</h2>
         <SignupForm />

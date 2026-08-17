@@ -4,6 +4,8 @@
 
 import "@fontsource-variable/source-serif-4";
 import "@fontsource-variable/source-sans-3";
+import FeatureIndex from "../components/FeatureIndex.astro";
+import RivalIndex from "../components/RivalIndex.astro";
 import SignupForm from "../components/SignupForm.astro";
 import VariantSwitch from "../components/VariantSwitch.astro";
 import { COPY, type Variant } from "../lib/copy";
@@ -37,6 +39,8 @@ const copy = COPY;
       <p>{copy.claims.remoteStart}</p>
       <p>{copy.claims.trio}</p>
     </div>
+    <RivalIndex />
+    <FeatureIndex />
     <section class="classified" id="signup">
       <h2>Classified</h2>
       <p>Leave a work email. We will send one note when the board opens.</p>
@@ -122,6 +126,11 @@ const copy = COPY;
     border-top: 1px solid #1b1814;
     border-bottom: 1px solid #1b1814;
     filter: grayscale(0.35) contrast(1.05);
+  }
+
+  :global(.obit .features),
+  :global(.obit .rivals) {
+    margin: 0 0 1.6rem;
   }
 
   .columns {

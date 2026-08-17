@@ -28,7 +28,9 @@ Visitors meet the page from a link or an LLM citation. They compare it to Jira, 
 
 ## Capabilities and Constraints
 
-- Five visually distinct variants of one coming-soon page, plus SEO files.
+- Seven visually distinct variants of one coming-soon page, plus SEO files.
+- Copy names Jira plus Linear, Asana, Monday, ClickUp, Azure Boards, YouTrack, Shortcut, Trello, and Notion as the dead ticket-machine category.
+- Feature text is taken from the sister BFB architecture: attention inbox, project lanes, remote start on an enrolled Mac, Claude/Codex/Grok, time with provenance, immutable review, GitHub as evidence, MCP, self-host.
 - Email signup accepts a valid address and persists it; invalid addresses are rejected.
 - No third-party newsletter, no production custom domain in this repo, no port of the BFB app.
 - Copy is limited to the seed claims. No invented customers, benchmarks, or ship dates.

@@ -6,6 +6,8 @@ import "@fontsource/barlow-condensed/600.css";
 import "@fontsource/barlow-condensed/800.css";
 import "@fontsource/barlow/400.css";
 import "@fontsource/barlow/600.css";
+import FeatureIndex from "../components/FeatureIndex.astro";
+import RivalIndex from "../components/RivalIndex.astro";
 import SignupForm from "../components/SignupForm.astro";
 import VariantSwitch from "../components/VariantSwitch.astro";
 import { COPY, type Variant } from "../lib/copy";
@@ -36,6 +38,8 @@ const copy = COPY;
       <li>{copy.claims.remoteStart}</li>
       <li>{copy.claims.trio}</li>
     </ul>
+    <RivalIndex />
+    <FeatureIndex />
     <div class="dock">
       <img
         src="/images/stencil-wall.jpg"
@@ -108,7 +112,7 @@ const copy = COPY;
     font-weight: 600;
   }
 
-  ul {
+  main > ul {
     margin: 0 0 1.6rem;
     padding: 0;
     list-style: none;
@@ -155,7 +159,7 @@ const copy = COPY;
       grid-template-columns: 1fr;
     }
 
-    ul {
+    main > ul {
       text-transform: none;
       letter-spacing: 0;
     }

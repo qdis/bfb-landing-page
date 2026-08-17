@@ -13,6 +13,8 @@ A coming-soon page with one job: say the old software is dead, name the board, t
 | Stencil | Warehouse safety field | Barlow Condensed + Barlow | Safety yellow and black | Stacked stencil type, black dock plate |
 | Split | Indictment wall | Geist | Charcoal and bone, oxide accent | 58/42 split, charge sheet |
 | Tape | Studio kraft board | Archivo + Figtree | Charcoal, kraft, orange tape | Board on wall, tape strips |
+| Grid | Swiss International Style | Chivo | White, black, signal red | Modular poster, rival index |
+| Chapter | Institutional manifesto | Manrope | Stone, ink, oxblood | Numbered chapters after Aleph Alpha |
 
 Home `/` uses Obit. `/v/{slug}` serves each world.
 
@@ -25,6 +27,8 @@ One accent per world. No mid-page theme flip except Split, which is a single two
 - Stencil: `#f0c400` field, `#111` ink, yellow-on-black plate
 - Split: `#161616` / `#efece6`, `#b54a2d` action
 - Tape: `#1c1916` studio, `#c9a56a` board, `#e25a12` tape
+- Grid: `#f3f3f1` field, `#111` ink, `#d00000` signal
+- Chapter: `#efece6` stone, `#1c1b19` ink, `#8a2a24` oxblood
 
 ## Typography
 

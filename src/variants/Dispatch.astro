@@ -6,6 +6,8 @@ import "@fontsource/schibsted-grotesk/400.css";
 import "@fontsource/schibsted-grotesk/600.css";
 import "@fontsource/schibsted-grotesk/700.css";
 import "@fontsource/azeret-mono/500.css";
+import FeatureIndex from "../components/FeatureIndex.astro";
+import RivalIndex from "../components/RivalIndex.astro";
 import SignupForm from "../components/SignupForm.astro";
 import VariantSwitch from "../components/VariantSwitch.astro";
 import { COPY, type Variant } from "../lib/copy";
@@ -38,6 +40,7 @@ const lanes = [
         <p class="lede">
           One board. Humans and agents. No ticket cathedral.
         </p>
+        <p class="rival-line">{copy.rivals.line}</p>
       </div>
       <img
         src="/images/dispatch-table.jpg"
@@ -56,6 +59,8 @@ const lanes = [
         ))
       }
     </div>
+    <RivalIndex />
+    <FeatureIndex />
     <section class="ticket" id="signup">
       <p>Take a seat on the floor</p>
       <SignupForm />
@@ -118,6 +123,14 @@ const lanes = [
     max-width: 28ch;
     font-size: 1.2rem;
     line-height: 1.35;
+    color: #4a3f38;
+  }
+
+  .rival-line {
+    margin: 0.8rem 0 0;
+    max-width: 46ch;
+    font-size: 0.98rem;
+    line-height: 1.4;
     color: #4a3f38;
   }
 

@@ -39,12 +39,19 @@ describe("landing copy", () => {
 });
 
 describe("variant inventory", () => {
-  it("ships exactly five variants with distinct visual strategies", () => {
-    expect(VARIANTS).toHaveLength(5);
-    expect(new Set(VARIANTS.map((variant) => variant.slug)).size).toBe(5);
-    expect(new Set(VARIANTS.map((variant) => variant.layout)).size).toBe(5);
-    expect(new Set(VARIANTS.map((variant) => variant.type)).size).toBe(5);
-    expect(new Set(VARIANTS.map((variant) => variant.color)).size).toBe(5);
+  it("ships distinct visual strategies for every variant", () => {
+    expect(VARIANTS.length).toBeGreaterThanOrEqual(7);
+    expect(new Set(VARIANTS.map((variant) => variant.slug)).size).toBe(VARIANTS.length);
+    expect(new Set(VARIANTS.map((variant) => variant.layout)).size).toBe(VARIANTS.length);
+    expect(new Set(VARIANTS.map((variant) => variant.type)).size).toBe(VARIANTS.length);
+    expect(new Set(VARIANTS.map((variant) => variant.color)).size).toBe(VARIANTS.length);
+  });
+
+  it("names the ticket machines in the shared copy", () => {
+    const text = visibleCopyText();
+    for (const name of COPY.rivals.names) {
+      expect(text).toContain(name);
+    }
   });
 
   it("renders each variant from the shared copy module", () => {

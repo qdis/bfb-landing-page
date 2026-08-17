@@ -6,6 +6,8 @@ import "@fontsource/archivo/600.css";
 import "@fontsource/archivo/800.css";
 import "@fontsource/figtree/400.css";
 import "@fontsource/figtree/600.css";
+import FeatureIndex from "../components/FeatureIndex.astro";
+import RivalIndex from "../components/RivalIndex.astro";
 import SignupForm from "../components/SignupForm.astro";
 import VariantSwitch from "../components/VariantSwitch.astro";
 import { COPY, type Variant } from "../lib/copy";
@@ -40,11 +42,16 @@ const copy = COPY;
           <li>{copy.claims.timeTracking}</li>
           <li>{copy.claims.remoteStart}</li>
           <li>{copy.claims.trio}</li>
+          <li>{copy.rivals.line}</li>
         </ul>
         <section id="signup">
           <SignupForm />
         </section>
       </article>
+    </div>
+    <div class="below">
+      <RivalIndex />
+      <FeatureIndex />
     </div>
   </main>
 </div>
@@ -146,7 +153,7 @@ const copy = COPY;
     max-width: 42ch;
   }
 
-  ul {
+  article ul {
     margin: 0 0 1.1rem;
     padding: 0;
     list-style: none;
@@ -154,7 +161,7 @@ const copy = COPY;
     gap: 0.45rem;
   }
 
-  li {
+  article li {
     background: #111;
     color: #f3ead8;
     padding: 0.45rem 0.6rem;
@@ -162,10 +169,15 @@ const copy = COPY;
     max-width: 62ch;
   }
 
-  li:nth-child(even) {
+  article li:nth-child(even) {
     transform: rotate(0.5deg);
     background: #e25a12;
     color: #1c1916;
+  }
+
+  .below {
+    margin-top: 1.5rem;
+    color: #f3ead8;
   }
 
   @media (max-width: 767px) {

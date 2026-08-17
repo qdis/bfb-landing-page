@@ -1,0 +1,205 @@
+---
+// ABOUTME: Swiss International Style poster: modular grid, grotesque type, signal red.
+// ABOUTME: Rival names and architecture highlights sit as numbered-free modules.
+
+import "@fontsource/chivo/400.css";
+import "@fontsource/chivo/700.css";
+import "@fontsource/chivo/900.css";
+import FeatureIndex from "../components/FeatureIndex.astro";
+import RivalIndex from "../components/RivalIndex.astro";
+import SignupForm from "../components/SignupForm.astro";
+import VariantSwitch from "../components/VariantSwitch.astro";
+import { COPY, type Variant } from "../lib/copy";
+
+interface Props {
+  variant: Variant;
+}
+
+const { variant } = Astro.props;
+const copy = COPY;
+---
+
+<div class="grid">
+  <header>
+    <VariantSwitch current={variant} />
+  </header>
+  <main>
+    <p class="soon">{copy.comingSoon}</p>
+    <h1>
+      Jira
+      is
+      dead
+    </h1>
+    <p class="lead">{copy.claims.traditionalDead}</p>
+    <p class="lead">{copy.claims.aiNative}</p>
+    <img
+      src="/images/grid-facade.jpg"
+      alt="Modular concrete facade with one red panel"
+      width="1600"
+      height="900"
+    />
+    <RivalIndex />
+    <p>{copy.claims.timeTracking}</p>
+    <p>{copy.claims.remoteStart}</p>
+    <p>{copy.claims.trio}</p>
+    <ol class="loop" aria-label={copy.loop.heading}>
+      {copy.loop.steps.map((step) => <li>{step}</li>)}
+    </ol>
+    <FeatureIndex />
+    <section id="signup">
+      <h2>Seat</h2>
+      <SignupForm />
+    </section>
+  </main>
+</div>
+
+<style>
+  .grid {
+    --signup-field: #fff;
+    --signup-ink: #111;
+    --signup-line: #111;
+    --signup-accent: #d00000;
+    --signup-on-accent: #fff;
+    --signup-muted: #333;
+    --signup-radius: 0;
+    min-height: 100dvh;
+    background: #f3f3f1;
+    color: #111;
+    font-family: Chivo, Helvetica, Arial, sans-serif;
+  }
+
+  header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #111;
+  }
+
+  main {
+    width: min(1120px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 1.2rem 0 4rem;
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .soon {
+    margin: 0;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(4.2rem, 14vw, 9.5rem);
+    letter-spacing: -0.045em;
+    line-height: 0.8;
+    text-transform: uppercase;
+    max-width: 8ch;
+  }
+
+  .lead {
+    margin: 0;
+    font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+    line-height: 1.15;
+    max-width: 22ch;
+    font-weight: 700;
+  }
+
+  img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #111;
+  }
+
+  main > p {
+    margin: 0;
+    max-width: 62ch;
+    line-height: 1.4;
+  }
+
+  .loop {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid #111;
+  }
+
+  .loop li {
+    margin: 0;
+    padding: 0.85rem 0.9rem 0.85rem 0;
+    border-bottom: 1px solid #111;
+    max-width: 46ch;
+  }
+
+  .loop li:nth-child(odd) {
+    padding-right: 1.2rem;
+    border-right: 1px solid #111;
+  }
+
+  #signup {
+    border-top: 8px solid #d00000;
+    padding-top: 1.1rem;
+    max-width: 28rem;
+  }
+
+  h2 {
+    margin: 0 0 0.7rem;
+    font-size: 1.2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+  }
+
+  :global(.grid .rivals ul) {
+    gap: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    border-top: 1px solid #111;
+  }
+
+  :global(.grid .rivals li) {
+    padding: 0.55rem 0.4rem;
+    border-bottom: 1px solid #111;
+    border-right: 1px solid #111;
+    font-weight: 700;
+  }
+
+  :global(.grid .features ul) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid #111;
+  }
+
+  :global(.grid .features li) {
+    padding: 0.85rem 1rem 0.85rem 0;
+    border-bottom: 1px solid #111;
+  }
+
+  :global(.grid .features li:nth-child(odd)) {
+    padding-right: 1.2rem;
+    border-right: 1px solid #111;
+  }
+
+  @media (max-width: 767px) {
+    .loop,
+    :global(.grid .features ul),
+    :global(.grid .rivals ul) {
+      grid-template-columns: 1fr;
+    }
+
+    .loop li:nth-child(odd),
+    :global(.grid .features li:nth-child(odd)),
+    :global(.grid .rivals li) {
+      border-right: 0;
+    }
+
+    img {
+      height: 160px;
+    }
+  }
+</style>

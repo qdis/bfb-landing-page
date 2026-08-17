@@ -39,7 +39,13 @@ importers:
       '@fontsource/barlow-condensed':
         specifier: ^5.3.0
         version: 5.3.0
+      '@fontsource/chivo':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource/figtree':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/manrope':
         specifier: ^5.3.0
         version: 5.3.0
       '@fontsource/schibsted-grotesk':
@@ -620,8 +626,14 @@ packages:
   '@fontsource/barlow@5.3.0':
     resolution: {integrity: sha512-tGR0y6QObRtKv71MOth44222+mdNFM/ZWFWDV1VLzNbG4oK9PNRlyJzmkck4vHAi9ibHBXgt4SlY51amFP55CA==}
 
+  '@fontsource/chivo@5.3.0':
+    resolution: {integrity: sha512-bPZQPY1qQ5jOd/UN/yucUbNu7O1xaY6bmE+ctMJrXFIiw6qN5qq1f4xrH6GFPIKTnmMDYWy06lIzDAh23crrEw==}
+
   '@fontsource/figtree@5.3.0':
     resolution: {integrity: sha512-/iTcTXL1eRBGhvD7NN9dnKzXzWqDLVZVEUFI9xIxAC1G/hXU8tCyYeXCAuPOuvSYPInFUP7H6KLGgygmDfy1SA==}
+
+  '@fontsource/manrope@5.3.0':
+    resolution: {integrity: sha512-obJ1Dv3+uCA6HlHgW8u4BGYxJR9In2HW7gjJhlflEvkrj1X1iSEwu0fToL+JYGC/FEKFfIz1sBuPduvcL2gIAA==}
 
   '@fontsource/schibsted-grotesk@5.3.0':
     resolution: {integrity: sha512-9k+Fd2eg7umKxI2JV2HtDcOkXEM0iJx0u4Iu1b+QHikVU8Sl/MtozJ/mtZfsltR6xnVGSQjpcxXQeJPW0KGpIA==}
@@ -2584,7 +2596,11 @@ snapshots:
 
   '@fontsource/barlow@5.3.0': {}
 
+  '@fontsource/chivo@5.3.0': {}
+
   '@fontsource/figtree@5.3.0': {}
+
+  '@fontsource/manrope@5.3.0': {}
 
   '@fontsource/schibsted-grotesk@5.3.0': {}
 

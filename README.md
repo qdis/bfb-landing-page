@@ -20,8 +20,10 @@ pnpm preview:worker
 ## Variants
 
 - `/` default (obit)
-- `/v/obit`
-- `/v/dispatch`
-- `/v/stencil`
-- `/v/split`
-- `/v/tape`
+- `/v/obit` broadsheet
+- `/v/dispatch` daylight lanes
+- `/v/stencil` warehouse yellow
+- `/v/split` indictment split
+- `/v/tape` kraft board
+- `/v/grid` Swiss modular
+- `/v/chapter` institutional chapters
