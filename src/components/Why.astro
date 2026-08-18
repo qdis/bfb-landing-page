@@ -3,10 +3,6 @@
 // ABOUTME: The keyboard table sits with the "not" copy. The need list stays type.
 
 import { COPY } from "../lib/copy";
-
-function withBoldDigits(text: string) {
-  return text.split(/(\d+)/).map((part) => (/^\d+$/.test(part) ? <strong>{part}</strong> : part));
-}
 ---
 
 <section class="why" id="how">
@@ -48,7 +44,13 @@ function withBoldDigits(text: string) {
           COPY.why.needs.map((item) => (
             <li>
               <h3>{item.title}</h3>
-              <p>{withBoldDigits(item.body)}</p>
+              <p>
+                {
+                  item.body.split(/(\d+)/).map((part) =>
+                    /^\d+$/.test(part) ? <strong>{part}</strong> : part,
+                  )
+                }
+              </p>
             </li>
           ))
         }
