@@ -41,8 +41,8 @@ export const COPY = {
   solves: {
     headline: "Jira is dead. Scrum is dead.",
     jira: "Traditional team management software is dead.",
-    body: "Linear, Asana, Monday, ClickUp, Azure Boards, YouTrack, Shortcut, Trello, and Notion still organize status. Claude Code remote and Codex remote keep you inside one vendor. Agents do not file tickets. They work, they stall, they wait for a human who never saw the question.",
-    punch: "If you still estimate t-shirt sizes, this is not for you.",
+    body: "They sold you ceremony and called it work. Dailies. Story points. Shirt sizes. A column that says In Progress while Claude waits on a human who never got the question. Linear is Jira with nicer type. Asana, Monday, ClickUp, Azure Boards, YouTrack, Shortcut, Trello, and Notion are the same machine.",
+    punch: "If you still run a standup, stay there.",
     names: [
       "Jira",
       "Scrum",
@@ -62,6 +62,42 @@ export const COPY = {
   different: {
     headline: "Not another remote for one model.",
     body: "Claude Code remote and Codex remote are still one provider, one session, one silo. BFB is the handoff layer for hybrid teams and for people who use every agent they can get. Grok, Codex, and Claude Code talk to each other to solve problems together. We sync, schedule, and route work between people and AIs.",
+  },
+  why: {
+    notHeadline: "Not another remote for one model.",
+    nots: [
+      {
+        title: "Claude remote. Codex remote.",
+        body: "One vendor. One session. The work dies at the wall of that app.",
+      },
+      {
+        title: "A cloud coding agent.",
+        body: "Your checkout on someone else's machine. We do not do that.",
+      },
+      {
+        title: "A Jira plugin with an AI badge.",
+        body: "Still tickets. Still status. Still a standup tomorrow.",
+      },
+    ],
+    needHeadline: "On your machine. Across every agent.",
+    needs: [
+      {
+        title: "Handoff across every agent you already pay for",
+        body: "Grok, Codex, and Claude Code talk to each other to solve problems together. Same task. Named actors.",
+      },
+      {
+        title: "Execute where the code already lives",
+        body: "Start agents remotely on your machine, in the exact checkout you approved. We coordinate. We never run the model in our cloud.",
+      },
+      {
+        title: "Track the human, not the ritual",
+        body: "Integrated time tracking labels attention, interventions, wait, and delivered results. The first question is what needs you now.",
+      },
+      {
+        title: "One board for the swarm",
+        body: "Five projects. Ten live tasks. Fifty agents. BFB is not for legacy teams. It is for people who cannot see the work.",
+      },
+    ],
   },
   promises: {
     headline: "On your machine. Across every agent.",
@@ -168,6 +204,10 @@ export function visibleCopyText(): string {
     COPY.solves.names.join(" "),
     COPY.different.headline,
     COPY.different.body,
+    COPY.why.notHeadline,
+    COPY.why.needHeadline,
+    ...COPY.why.nots.map((item) => `${item.title} ${item.body}`),
+    ...COPY.why.needs.map((item) => `${item.title} ${item.body}`),
     COPY.promises.headline,
     ...COPY.promises.items.map((item) => `${item.title} ${item.body}`),
     COPY.loop.headline,

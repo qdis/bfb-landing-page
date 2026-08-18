@@ -1,6 +1,6 @@
 ---
-// ABOUTME: Says what Big Fat Board is, in one stacked manifesto block.
-// ABOUTME: No eyebrow, no split header, no second visual system.
+// ABOUTME: What BFB is, offset from the hero. Full-width line, two text columns.
+// ABOUTME: Same facts, different presentation: no live board, no death poster.
 
 import { COPY } from "../lib/copy";
 
@@ -8,44 +8,59 @@ const { headline, lead, body } = COPY.what;
 ---
 
 <section class="product" id="product">
-  <h2>{headline}</h2>
-  <p class="lead">{lead}</p>
-  <p>{body}</p>
+  <div class="wrap">
+    <h2>{headline}</h2>
+    <div class="cols">
+      <p class="lead">{lead}</p>
+      <p>{body}</p>
+    </div>
+  </div>
 </section>
 
 <style>
   .product {
-    padding: 5.5rem 1.25rem 5rem;
+    padding: 5.5rem 0 5rem;
     background: var(--blackout);
+    border-top: 1px solid var(--hairline);
   }
 
   h2 {
-    margin: 0 0 1.4rem;
+    margin: 0 0 2.2rem;
     max-width: 18ch;
     font-family: var(--font-display);
-    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    font-size: clamp(2.1rem, 5vw, 4.2rem);
     font-weight: 800;
-    line-height: 0.98;
-    letter-spacing: -0.04em;
+    line-height: 0.94;
+    letter-spacing: -0.045em;
+  }
+
+  .cols {
+    display: grid;
+    gap: 1.4rem;
   }
 
   p {
-    max-width: 62ch;
     margin: 0;
-    font-size: 1.08rem;
+    max-width: 58ch;
+    font-size: 1.06rem;
     line-height: 1.55;
     color: var(--smoke);
   }
 
   .lead {
-    margin-bottom: 0.9rem;
     color: var(--bone);
     font-weight: 500;
   }
 
   @media (min-width: 768px) {
     .product {
-      padding: 7rem 2rem 6.5rem;
+      padding: 7.5rem 0 6.5rem;
+    }
+
+    .cols {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 3rem;
+      align-items: start;
     }
   }
 </style>

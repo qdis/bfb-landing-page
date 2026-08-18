@@ -82,6 +82,7 @@ const ogImage = absoluteUrl(OG_IMAGE, origin);
     --radius-control: 4px;
     --radius-panel: 8px;
     --nav-h: 64px;
+    --page: 87.5rem;
     --signup-line: var(--hairline);
     --signup-radius: var(--radius-control);
     --signup-field: var(--raised);
@@ -127,6 +128,17 @@ const ogImage = absoluteUrl(OG_IMAGE, origin);
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  .wrap {
+    width: min(100% - 2rem, var(--page));
+    margin-inline: auto;
+  }
+
+  @media (min-width: 768px) {
+    .wrap {
+      width: min(100% - 3rem, var(--page));
+    }
   }
 
   #top,

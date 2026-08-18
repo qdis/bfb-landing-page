@@ -1,128 +1,190 @@
 ---
-// ABOUTME: Names the dead ticket machines against a safelight still.
-// ABOUTME: Type on the left, photograph on the right, one theme.
+// ABOUTME: Type attack on ticket ceremony. Giant struck names, uneven, crimson.
+// ABOUTME: The graveyard is the section. The photo sits as a stain, not a split.
 
 import { COPY } from "../lib/copy";
 
-const { headline, jira, body, punch, names } = COPY.solves;
+const { jira, body, punch, names } = COPY.solves;
+
+const tilt = [-3.2, 2.1, -1.4, 3.6, -2.6, 1.2, -4.1, 2.8, -1.8, 3.1, -2.2, 1.6, 0.8];
 ---
 
 <section class="solves" id="solves">
-  <div class="copy">
-    <h2>{headline}</h2>
-    <p class="dead">{jira}</p>
-    <p>{body}</p>
-    <p class="punch">{punch}</p>
-    <ul>
+  <div class="stain" aria-hidden="true"></div>
+  <div class="wrap">
+    <h2>
+      <span class="kill a"><s>JIRA</s></span>
+      <span class="is-dead">IS DEAD.</span>
+      <span class="kill b"><s>SCRUM</s></span>
+      <span class="is-dead">IS DEAD.</span>
+    </h2>
+    <p class="law">{jira}</p>
+    <p class="attack">{body}</p>
+    <ul class="grave">
       {
-        names.map((name) => (
-          <li>
+        names.map((name, index) => (
+          <li style={`--rot: ${tilt[index] ?? 0}deg`}>
             <s>{name}</s>
           </li>
         ))
       }
     </ul>
+    <p class="punch">{punch}</p>
   </div>
-  <figure>
-    <img
-      src="/images/safelight-desk.jpg"
-      alt="Empty night operations desk under a single red safelight"
-      width="1536"
-      height="864"
-    />
-  </figure>
 </section>
 
 <style>
   .solves {
-    display: grid;
-    background: var(--chamber);
-    border-top: 1px solid var(--hairline);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 4.5rem 0 5rem;
+    background: var(--oxblood-deep);
+    border-top: 1px solid color-mix(in oklab, var(--crimson) 45%, var(--hairline));
   }
 
-  .copy {
-    padding: 4rem 1.25rem 3rem;
+  .stain {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      linear-gradient(
+        oklch(0.08 0.04 26 / 0.78),
+        oklch(0.07 0.03 26 / 0.88)
+      ),
+      url("/images/safelight-desk.jpg") center / cover no-repeat;
+    filter: saturate(1.25) contrast(1.1);
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
   }
 
   h2 {
-    margin: 0 0 1.2rem;
-    max-width: 16ch;
-    font-family: var(--font-display);
-    font-size: clamp(1.9rem, 4vw, 3.1rem);
-    font-weight: 800;
-    line-height: 0.98;
-    letter-spacing: -0.04em;
+    margin: 0;
+    display: grid;
+    justify-items: start;
   }
 
-  .dead {
-    margin: 0 0 1rem;
+  .kill {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(4.4rem, 18vw, 11.5rem);
+    font-weight: 800;
+    line-height: 0.78;
+    letter-spacing: -0.055em;
+    color: var(--bone);
+  }
+
+  .kill s {
+    text-decoration: none;
+    background-image:
+      linear-gradient(
+        178deg,
+        transparent 38%,
+        color-mix(in oklab, var(--crimson) 88%, black) 40%,
+        var(--crimson) 52%,
+        color-mix(in oklab, var(--crimson) 70%, black) 58%,
+        transparent 62%
+      ),
+      linear-gradient(
+        4deg,
+        transparent 46%,
+        color-mix(in oklab, var(--crimson) 55%, transparent) 48%,
+        transparent 54%
+      );
+    background-repeat: no-repeat;
+    padding: 0 0.04em;
+  }
+
+  .kill.a {
+    transform: rotate(-1.8deg);
+  }
+
+  .kill.b {
+    transform: rotate(1.4deg);
+    margin-left: 6%;
+  }
+
+  .is-dead {
+    display: block;
+    margin: 0.15em 0 0.35em;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4.2vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--safelight);
+  }
+
+  .law,
+  .attack,
+  .punch {
+    margin: 0;
+    max-width: 46rem;
+  }
+
+  .law {
+    margin-top: 2rem;
     color: var(--safelight);
     font-weight: 600;
+    font-size: 1.1rem;
   }
 
-  p {
-    margin: 0;
-    max-width: 54ch;
-    color: var(--smoke);
-    font-size: 1.05rem;
-    line-height: 1.55;
-  }
-
-  .punch {
-    margin-top: 1.1rem;
+  .attack {
+    margin-top: 0.85rem;
     color: var(--bone);
-    font-weight: 500;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    line-height: 1.45;
   }
 
-  ul {
+  .grave {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem 1rem;
-    margin: 1.6rem 0 0;
+    align-items: baseline;
+    gap: 0.55rem 1.35rem;
+    margin: 2.4rem 0 0;
     padding: 0;
     list-style: none;
   }
 
-  s {
-    color: var(--smoke);
+  .grave li {
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 4.2vw, 3.4rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    transform: rotate(var(--rot));
+  }
+
+  .grave li:nth-child(1),
+  .grave li:nth-child(2),
+  .grave li:nth-child(5) {
+    font-size: clamp(2.1rem, 6vw, 4.6rem);
+  }
+
+  .grave s {
+    color: color-mix(in oklab, var(--bone) 72%, var(--crimson));
+    text-decoration-line: line-through;
     text-decoration-color: var(--crimson);
-    text-decoration-thickness: 1.5px;
-    font-size: 0.95rem;
-    font-weight: 500;
+    text-decoration-thickness: 0.16em;
+    text-decoration-skip-ink: none;
+    text-underline-offset: -0.12em;
   }
 
-  figure {
-    margin: 0;
-    min-height: 16rem;
-    background: var(--oxblood-deep);
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    min-height: 16rem;
+  .punch {
+    margin-top: 2rem;
+    color: var(--bone);
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2.6vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
   }
 
   @media (min-width: 768px) {
-    .copy {
-      padding: 5.5rem 2rem 4.5rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
     .solves {
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-      min-height: 36rem;
-    }
-
-    .copy {
-      padding: 5.5rem 3rem 5rem 2.25rem;
-    }
-
-    figure,
-    img {
-      min-height: 100%;
+      padding: 6rem 0 6.5rem;
     }
   }
 </style>

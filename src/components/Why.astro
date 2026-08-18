@@ -1,0 +1,144 @@
+---
+// ABOUTME: Value proposition as two ledgers: what BFB is not, why you need it.
+// ABOUTME: Replaces the stacked manifesto and the five-card promise grid.
+
+import { COPY } from "../lib/copy";
+---
+
+<section class="why" id="how">
+  <div class="slab not">
+    <div class="wrap">
+      <h2>{COPY.why.notHeadline}</h2>
+      <dl>
+        {
+          COPY.why.nots.map((item) => (
+            <div>
+              <dt>{item.title}</dt>
+              <dd>{item.body}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+  <div class="slab need">
+    <div class="wrap">
+      <h2>{COPY.why.needHeadline}</h2>
+      <ul>
+        {
+          COPY.why.needs.map((item) => (
+            <li>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why {
+    background: var(--blackout);
+  }
+
+  .slab {
+    padding: 4.8rem 0 5rem;
+  }
+
+  .not {
+    background: var(--chamber);
+    border-top: 1px solid var(--hairline);
+  }
+
+  .need {
+    background: var(--blackout);
+    border-top: 1px solid var(--hairline);
+  }
+
+  h2 {
+    margin: 0 0 2rem;
+    max-width: 14ch;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.6vw, 3.8rem);
+    font-weight: 800;
+    line-height: 0.94;
+    letter-spacing: -0.045em;
+  }
+
+  dl,
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  dl {
+    display: grid;
+    gap: 0;
+  }
+
+  dl > div {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1.15rem 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  dt {
+    color: var(--smoke);
+    font-size: 1.02rem;
+    font-weight: 500;
+    text-decoration: line-through;
+    text-decoration-color: color-mix(in oklab, var(--crimson) 70%, var(--smoke));
+    text-decoration-thickness: 2px;
+  }
+
+  dd {
+    margin: 0;
+    max-width: 52ch;
+    color: var(--bone);
+    font-size: 1.12rem;
+    line-height: 1.45;
+  }
+
+  ul li {
+    padding: 1.25rem 0 1.35rem;
+    border-top: 1px solid var(--hairline);
+  }
+
+  h3 {
+    margin: 0 0 0.4rem;
+    max-width: 22ch;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  p {
+    margin: 0;
+    max-width: 58ch;
+    color: var(--smoke);
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 768px) {
+    .slab {
+      padding: 6.25rem 0 6.4rem;
+    }
+
+    dl {
+      grid-template-columns: 1fr;
+    }
+
+    dl > div {
+      grid-template-columns: minmax(12rem, 0.42fr) minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+  }
+</style>

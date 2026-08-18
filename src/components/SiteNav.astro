@@ -8,13 +8,15 @@ const { nav, comingSoon, shortName } = COPY;
 ---
 
 <header class="mast">
-  <a class="brand" href="#top">{shortName}</a>
-  <p class="soon">{comingSoon}</p>
-  <nav class="links" aria-label="Page">
-    <a href="#product">{nav.product}</a>
-    <a href="#how">{nav.how}</a>
-  </nav>
-  <a class="cta" href="#signup">{nav.cta}</a>
+  <div class="wrap bar">
+    <a class="brand" href="#top">{shortName}</a>
+    <p class="soon">{comingSoon}</p>
+    <nav class="links" aria-label="Page">
+      <a href="#product">{nav.product}</a>
+      <a href="#how">{nav.how}</a>
+    </nav>
+    <a class="cta" href="#signup">{nav.cta}</a>
+  </div>
 </header>
 
 <style>
@@ -22,13 +24,16 @@ const { nav, comingSoon, shortName } = COPY;
     position: sticky;
     top: 0;
     z-index: 10;
+    height: var(--nav-h);
+    background: var(--blackout);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .bar {
     display: flex;
     align-items: center;
     gap: 1.25rem;
     height: var(--nav-h);
-    padding: 0 1.5rem;
-    background: var(--blackout);
-    border-bottom: 1px solid var(--hairline);
   }
 
   .brand {
@@ -86,10 +91,6 @@ const { nav, comingSoon, shortName } = COPY;
   }
 
   @media (min-width: 768px) {
-    .mast {
-      padding: 0 2rem;
-    }
-
     .links {
       display: flex;
     }
