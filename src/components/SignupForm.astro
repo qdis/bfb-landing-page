@@ -7,11 +7,13 @@ import { COPY } from "../lib/copy";
 interface Props {
   loud?: boolean;
   fieldId?: string;
+  cta?: string;
 }
 
 const copy = COPY.signup;
 const loud = Astro.props.loud === true;
 const fieldId = Astro.props.fieldId ?? "email";
+const cta = Astro.props.cta ?? copy.cta;
 ---
 
 <form class:list={["signup", { loud }]} data-signup method="post" action="/api/signup" novalidate>
@@ -28,7 +30,7 @@ const fieldId = Astro.props.fieldId ?? "email";
     />
     <p class="hint">{copy.hint}</p>
   </div>
-  <button type="submit">{copy.cta}</button>
+  <button type="submit">{cta}</button>
   <p class="status" data-signup-status role="status" aria-live="polite" hidden></p>
 </form>
 

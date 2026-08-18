@@ -140,6 +140,7 @@ export const COPY = {
   close: {
     headline: "get on the BIG FAT BOARD",
     body: "Coming soon. Leave a work email. We write once, when the board opens.",
+    cta: "You may sit.",
   },
   claims: {
     traditionalDead: "Traditional team management software is dead.",
@@ -223,6 +224,7 @@ export function visibleCopyText(): string {
     ...COPY.loop.steps.map((step) => `${step.title} ${step.body}`),
     COPY.close.headline,
     COPY.close.body,
+    COPY.close.cta,
     COPY.claims.traditionalDead,
     COPY.claims.jiraDead,
     COPY.claims.aiNative,

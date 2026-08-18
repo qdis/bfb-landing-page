@@ -50,6 +50,7 @@ describe("landing copy", () => {
     expect(text).toContain("get on the BIG FAT BOARD");
     expect(text).toContain("BFB = BIG FAT BOARD");
     expect(text).toContain("AI-FIRST COMPANIES NEED BIG FAT BOARD");
+    expect(text).toContain("You may sit.");
   });
 
   it("does not give the masthead a signup label", () => {
