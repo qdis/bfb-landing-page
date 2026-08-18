@@ -68,13 +68,15 @@ describe("demo script", () => {
     const state = snapshot(0);
     const l01 = state.cards.find((card) => card.id === "l01");
     const a01 = state.cards.find((card) => card.id === "a01");
-    expect(l01?.humanSeconds).toBeGreaterThan(l01?.agentSeconds ?? 0);
+    expect(l01?.agentSeconds).toBeGreaterThan(l01?.humanSeconds ?? 0);
     expect(a01?.agentSeconds).toBeGreaterThan(0);
     expect(a01?.humanSeconds).toBe(0);
     const spent = boardSpend(state.cards);
+    expect(spent.agent).toBeGreaterThan(spent.human);
     expect(spent.human).toBeGreaterThan(0);
-    expect(spent.agent).toBeGreaterThan(0);
-    expect(formatClock(412)).toBe("06:52");
+    expect(formatClock(spent.human)).toMatch(/^\d{2}:\d{2}$/);
+    expect(formatClock(spent.agent)).toMatch(/^\d{2}:\d{2}$/);
+    expect(formatClock(1458)).toBe("24:18");
     if (l01) {
       const before = l01.humanSeconds;
       tickWorkingCard(l01);

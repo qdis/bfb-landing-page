@@ -101,6 +101,10 @@ export type DemoState = {
   egg: "none" | "runner";
 };
 
+function minSec(minutes: number, seconds: number): number {
+  return minutes * 60 + seconds;
+}
+
 function card(
   partial: Omit<Card, "seconds" | "previous" | "humanSeconds" | "agentSeconds"> & {
     seconds?: number;
@@ -143,9 +147,9 @@ export function snapshot(beat: number, egg: DemoState["egg"] = "none"): DemoStat
           ? "Claude resumed with Timo's bootstrap policy."
           : "Claude is wiring bfb mcp stdio. Read-only until the session binds.",
     checkout: "bfb / Mac Studio / main@76ab1f9",
-    seconds: handed ? 26 : 188,
-    humanSeconds: beat >= 2 ? 18 : 0,
-    agentSeconds: handed ? 26 : 188,
+    seconds: beat >= 4 ? minSec(28, 15) : handed ? minSec(26, 40) : minSec(24, 18),
+    humanSeconds: beat >= 2 ? minSec(2, 14) : 0,
+    agentSeconds: beat >= 4 ? minSec(28, 15) : handed ? minSec(26, 40) : minSec(24, 18),
   });
 
   const l01: Card = card({
@@ -160,9 +164,9 @@ export function snapshot(beat: number, egg: DemoState["egg"] = "none"): DemoStat
       ? "Adina accepted the CLI kernel. Tests are on the hash."
       : "Adina is running go test on the daemon kernel.",
     checkout: "bfb / Core / feat/cli@3c91aa2",
-    seconds: 412,
-    humanSeconds: 412,
-    agentSeconds: 86,
+    seconds: minSec(18, 6),
+    humanSeconds: minSec(4, 22),
+    agentSeconds: minSec(18, 6),
   });
 
   const e02: Card = card({
@@ -177,7 +181,8 @@ export function snapshot(beat: number, egg: DemoState["egg"] = "none"): DemoStat
       ? "Claude moved here after the handoff. Live events after reconnect."
       : "Queued. Claude is still on A01.",
     checkout: "bfb / Cloud / feat/mcp@a18e04c",
-    seconds: handed ? 18 : 0,
+    seconds: handed ? minSec(12, 40) : 0,
+    agentSeconds: handed ? minSec(12, 40) : 0,
   });
 
   const c05: Card = card({
@@ -190,7 +195,8 @@ export function snapshot(beat: number, egg: DemoState["egg"] = "none"): DemoStat
     activity: "working",
     now: "Adina is binding the human CLI to the enrolled Mac.",
     checkout: "bfb / Mac Studio / feat/cli@3c91aa2",
-    seconds: 97,
+    seconds: minSec(3, 41),
+    humanSeconds: minSec(3, 41),
   });
 
   const l02: Card = card({
@@ -206,7 +212,8 @@ export function snapshot(beat: number, egg: DemoState["egg"] = "none"): DemoStat
         ? "L02 waits. Codex took the A01 review."
         : "Codex is checking exact-checkout occupancy.",
     checkout: "bfb / Mac Studio / main@76ab1f9",
-    seconds: 64,
+    seconds: minSec(16, 22),
+    agentSeconds: minSec(16, 22),
   });
 
   const x03a: Card = card({
@@ -222,7 +229,8 @@ export function snapshot(beat: number, egg: DemoState["egg"] = "none"): DemoStat
         ? "Grok is the second reader on the MCP contract."
         : "Grok is replaying remote MCP events after reconnect.",
     checkout: "bfb / Cloud / feat/mcp@a18e04c",
-    seconds: 51,
+    seconds: minSec(22, 51),
+    agentSeconds: minSec(22, 51),
   });
 
   const runner: Card[] =
