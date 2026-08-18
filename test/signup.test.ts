@@ -3,7 +3,14 @@
 
 import { describe, expect, it } from "vitest";
 import { COPY } from "../src/lib/copy";
-import { handleSignupRequest, mapStore, signupKey } from "../src/lib/signup";
+import {
+  createSignupStore,
+  d1Store,
+  handleSignupRequest,
+  mapStore,
+  persistSignup,
+  signupKey,
+} from "../src/lib/signup";
 
 describe("handleSignupRequest", () => {
   it("persists a valid email and returns success", async () => {
@@ -40,5 +47,57 @@ describe("handleSignupRequest", () => {
     const again = await handleSignupRequest(store, "seat@example.com");
     expect(again.status).toBe(200);
     expect(again.body.created).toBe(false);
+  });
+});
+
+function mockD1() {
+  const rows = new Map<string, { email: string; created_at: string }>();
+  return {
+    prepare(sql: string) {
+      return {
+        bind(...params: string[]) {
+          return {
+            async first() {
+              if (sql.includes("SELECT")) {
+                return rows.get(params[0]) ?? null;
+              }
+              return null;
+            },
+            async run() {
+              if (sql.includes("INSERT")) {
+                const [email, created_at] = params;
+                if (rows.has(email)) {
+                  return { meta: { changes: 0 } };
+                }
+                rows.set(email, { email, created_at });
+                return { meta: { changes: 1 } };
+              }
+              return { meta: { changes: 0 } };
+            },
+          };
+        },
+      };
+    },
+  } as unknown as D1Database;
+}
+
+describe("d1Store", () => {
+  it("writes a waitlist row and treats a second insert as already stored", async () => {
+    const store = d1Store(mockD1());
+    const first = await persistSignup(store, "seat@devplant.io");
+    const again = await persistSignup(store, "seat@devplant.io");
+    expect(first.created).toBe(true);
+    expect(again.created).toBe(false);
+    const record = JSON.parse((await store.get(signupKey("seat@devplant.io"))) ?? "{}") as {
+      email?: string;
+    };
+    expect(record.email).toBe("seat@devplant.io");
+  });
+
+  it("prefers D1 when the Worker binding is present", async () => {
+    const store = createSignupStore({ DB: mockD1() });
+    const result = await handleSignupRequest(store, "board@devplant.io");
+    expect(result.body.created).toBe(true);
+    expect(await store.get(signupKey("board@devplant.io"))).toContain("board@devplant.io");
   });
 });

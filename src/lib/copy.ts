@@ -2,7 +2,7 @@
 // ABOUTME: Pages, SEO files, and tests all read this module so claims cannot drift.
 
 export const SITE_NAME = "Big Fat Board";
-export const SITE_DEFAULT_URL = "https://bigfatboard.com";
+export const SITE_DEFAULT_URL = "https://bfb.sh";
 
 export const REQUIRED_PHRASES = [
   "Coming soon",

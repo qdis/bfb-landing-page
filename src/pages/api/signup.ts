@@ -1,8 +1,14 @@
 // ABOUTME: Worker route that accepts waitlist emails and persists valid ones.
-// ABOUTME: JSON and form posts both go through the shared signup handler.
+// ABOUTME: New seats go to D1, then a confirmation and an operator note go out.
 
 import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
+import {
+  DEFAULT_FROM_EMAIL,
+  DEFAULT_NOTIFY_EMAIL,
+  normalizeEmail,
+  sendSignupEmails,
+} from "../../lib/email";
 import { createSignupStore, handleSignupRequest } from "../../lib/signup";
 
 export const prerender = false;
@@ -18,7 +24,16 @@ async function readEmail(request: Request): Promise<unknown> {
 }
 
 export const POST: APIRoute = async ({ request }) => {
-  const result = await handleSignupRequest(createSignupStore(env), await readEmail(request));
+  const raw = await readEmail(request);
+  const result = await handleSignupRequest(createSignupStore(env), raw);
+  if (result.body.ok && result.body.created && env.EMAIL) {
+    await sendSignupEmails({
+      sender: env.EMAIL,
+      email: normalizeEmail(String(raw)),
+      notifyTo: env.NOTIFY_EMAIL ?? DEFAULT_NOTIFY_EMAIL,
+      fromEmail: env.FROM_EMAIL ?? DEFAULT_FROM_EMAIL,
+    });
+  }
   return new Response(JSON.stringify(result.body), {
     status: result.status,
     headers: {

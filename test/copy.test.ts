@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import {
   COPY,
   REQUIRED_PHRASES,
+  SITE_DEFAULT_URL,
   missingRequiredPhrases,
   publicPagePaths,
   visibleCopyText,
@@ -25,8 +26,9 @@ describe("landing copy", () => {
     }
   });
 
-  it("publishes only the home page", () => {
+  it("publishes only the home page on bfb.sh", () => {
     expect(publicPagePaths()).toEqual(["/"]);
+    expect(SITE_DEFAULT_URL).toBe("https://bfb.sh");
   });
 
   it("names the ticket machines in the shared copy", () => {

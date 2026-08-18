@@ -14,5 +14,6 @@ pnpm preview
 ```
 
 - `pnpm dev` runs Astro locally on the Workers runtime
-- `pnpm build && pnpm preview` serves the built Worker at `http://127.0.0.1:8787` with the SIGNUPS KV binding
+- `pnpm build && pnpm preview` serves the built Worker at `http://127.0.0.1:8787` with the D1 waitlist binding
+- Public origin: `https://bfb.sh`
 - Public SEO files: `/sitemap.xml`, `/llms.txt`, `/robots.txt`

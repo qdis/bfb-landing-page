@@ -79,24 +79,34 @@ export function memoryStore(): EmailStore {
   };
 }
 
-export function kvStore(kv: {
-  get(key: string): Promise<string | null>;
-  put(key: string, value: string): Promise<void>;
-}): EmailStore {
+export function d1Store(db: D1Database): EmailStore {
   return {
-    get: (key) => kv.get(key),
-    put: (key, value) => kv.put(key, value),
+    async get(key) {
+      const email = key.startsWith("signup:") ? key.slice("signup:".length) : key;
+      const row = await db
+        .prepare("SELECT email, created_at FROM signups WHERE email = ?1")
+        .bind(email)
+        .first<{ email: string; created_at: string }>();
+      if (!row) {
+        return null;
+      }
+      return JSON.stringify({ email: row.email, createdAt: row.created_at });
+    },
+    async put(_key, value) {
+      const parsed = JSON.parse(value) as { email: string; createdAt: string };
+      await db
+        .prepare(
+          "INSERT INTO signups (email, created_at) VALUES (?1, ?2) ON CONFLICT(email) DO NOTHING",
+        )
+        .bind(parsed.email, parsed.createdAt)
+        .run();
+    },
   };
 }
 
-export function createSignupStore(env?: {
-  SIGNUPS?: {
-    get(key: string): Promise<string | null>;
-    put(key: string, value: string): Promise<void>;
-  };
-}): EmailStore {
-  if (env?.SIGNUPS) {
-    return kvStore(env.SIGNUPS);
+export function createSignupStore(env?: { DB?: D1Database }): EmailStore {
+  if (env?.DB) {
+    return d1Store(env.DB);
   }
   return memoryStore();
 }

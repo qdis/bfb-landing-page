@@ -62,4 +62,17 @@ describe("ship surface", () => {
     expect(solves).toContain("/images/chair-outlet.jpg");
     expect(solves).toContain("<img");
   });
+
+  it("points the Worker and SEO origin at bfb.sh", () => {
+    expect(read("astro.config.mjs")).toContain('site: "https://bfb.sh"');
+    expect(read("wrangler.jsonc")).toContain('"pattern": "bfb.sh"');
+    expect(read("wrangler.jsonc")).toContain('"database_name": "bfb-signups"');
+    expect(read("wrangler.jsonc")).toContain('"name": "EMAIL"');
+  });
+
+  it("injects Cloudflare Web Analytics", () => {
+    const base = read("src/layouts/Base.astro");
+    expect(base).toContain("static.cloudflareinsights.com/beacon.min.js");
+    expect(base).toContain("WEB_ANALYTICS_TOKEN");
+  });
 });

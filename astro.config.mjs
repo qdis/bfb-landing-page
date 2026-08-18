@@ -5,7 +5,7 @@ import cloudflare from "@astrojs/cloudflare";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://bigfatboard.com",
+  site: "https://bfb.sh",
   output: "server",
   session: false,
   adapter: cloudflare({

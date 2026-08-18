@@ -59,7 +59,7 @@ console.log(`GET ${sitemap.url} -> ${sitemap.status}`);
 if (sitemap.status !== 200) {
   throw new Error(`sitemap returned ${sitemap.status}`);
 }
-if (!sitemap.text.includes("https://bigfatboard.com/")) {
+if (!sitemap.text.includes("https://bfb.sh/")) {
   throw new Error("sitemap missing home");
 }
 
