@@ -22,6 +22,8 @@ export type Card = {
   now: string;
   checkout: string;
   seconds: number;
+  humanSeconds: number;
+  agentSeconds: number;
 };
 
 export type LogLine = {
@@ -100,12 +102,21 @@ export type DemoState = {
 };
 
 function card(
-  partial: Omit<Card, "seconds" | "previous"> & {
+  partial: Omit<Card, "seconds" | "previous" | "humanSeconds" | "agentSeconds"> & {
     seconds?: number;
     previous?: Actor | null;
+    humanSeconds?: number;
+    agentSeconds?: number;
   },
 ): Card {
-  return { seconds: partial.seconds ?? 40, previous: partial.previous ?? null, ...partial };
+  const seconds = partial.seconds ?? 40;
+  return {
+    seconds,
+    previous: partial.previous ?? null,
+    humanSeconds: partial.kind === "human" ? seconds : 0,
+    agentSeconds: partial.kind === "agent" ? seconds : 0,
+    ...partial,
+  };
 }
 
 export function snapshot(beat: number, egg: DemoState["egg"] = "none"): DemoState {
@@ -133,6 +144,8 @@ export function snapshot(beat: number, egg: DemoState["egg"] = "none"): DemoStat
           : "Claude is wiring bfb mcp stdio. Read-only until the session binds.",
     checkout: "bfb / Mac Studio / main@76ab1f9",
     seconds: handed ? 26 : 188,
+    humanSeconds: beat >= 2 ? 18 : 0,
+    agentSeconds: handed ? 26 : 188,
   });
 
   const l01: Card = card({
@@ -148,6 +161,8 @@ export function snapshot(beat: number, egg: DemoState["egg"] = "none"): DemoStat
       : "Adina is running go test on the daemon kernel.",
     checkout: "bfb / Core / feat/cli@3c91aa2",
     seconds: 412,
+    humanSeconds: 412,
+    agentSeconds: 86,
   });
 
   const e02: Card = card({
@@ -330,6 +345,29 @@ export function formatClock(seconds: number): string {
   const minutes = Math.floor(Math.max(0, seconds) / 60);
   const rest = Math.max(0, seconds) % 60;
   return `${String(minutes).padStart(2, "0")}:${String(rest).padStart(2, "0")}`;
+}
+
+export function boardSpend(cards: Card[]): { human: number; agent: number } {
+  return cards.reduce(
+    (sum, card) => {
+      sum.human += card.humanSeconds;
+      sum.agent += card.agentSeconds;
+      return sum;
+    },
+    { human: 0, agent: 0 },
+  );
+}
+
+export function tickWorkingCard(card: Card): void {
+  if (card.activity !== "working" && card.activity !== "reviewing") {
+    return;
+  }
+  card.seconds += 1;
+  if (card.kind === "human") {
+    card.humanSeconds += 1;
+  } else {
+    card.agentSeconds += 1;
+  }
 }
 
 export function labelActivity(activity: Activity): string {

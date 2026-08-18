@@ -8,8 +8,12 @@ import {
   INSPECT,
   PROJECTS,
   QUESTION,
+  boardSpend,
+  formatClock,
   snapshot,
 } from "../lib/demo-script";
+
+const seedSpend = boardSpend(seed.cards);
 
 const seed = snapshot(0, "runner");
 ---
@@ -22,7 +26,7 @@ const seed = snapshot(0, "runner");
       {
         ["Timo", "Adina", "Claude", "Codex", "Grok"].map((actor) => (
           <button type="button" data-actor={actor}>
-            <i data-dot={actor}></i>
+            <i data-dot={actor} aria-hidden="true"></i>
             {actor}
             <span data-mode={actor}>idle</span>
           </button>
@@ -32,6 +36,10 @@ const seed = snapshot(0, "runner");
     <button class="stat" type="button" data-need-btn>
       <b data-need>0</b> need a human
     </button>
+    <span class="spend-board mono" data-spend title="Human attention versus agent time on this board">
+      <span>human <b data-spend-you>{formatClock(seedSpend.human)}</b></span>
+      <span>agent <b data-spend-agents>{formatClock(seedSpend.agent)}</b></span>
+    </span>
     <span class="mono ping" data-ping>24ms</span>
     <span class="mono sess" data-session>00:00</span>
     <button class="ghost" type="button" data-replay>Replay</button>
@@ -86,15 +94,20 @@ const seed = snapshot(0, "runner");
                           <span data-owner={item.id}>{item.owner}</span>
                           <span class="pack">{item.pack}</span>
                         </span>
-                        <span class="act" data-act={item.id}>{item.activity}</span>
+                        <span class="run">
+                          <span class="act" data-act={item.id}>{item.activity}</span>
+                          <span class="spinner" data-spin={item.id} hidden={item.activity !== "working" && item.activity !== "reviewing"} aria-hidden="true"></span>
+                        </span>
                       </span>
                       <span class="title">{item.title}</span>
                       <span class="now">{item.now}</span>
                       <span class="pass" data-pass={item.id} hidden></span>
                       <span class="meta">
                         <span class="hashline" data-out={item.id}>{item.checkout}</span>
-                        <span class="clock" data-clock={item.id}>00:00</span>
-                        <span class="spinner" data-spin={item.id} hidden></span>
+                        <span class="spend">
+                          <span>human <b data-you={item.id}>{formatClock(item.humanSeconds)}</b></span>
+                          <span>agent <b data-bot={item.id}>{formatClock(item.agentSeconds)}</b></span>
+                        </span>
                       </span>
                     </button>
                   </li>
@@ -122,6 +135,9 @@ const seed = snapshot(0, "runner");
         <p class="k">Checkout</p>
         <button class="hash" type="button" data-hash>bfb / Mac Studio / main@76ab1f9</button>
         <p class="blurb" data-blurb>{INSPECT.a01}</p>
+        <p class="spend-read mono" data-card-spend>
+          human {formatClock(seed.cards[0]?.humanSeconds ?? 0)} · agent {formatClock(seed.cards[0]?.agentSeconds ?? 0)}
+        </p>
         <ol class="log" data-log></ol>
       </div>
     </aside>
@@ -139,12 +155,14 @@ const seed = snapshot(0, "runner");
     INSPECT,
     TIMO_ANSWER,
     attention,
+    boardSpend,
     dwellFor,
     formatClock,
     labelActivity,
     nextBeat,
     presence,
     snapshot,
+    tickWorkingCard,
     type DemoState,
   } from "../lib/demo-script";
 
@@ -197,11 +215,16 @@ const seed = snapshot(0, "runner");
         node.classList.toggle("handed", card.activity === "handoff");
         node.classList.toggle("ok", card.activity === "accepted");
         node.classList.toggle("lit", focusActor !== "" && card.owner === focusActor);
+        node.classList.toggle(
+          "busy",
+          card.activity === "working" || card.activity === "reviewing",
+        );
         const owner = node.querySelector(`[data-owner="${id}"]`);
         const title = node.querySelector(".title");
         const now = node.querySelector(".now");
         const act = node.querySelector(`[data-act="${id}"]`);
-        const clock = node.querySelector(`[data-clock="${id}"]`);
+        const you = node.querySelector(`[data-you="${id}"]`);
+        const bot = node.querySelector(`[data-bot="${id}"]`);
         const spin = node.querySelector(`[data-spin="${id}"]`);
         const out = node.querySelector(`[data-out="${id}"]`);
         const pass = node.querySelector(`[data-pass="${id}"]`);
@@ -217,8 +240,11 @@ const seed = snapshot(0, "runner");
         if (act) {
           act.textContent = labelActivity(card.activity);
         }
-        if (clock) {
-          clock.textContent = formatClock(card.seconds);
+        if (you) {
+          you.textContent = formatClock(card.humanSeconds);
+        }
+        if (bot) {
+          bot.textContent = formatClock(card.agentSeconds);
         }
         if (out) {
           out.textContent = card.checkout;
@@ -240,6 +266,15 @@ const seed = snapshot(0, "runner");
       const needNode = root.querySelector("[data-need]");
       if (needNode) {
         needNode.textContent = String(need);
+      }
+      const spent = boardSpend(state.cards);
+      const spendYou = root.querySelector("[data-spend-you]");
+      const spendAgents = root.querySelector("[data-spend-agents]");
+      if (spendYou) {
+        spendYou.textContent = formatClock(spent.human);
+      }
+      if (spendAgents) {
+        spendAgents.textContent = formatClock(spent.agent);
       }
 
       const crew = presence({
@@ -352,6 +387,15 @@ const seed = snapshot(0, "runner");
         blurb.textContent = selected
           ? (INSPECT[selected.id] ?? selected.now)
           : "Click a card.";
+      }
+      const cardSpend = root.querySelector("[data-card-spend]");
+      if (cardSpend instanceof HTMLElement) {
+        if (selected) {
+          cardSpend.hidden = false;
+          cardSpend.textContent = `human ${formatClock(selected.humanSeconds)} · agent ${formatClock(selected.agentSeconds)}`;
+        } else {
+          cardSpend.hidden = true;
+        }
       }
       if (hash && selected) {
         hash.textContent = selected.checkout;
@@ -588,9 +632,7 @@ const seed = snapshot(0, "runner");
       }
       session += 1;
       for (const card of state.cards) {
-        if (card.activity === "working" || card.activity === "reviewing") {
-          card.seconds += 1;
-        }
+        tickWorkingCard(card);
       }
       paint();
     }, 1000);
@@ -717,26 +759,44 @@ const seed = snapshot(0, "runner");
   }
 
   .crew i {
-    width: 0.45rem;
-    height: 0.45rem;
+    width: 0.62rem;
+    height: 0.62rem;
     border-radius: 50%;
-    background: var(--hairline);
+    background: color-mix(in oklab, var(--bone) 28%, var(--hairline));
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--bone) 22%, transparent);
   }
 
   .crew i[data-mode="working"],
   .crew i[data-mode="reviewing"],
   .crew i[data-mode="handoff"] {
-    background: var(--bone);
+    background: var(--safelight);
+    box-shadow: 0 0 0.55rem color-mix(in oklab, var(--crimson) 80%, transparent);
   }
 
   .crew i[data-mode="needed"],
-  .crew i[data-mode="waiting"] {
-    background: var(--safelight);
-  }
-
+  .crew i[data-mode="waiting"],
   .crew i[data-mode="answering"] {
     background: var(--safelight);
-    box-shadow: 0 1px 0 color-mix(in oklab, var(--safelight) 50%, transparent);
+    box-shadow: 0 0 0.55rem color-mix(in oklab, var(--crimson) 80%, transparent);
+  }
+
+  .crew button[data-mode="working"],
+  .crew button[data-mode="reviewing"],
+  .crew button[data-mode="handoff"] {
+    border-color: color-mix(in oklab, var(--crimson) 45%, var(--hairline));
+  }
+
+  .spend-board {
+    display: inline-flex;
+    gap: 0.7rem;
+    color: var(--smoke);
+    text-transform: uppercase;
+  }
+
+  .spend-board b,
+  .spend b {
+    color: var(--bone);
+    font-weight: 600;
   }
 
   .live,
@@ -1030,32 +1090,56 @@ const seed = snapshot(0, "runner");
     white-space: nowrap;
   }
 
-  .clock {
+  .run {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .card.busy .act {
+    color: var(--safelight);
+  }
+
+  .spend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.7rem;
     margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .spend-read {
+    margin: 0 0 0.55rem;
+    color: var(--smoke);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .spinner {
-    width: 0.95rem;
-    height: 0.95rem;
+    width: 1.15rem;
+    height: 1.15rem;
     flex: 0 0 auto;
     border-radius: 50%;
     background: conic-gradient(
       from 0deg,
-      transparent 0 12%,
-      var(--smoke) 0 16%,
-      transparent 0 29%,
-      var(--smoke) 0 33%,
-      transparent 0 46%,
-      var(--smoke) 0 50%,
-      transparent 0 63%,
-      var(--smoke) 0 67%,
-      transparent 0 80%,
-      var(--smoke) 0 84%,
-      transparent 0 97%,
-      var(--smoke) 0 100%
+      transparent 0 8%,
+      var(--safelight) 0 16%,
+      transparent 0 24%,
+      var(--crimson) 0 32%,
+      transparent 0 41%,
+      var(--safelight) 0 49%,
+      transparent 0 57%,
+      var(--crimson) 0 65%,
+      transparent 0 74%,
+      var(--safelight) 0 82%,
+      transparent 0 90%,
+      var(--crimson) 0 100%
     );
-    -webkit-mask: radial-gradient(farthest-side, transparent 58%, #000 59%);
-    mask: radial-gradient(farthest-side, transparent 58%, #000 59%);
+    box-shadow: 0 0 0.55rem color-mix(in oklab, var(--crimson) 70%, transparent);
+    -webkit-mask: radial-gradient(farthest-side, transparent 54%, #000 56%);
+    mask: radial-gradient(farthest-side, transparent 54%, #000 56%);
   }
 
   .inspect {
@@ -1194,6 +1278,12 @@ const seed = snapshot(0, "runner");
     .crew i[data-mode="waiting"] {
       animation: blink 1.2s step-end infinite;
     }
+
+    .crew i[data-mode="working"],
+    .crew i[data-mode="reviewing"],
+    .crew i[data-mode="handoff"] {
+      animation: live-dot 1.6s ease-in-out infinite;
+    }
   }
 
   @keyframes spin {
@@ -1217,6 +1307,13 @@ const seed = snapshot(0, "runner");
   @keyframes blink {
     50% {
       opacity: 0;
+    }
+  }
+
+  @keyframes live-dot {
+    50% {
+      transform: scale(1.18);
+      box-shadow: 0 0 0.8rem color-mix(in oklab, var(--crimson) 95%, transparent);
     }
   }
 

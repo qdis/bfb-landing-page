@@ -6,8 +6,11 @@ import {
   QUESTION,
   TIMO_ANSWER,
   attention,
+  boardSpend,
+  formatClock,
   presence,
   snapshot,
+  tickWorkingCard,
 } from "../src/lib/demo-script";
 
 describe("demo script", () => {
@@ -59,6 +62,26 @@ describe("demo script", () => {
     expect(cli?.activity).toBe("accepted");
     expect(cli?.owner).toBe("Adina");
     expect(state.cards.find((card) => card.id === "x03a")?.activity).toBe("reviewing");
+  });
+
+  it("tracks human time and agent time as two clocks", () => {
+    const state = snapshot(0);
+    const l01 = state.cards.find((card) => card.id === "l01");
+    const a01 = state.cards.find((card) => card.id === "a01");
+    expect(l01?.humanSeconds).toBeGreaterThan(l01?.agentSeconds ?? 0);
+    expect(a01?.agentSeconds).toBeGreaterThan(0);
+    expect(a01?.humanSeconds).toBe(0);
+    const spent = boardSpend(state.cards);
+    expect(spent.human).toBeGreaterThan(0);
+    expect(spent.agent).toBeGreaterThan(0);
+    expect(formatClock(412)).toBe("06:52");
+    if (l01) {
+      const before = l01.humanSeconds;
+      tickWorkingCard(l01);
+      expect(l01.humanSeconds).toBe(before + 1);
+    }
+    const answered = snapshot(2);
+    expect(answered.cards.find((card) => card.id === "a01")?.humanSeconds).toBeGreaterThan(0);
   });
 
   it("wakes the hidden runner when the egg is set", () => {

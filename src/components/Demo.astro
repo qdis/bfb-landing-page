@@ -81,6 +81,10 @@ const { headline, body } = COPY.demo;
     display: none;
   }
 
+  .preview :global(.spend-board) {
+    margin-left: auto;
+  }
+
   @container (min-width: 42rem) {
     .preview :global(.lanes) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
