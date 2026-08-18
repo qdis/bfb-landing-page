@@ -1,6 +1,6 @@
 ---
-// ABOUTME: Full-width mission hero. Death lines get slashed. Signup is the object.
-// ABOUTME: No board. Watch the demo jumps to the carded preview.
+// ABOUTME: Full-width mission hero. A slow slash cuts the death lines.
+// ABOUTME: Signup is here. Watch the demo jumps to the carded preview.
 
 import { COPY } from "../lib/copy";
 import SignupForm from "./SignupForm.astro";
@@ -14,14 +14,8 @@ const { line1, line2, line3, sub, demo } = COPY.hero;
     <h1>
       <span class="deaths" data-slash>
         <span class="blade" aria-hidden="true"></span>
-        <span class="cut">
-          <span class="half top">{line1}</span>
-          <span class="half bot" aria-hidden="true">{line1}</span>
-        </span>
-        <span class="cut">
-          <span class="half top">{line2}</span>
-          <span class="half bot" aria-hidden="true">{line2}</span>
-        </span>
+        <span class="line">{line1}</span>
+        <span class="line">{line2}</span>
       </span>
       <span class="need">{line3}</span>
     </h1>
@@ -46,7 +40,7 @@ const { line1, line2, line3, sub, demo } = COPY.hero;
       if (blade) {
         blade.addEventListener("animationend", finish, { once: true });
       }
-      window.setTimeout(finish, 900);
+      window.setTimeout(finish, 1900);
     }
   }
 </script>
@@ -76,7 +70,6 @@ const { line1, line2, line3, sub, demo } = COPY.hero;
     justify-content: center;
     min-height: calc(100dvh - var(--nav-h));
     padding: 2rem 0 2.5rem;
-    padding-left: 0.15rem;
   }
 
   h1 {
@@ -85,102 +78,61 @@ const { line1, line2, line3, sub, demo } = COPY.hero;
     gap: 0.12em;
     max-width: 16ch;
     font-family: var(--font-display);
-    font-size: clamp(3rem, 8.4vw, 7.2rem);
+    font-size: clamp(2.6rem, 7.4vw, 6.4rem);
     font-weight: 800;
-    line-height: 0.88;
+    line-height: 0.9;
     letter-spacing: -0.05em;
   }
 
   .deaths {
     position: relative;
     display: grid;
-    gap: 0.08em;
-    overflow: visible;
-    padding: 0.16em 0.2em 0.28em 0;
+    gap: 0.06em;
+    overflow: hidden;
+    padding: 0.12em 0.08em 0.22em 0;
   }
 
-  .cut {
-    position: relative;
-    display: block;
-    padding-bottom: 0.08em;
-  }
-
-  .half {
+  .line {
     display: block;
   }
 
-  .half.bot {
-    position: absolute;
-    inset: 0;
-  }
-
-  .half.top {
-    clip-path: polygon(0 0, 100% 0, 100% 40%, 0 64%);
-  }
-
-  .half.bot {
-    clip-path: polygon(0 68%, 100% 44%, 100% 100%, 0 100%);
-  }
-
-  .cut::after {
+  .deaths::after {
     content: "";
     position: absolute;
-    left: 3%;
-    top: 52%;
-    width: 94%;
-    height: 0.05em;
+    left: -1%;
+    top: 46%;
+    z-index: 3;
+    width: 102%;
+    height: 0.045em;
     background: var(--crimson);
-    box-shadow: var(--neon-glow);
-    transform: rotate(-9deg);
-    opacity: 0;
+    box-shadow: 0 0 0.45rem color-mix(in oklab, var(--crimson) 70%, transparent);
+    transform: rotate(-8deg) scaleX(0);
+    transform-origin: left center;
     pointer-events: none;
   }
 
-  .deaths.cut-done .half.top {
-    transform: translate(-0.1em, -0.1em) rotate(-0.55deg);
-    text-shadow: 0 0 0.35em color-mix(in oklab, var(--crimson) 55%, transparent);
-  }
-
-  .deaths.cut-done .half.bot {
-    transform: translate(0.12em, 0.12em) rotate(0.5deg);
-    color: color-mix(in oklab, var(--bone) 88%, var(--crimson));
-  }
-
-  .deaths.cut-done .cut::after {
-    opacity: 1;
+  .deaths.cut-done::after,
+  .deaths.slash-go::after {
+    transform: rotate(-8deg) scaleX(1);
   }
 
   .blade {
     position: absolute;
-    left: -12%;
+    left: -14%;
     top: 18%;
     z-index: 4;
-    width: 140%;
-    height: 0.12em;
+    width: 130%;
+    height: 0.09em;
     background: linear-gradient(
       90deg,
       transparent 0%,
-      white 18%,
-      var(--crimson) 48%,
-      color-mix(in oklab, var(--crimson) 70%, black) 78%,
+      white 22%,
+      var(--crimson) 52%,
       transparent 100%
     );
-    box-shadow: var(--neon-glow);
-    transform: rotate(-14deg) translateX(-130%);
+    box-shadow: 0 0 0.7rem color-mix(in oklab, var(--crimson) 75%, transparent);
+    transform: rotate(-8deg) translateX(-120%);
     pointer-events: none;
-  }
-
-  .blade::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 50%;
-    width: 1.1em;
-    height: 0.55em;
-    background: var(--crimson);
-    clip-path: polygon(0 0, 100% 50%, 0 100%);
-    transform: translate(40%, -50%);
-    box-shadow: var(--neon-glow);
   }
 
   .need {
@@ -191,7 +143,6 @@ const { line1, line2, line3, sub, demo } = COPY.hero;
     letter-spacing: -0.035em;
     max-width: 18ch;
     padding-top: 0.45em;
-    text-shadow: 0 0 0.6em color-mix(in oklab, var(--crimson) 50%, transparent);
   }
 
   p {
@@ -205,21 +156,21 @@ const { line1, line2, line3, sub, demo } = COPY.hero;
 
   .actions {
     display: grid;
-    gap: 0.85rem;
-    margin-top: 1.8rem;
-    max-width: 28rem;
+    gap: 0.75rem;
+    margin-top: 1.7rem;
+    max-width: 26rem;
   }
 
   .alt {
     display: inline-flex;
     align-items: center;
     width: fit-content;
-    min-height: 2.7rem;
-    padding: 0.7rem 1.1rem;
+    min-height: 2.5rem;
+    padding: 0.6rem 1rem;
     border: 1px solid var(--hairline);
     border-radius: var(--radius-control);
     color: var(--bone);
-    font-size: 0.76rem;
+    font-size: 0.74rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -233,29 +184,17 @@ const { line1, line2, line3, sub, demo } = COPY.hero;
 
   @media (prefers-reduced-motion: no-preference) {
     .deaths.slash-go .blade {
-      animation: slash 0.62s cubic-bezier(0.15, 0.85, 0.2, 1) forwards;
+      animation: slash 1.55s cubic-bezier(0.22, 0.7, 0.2, 1) forwards;
     }
 
-    .deaths.cut-done .half {
-      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-    .deaths.cut-done .cut::after {
-      transition: opacity 0.2s linear;
+    .deaths.slash-go::after {
+      animation: wound 1.55s cubic-bezier(0.22, 0.7, 0.2, 1) forwards;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .deaths .half.top {
-      transform: translate(-0.1em, -0.1em) rotate(-0.55deg);
-    }
-
-    .deaths .half.bot {
-      transform: translate(0.12em, 0.12em) rotate(0.5deg);
-    }
-
-    .deaths .cut::after {
-      opacity: 1;
+    .deaths::after {
+      transform: rotate(-8deg) scaleX(1);
     }
 
     .blade {
@@ -265,8 +204,14 @@ const { line1, line2, line3, sub, demo } = COPY.hero;
 
   @keyframes slash {
     to {
-      transform: rotate(-14deg) translateX(18%);
-      opacity: 0.15;
+      transform: rotate(-8deg) translateX(16%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes wound {
+    to {
+      transform: rotate(-8deg) scaleX(1);
     }
   }
 </style>

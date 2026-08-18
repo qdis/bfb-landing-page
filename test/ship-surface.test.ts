@@ -21,9 +21,10 @@ describe("ship surface", () => {
     expect(COPY.hero.line2).toContain("SCRUM IS DEAD");
     expect(hero).toContain("data-slash");
     expect(hero).toContain("blade");
-    expect(hero).toContain("half top");
+    expect(hero).toContain("class=\"line\"");
     expect(hero).toContain("prefers-reduced-motion");
     expect(hero).toContain("cut-done");
+    expect(hero).not.toContain("half top");
   });
 
   it("has no header signup control", () => {
@@ -52,7 +53,7 @@ describe("ship surface", () => {
   it("cards the demo as a smaller embedded preview", () => {
     const demo = read("src/components/Demo.astro");
     expect(demo).toContain("preview");
-    expect(demo).toContain("46rem");
+    expect(demo).toContain("72rem");
     expect(demo).toContain("Embedded preview");
   });
 
