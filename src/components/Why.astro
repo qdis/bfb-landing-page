@@ -9,14 +9,17 @@ import { COPY } from "../lib/copy";
   <div class="slab not">
     <div class="wrap pair">
       <figure>
-        <img
-          src="/images/keyboard-table.jpg"
-          alt="A conference table that is a giant keyboard, USB cable coiled around a mug."
-          width="1600"
-          height="900"
-          loading="lazy"
-          decoding="async"
-        />
+        <picture>
+          <source type="image/webp" srcset="/images/keyboard-table.webp" />
+          <img
+            src="/images/keyboard-table.jpg"
+            alt="A conference table that is a giant keyboard, USB cable coiled around a mug."
+            width="1100"
+            height="619"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
       </figure>
       <div class="copy">
         <h2>{COPY.why.notHeadline}</h2>
@@ -78,9 +81,13 @@ import { COPY } from "../lib/copy";
     margin: 0;
   }
 
+  picture,
   img {
     display: block;
     width: 100%;
+  }
+
+  img {
     height: auto;
     aspect-ratio: 16 / 10;
     object-fit: cover;

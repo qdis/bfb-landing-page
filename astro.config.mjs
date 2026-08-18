@@ -8,6 +8,9 @@ export default defineConfig({
   site: "https://bfb.sh",
   output: "server",
   session: false,
+  build: {
+    inlineStylesheets: "always",
+  },
   adapter: cloudflare({
     imageService: "compile",
   }),

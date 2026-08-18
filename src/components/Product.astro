@@ -15,14 +15,17 @@ const { headline, lead, body } = COPY.what;
       <p>{body}</p>
     </div>
     <figure>
-      <img
-        src="/images/ticket-melt.jpg"
-        alt="Blank tickets melting into a surge protector under neon red light."
-        width="1200"
-        height="800"
-        loading="lazy"
-        decoding="async"
-      />
+      <picture>
+        <source type="image/webp" srcset="/images/ticket-melt.webp" />
+        <img
+          src="/images/ticket-melt.jpg"
+          alt="Blank tickets melting into a surge protector under neon red light."
+          width="960"
+          height="640"
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
     </figure>
   </div>
 </section>
@@ -67,9 +70,13 @@ const { headline, lead, body } = COPY.what;
     margin: 0;
   }
 
+  picture,
   img {
     display: block;
     width: 100%;
+  }
+
+  img {
     height: auto;
     aspect-ratio: 4 / 5;
     object-fit: cover;

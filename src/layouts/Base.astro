@@ -64,7 +64,7 @@ const ogImage = absoluteUrl(OG_IMAGE, origin);
     <slot />
     <script
       is:inline
-      defer
+      type="module"
       src="https://static.cloudflareinsights.com/beacon.min.js"
       data-cf-beacon={analyticsBeacon}></script>
   </body>
