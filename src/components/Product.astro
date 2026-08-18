@@ -13,6 +13,12 @@ const { headline, lead, body } = COPY.what;
     <div class="cols">
       <p class="lead">{lead}</p>
       <p>{body}</p>
+      <img
+        src="/images/ticket-melt.jpg"
+        alt="Blank tickets melting into a surge protector under neon red light."
+        width="1200"
+        height="800"
+      />
     </div>
   </div>
 </section>
@@ -52,6 +58,15 @@ const { headline, lead, body } = COPY.what;
     font-weight: 500;
   }
 
+  img {
+    width: 100%;
+    max-width: 28rem;
+    margin-top: 0.4rem;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-panel);
+    filter: saturate(1.15) contrast(1.08);
+  }
+
   @media (min-width: 768px) {
     .product {
       padding: 7.5rem 0 6.5rem;
@@ -61,6 +76,13 @@ const { headline, lead, body } = COPY.what;
       grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
       gap: 3rem;
       align-items: start;
+    }
+
+    img {
+      grid-column: 1 / -1;
+      width: min(100%, 36rem);
+      justify-self: end;
+      margin-top: 0.5rem;
     }
   }
 </style>

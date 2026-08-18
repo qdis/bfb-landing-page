@@ -6,6 +6,14 @@ import { COPY } from "../lib/copy";
 ---
 
 <section class="why" id="how">
+  <figure class="mental">
+    <img
+      src="/images/keyboard-table.jpg"
+      alt="A conference table that is a giant keyboard, USB cable coiled around a mug."
+      width="1600"
+      height="900"
+    />
+  </figure>
   <div class="slab not">
     <div class="wrap">
       <h2>{COPY.why.notHeadline}</h2>
@@ -41,6 +49,19 @@ import { COPY } from "../lib/copy";
 <style>
   .why {
     background: var(--blackout);
+  }
+
+  .mental {
+    margin: 0;
+    border-top: 1px solid var(--hairline);
+    background: var(--blackout);
+  }
+
+  .mental img {
+    width: min(100%, 52rem);
+    margin: 0 auto;
+    display: block;
+    filter: saturate(1.2) contrast(1.08);
   }
 
   .slab {

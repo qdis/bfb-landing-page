@@ -1,6 +1,6 @@
 ---
-// ABOUTME: Full-width product demo after the hero. Scripted, clickable BFB board.
-// ABOUTME: Real work-package names. Timo answers Claude. Adina ships the CLI.
+// ABOUTME: Carded product demo after the hero. Smaller than the page, clearly framed.
+// ABOUTME: The board is a preview of the product, not the page itself.
 
 import DemoBoard from "./DemoBoard.astro";
 import { COPY } from "../lib/copy";
@@ -12,7 +12,10 @@ const { headline, body } = COPY.demo;
   <div class="wrap">
     <h2>{headline}</h2>
     <p>{body}</p>
-    <DemoBoard />
+    <figure class="preview">
+      <figcaption>Embedded preview</figcaption>
+      <DemoBoard />
+    </figure>
   </div>
 </section>
 
@@ -39,6 +42,38 @@ const { headline, body } = COPY.demo;
     color: var(--smoke);
     font-size: 1.05rem;
     line-height: 1.5;
+  }
+
+  .preview {
+    width: min(100%, 46rem);
+    margin: 0 auto;
+    border: 1px solid color-mix(in oklab, var(--crimson) 35%, var(--hairline));
+    border-radius: var(--radius-panel);
+    background: var(--chamber);
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--crimson) 18%, transparent),
+      0 28px 70px oklch(0.02 0.01 26 / 0.85);
+  }
+
+  figcaption {
+    margin: 0;
+    padding: 0.55rem 0.85rem;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--blackout);
+    color: var(--smoke);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .preview :global(.lanes) {
+    grid-template-columns: 1fr;
+  }
+
+  .preview :global(.inspect) {
+    grid-template-columns: 1fr;
   }
 
   @media (min-width: 768px) {

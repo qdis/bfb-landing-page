@@ -54,7 +54,7 @@ const ogImage = absoluteUrl(OG_IMAGE, origin);
       THESIS: Mission statement plus a live board. Refuses ticket-era ceremony and single-vendor remotes.
       OWN-WORLD: Near-black canvas, scarce crimson, Unbounded death lines, Anybody body, Azeret for machine facts.
       STORY: Jira and Scrum are dead. AI-first companies need a control plane. Leave an email.
-      FIRST VIEWPORT: JIRA IS DEAD / SCRUM IS DEAD / AI-FIRST COMPANIES NEED A CONTROL PLANE. Full-width hero, then the live scripted board.
+      FIRST VIEWPORT: slashed JIRA IS DEAD / SCRUM IS DEAD, neon signup, no header CTA. Demo is a carded preview.
       FORM: Pinned Redline world, darkened; seed key pinned-mockup plus Timo 2026-08-18 brief.
       FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
     -->
@@ -66,16 +66,18 @@ const ogImage = absoluteUrl(OG_IMAGE, origin);
 <style is:global>
   :root {
     color-scheme: dark;
-    --blackout: oklch(0.08 0.006 26);
-    --chamber: oklch(0.12 0.012 27);
-    --raised: oklch(0.16 0.018 27);
-    --bone: oklch(0.93 0.008 80);
-    --smoke: oklch(0.6 0.012 35);
-    --crimson: oklch(0.42 0.155 26);
-    --safelight: oklch(0.58 0.175 27);
-    --hairline: oklch(0.22 0.018 27);
-    --oxblood: oklch(0.13 0.05 26);
-    --oxblood-deep: oklch(0.09 0.035 26);
+    --blackout: oklch(0.035 0.01 26);
+    --chamber: oklch(0.065 0.014 27);
+    --raised: oklch(0.1 0.02 27);
+    --bone: oklch(0.94 0.008 80);
+    --smoke: oklch(0.62 0.014 35);
+    --crimson: oklch(0.66 0.29 23);
+    --safelight: oklch(0.74 0.27 22);
+    --hairline: oklch(0.18 0.02 27);
+    --oxblood: oklch(0.07 0.09 26);
+    --oxblood-deep: oklch(0.045 0.05 26);
+    --neon-glow: 0 0 0.55rem color-mix(in oklab, var(--crimson) 85%, white),
+      0 0 2.4rem color-mix(in oklab, var(--crimson) 70%, transparent);
     --font-display: "Unbounded", "Arial Narrow", sans-serif;
     --font-sans: "Anybody", Arial, sans-serif;
     --font-mono: "Azeret Mono", ui-monospace, monospace;

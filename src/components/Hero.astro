@@ -1,27 +1,55 @@
 ---
-// ABOUTME: Full-width mission hero. No board. The demo lives in the next section.
-// ABOUTME: Get BFB signs up. Watch the demo jumps to the scripted board.
+// ABOUTME: Full-width mission hero. Death lines get slashed. Signup is the object.
+// ABOUTME: No board. Watch the demo jumps to the carded preview.
 
 import { COPY } from "../lib/copy";
+import SignupForm from "./SignupForm.astro";
 
-const { line1, line2, line3, sub, cta } = COPY.hero;
+const { line1, line2, line3, sub, demo } = COPY.hero;
 ---
 
 <section class="hero" id="top">
   <div class="safelight" aria-hidden="true"></div>
   <div class="wrap">
     <h1>
-      <span>{line1}</span>
-      <span>{line2}</span>
+      <span class="deaths" data-slash>
+        <span class="blade" aria-hidden="true"></span>
+        <span class="cut">
+          <span class="half top">{line1}</span>
+          <span class="half bot" aria-hidden="true">{line1}</span>
+        </span>
+        <span class="cut">
+          <span class="half top">{line2}</span>
+          <span class="half bot" aria-hidden="true">{line2}</span>
+        </span>
+      </span>
       <span class="need">{line3}</span>
     </h1>
     <p>{sub}</p>
     <div class="actions">
-      <a class="cta" href="#signup">{cta}</a>
-      <a class="alt" href="#demo">Watch the demo</a>
+      <SignupForm loud fieldId="hero-email" />
+      <a class="alt" href="#demo">{demo}</a>
     </div>
   </div>
 </section>
+
+<script>
+  const root = document.querySelector("[data-slash]");
+  if (root instanceof HTMLElement) {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      root.classList.add("cut-done");
+    } else {
+      requestAnimationFrame(() => root.classList.add("slash-go"));
+      const blade = root.querySelector(".blade");
+      const finish = () => root.classList.add("cut-done");
+      if (blade) {
+        blade.addEventListener("animationend", finish, { once: true });
+      }
+      window.setTimeout(finish, 900);
+    }
+  }
+</script>
 
 <style>
   .hero {
@@ -48,12 +76,13 @@ const { line1, line2, line3, sub, cta } = COPY.hero;
     justify-content: center;
     min-height: calc(100dvh - var(--nav-h));
     padding: 2rem 0 2.5rem;
+    padding-left: 0.15rem;
   }
 
   h1 {
     margin: 0;
     display: grid;
-    gap: 0.1em;
+    gap: 0.12em;
     max-width: 16ch;
     font-family: var(--font-display);
     font-size: clamp(3rem, 8.4vw, 7.2rem);
@@ -62,17 +91,107 @@ const { line1, line2, line3, sub, cta } = COPY.hero;
     letter-spacing: -0.05em;
   }
 
-  h1 span {
+  .deaths {
+    position: relative;
+    display: grid;
+    gap: 0.08em;
+    overflow: visible;
+    padding: 0.16em 0.2em 0.28em 0;
+  }
+
+  .cut {
+    position: relative;
+    display: block;
+    padding-bottom: 0.08em;
+  }
+
+  .half {
     display: block;
   }
 
+  .half.bot {
+    position: absolute;
+    inset: 0;
+  }
+
+  .half.top {
+    clip-path: polygon(0 0, 100% 0, 100% 40%, 0 64%);
+  }
+
+  .half.bot {
+    clip-path: polygon(0 68%, 100% 44%, 100% 100%, 0 100%);
+  }
+
+  .cut::after {
+    content: "";
+    position: absolute;
+    left: 3%;
+    top: 52%;
+    width: 94%;
+    height: 0.05em;
+    background: var(--crimson);
+    box-shadow: var(--neon-glow);
+    transform: rotate(-9deg);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .deaths.cut-done .half.top {
+    transform: translate(-0.1em, -0.1em) rotate(-0.55deg);
+    text-shadow: 0 0 0.35em color-mix(in oklab, var(--crimson) 55%, transparent);
+  }
+
+  .deaths.cut-done .half.bot {
+    transform: translate(0.12em, 0.12em) rotate(0.5deg);
+    color: color-mix(in oklab, var(--bone) 88%, var(--crimson));
+  }
+
+  .deaths.cut-done .cut::after {
+    opacity: 1;
+  }
+
+  .blade {
+    position: absolute;
+    left: -12%;
+    top: 18%;
+    z-index: 4;
+    width: 140%;
+    height: 0.12em;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      white 18%,
+      var(--crimson) 48%,
+      color-mix(in oklab, var(--crimson) 70%, black) 78%,
+      transparent 100%
+    );
+    box-shadow: var(--neon-glow);
+    transform: rotate(-14deg) translateX(-130%);
+    pointer-events: none;
+  }
+
+  .blade::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 1.1em;
+    height: 0.55em;
+    background: var(--crimson);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: translate(40%, -50%);
+    box-shadow: var(--neon-glow);
+  }
+
   .need {
+    display: block;
     color: var(--safelight);
     font-size: 0.38em;
     line-height: 1.05;
     letter-spacing: -0.035em;
     max-width: 18ch;
     padding-top: 0.45em;
+    text-shadow: 0 0 0.6em color-mix(in oklab, var(--crimson) 50%, transparent);
   }
 
   p {
@@ -85,19 +204,21 @@ const { line1, line2, line3, sub, cta } = COPY.hero;
   }
 
   .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-    margin-top: 1.6rem;
+    display: grid;
+    gap: 0.85rem;
+    margin-top: 1.8rem;
+    max-width: 28rem;
   }
 
-  .cta,
   .alt {
     display: inline-flex;
     align-items: center;
+    width: fit-content;
     min-height: 2.7rem;
-    padding: 0.8rem 1.2rem;
+    padding: 0.7rem 1.1rem;
+    border: 1px solid var(--hairline);
     border-radius: var(--radius-control);
+    color: var(--bone);
     font-size: 0.76rem;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -105,27 +226,47 @@ const { line1, line2, line3, sub, cta } = COPY.hero;
     white-space: nowrap;
   }
 
-  .cta {
-    background: var(--crimson);
-    color: var(--bone);
-  }
-
-  .alt {
-    border: 1px solid var(--hairline);
-    color: var(--bone);
-  }
-
-  .cta:hover {
-    background: var(--safelight);
-    color: var(--blackout);
-  }
-
   .alt:hover {
-    border-color: var(--bone);
+    border-color: var(--crimson);
+    color: var(--safelight);
   }
 
-  .cta:active,
-  .alt:active {
-    transform: translateY(1px);
+  @media (prefers-reduced-motion: no-preference) {
+    .deaths.slash-go .blade {
+      animation: slash 0.62s cubic-bezier(0.15, 0.85, 0.2, 1) forwards;
+    }
+
+    .deaths.cut-done .half {
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .deaths.cut-done .cut::after {
+      transition: opacity 0.2s linear;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .deaths .half.top {
+      transform: translate(-0.1em, -0.1em) rotate(-0.55deg);
+    }
+
+    .deaths .half.bot {
+      transform: translate(0.12em, 0.12em) rotate(0.5deg);
+    }
+
+    .deaths .cut::after {
+      opacity: 1;
+    }
+
+    .blade {
+      display: none;
+    }
+  }
+
+  @keyframes slash {
+    to {
+      transform: rotate(-14deg) translateX(18%);
+      opacity: 0.15;
+    }
   }
 </style>

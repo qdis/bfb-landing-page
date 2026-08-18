@@ -42,4 +42,15 @@ describe("landing copy", () => {
     expect(text).not.toContain("fork");
     expect(text).not.toContain("view source");
   });
+
+  it("keeps the death lines and the close shout in shipped copy", () => {
+    const text = visibleCopyText();
+    expect(text).toContain("JIRA IS DEAD");
+    expect(text).toContain("SCRUM IS DEAD");
+    expect(text).toContain("get on the BIG FAT BOARD");
+  });
+
+  it("does not give the masthead a signup label", () => {
+    expect("cta" in COPY.nav).toBe(false);
+  });
 });

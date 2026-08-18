@@ -1,17 +1,24 @@
 ---
 // ABOUTME: Waitlist form that posts a work email to /api/signup.
-// ABOUTME: Label above the field, live status, loading and error states.
+// ABOUTME: Loud mode is the in-your-face neon submit used in hero and close.
 
 import { COPY } from "../lib/copy";
 
+interface Props {
+  loud?: boolean;
+  fieldId?: string;
+}
+
 const copy = COPY.signup;
+const loud = Astro.props.loud === true;
+const fieldId = Astro.props.fieldId ?? "email";
 ---
 
-<form class="signup" data-signup method="post" action="/api/signup" novalidate>
+<form class:list={["signup", { loud }]} data-signup method="post" action="/api/signup" novalidate>
   <div class="field">
-    <label for="email">{copy.label}</label>
+    <label for={fieldId}>{copy.label}</label>
     <input
-      id="email"
+      id={fieldId}
       name="email"
       type="email"
       autocomplete="email"
@@ -26,8 +33,9 @@ const copy = COPY.signup;
 </form>
 
 <script>
-  const form = document.querySelector<HTMLFormElement>("[data-signup]");
-  if (form) {
+  if (document.documentElement.dataset.signupBound !== "1") {
+    document.documentElement.dataset.signupBound = "1";
+    document.querySelectorAll<HTMLFormElement>("[data-signup]").forEach((form) => {
     const status = form.querySelector<HTMLElement>("[data-signup-status]");
     const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
     const input = form.querySelector<HTMLInputElement>("input[name=email]");
@@ -72,6 +80,7 @@ const copy = COPY.signup;
       } finally {
         button.disabled = false;
       }
+    });
     });
   }
 </script>
@@ -129,8 +138,8 @@ const copy = COPY.signup;
     border: 0;
     border-radius: var(--signup-radius);
     background: var(--signup-accent);
-    color: var(--signup-on-accent);
-    font-weight: 650;
+    color: var(--blackout);
+    font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-size: 0.78rem;
@@ -139,9 +148,20 @@ const copy = COPY.signup;
     white-space: nowrap;
   }
 
+  .loud button {
+    width: 100%;
+    min-height: 4.25rem;
+    padding: 1rem 1.4rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 2.4vw, 1.45rem);
+    letter-spacing: 0.08em;
+    box-shadow: var(--neon-glow);
+  }
+
   button:hover {
     background: var(--safelight);
     color: var(--blackout);
+    box-shadow: var(--neon-glow);
   }
 
   button:active {

@@ -32,7 +32,6 @@ export const COPY = {
   nav: {
     product: "Product",
     how: "Why BFB",
-    cta: "Get BFB",
   },
   what: {
     headline: "Built for people running agents, not filing tickets.",
@@ -138,7 +137,7 @@ export const COPY = {
     ],
   },
   close: {
-    headline: "Get on the board.",
+    headline: "get on the BIG FAT BOARD",
     body: "Coming soon. Leave a work email. We write once, when the board opens.",
   },
   claims: {
@@ -173,7 +172,7 @@ export const COPY = {
 } as const;
 
 export const OG_IMAGE = "/images/og.png";
-export const THEME_COLOR = "#0a0808";
+export const THEME_COLOR = "#070204";
 
 export function publicPages(): { path: string; title: string; summary: string }[] {
   return [

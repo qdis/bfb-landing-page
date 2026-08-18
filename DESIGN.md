@@ -12,15 +12,15 @@ A night operations room under one photographic safelight. Full-width death lines
 
 | Token | Value | Role |
 | --- | --- | --- |
-| Blackout | `oklch(0.08 0.006 26)` | page canvas |
-| Chamber | `oklch(0.12 0.012 27)` | board and raised sections |
-| Raised | `oklch(0.16 0.018 27)` | selected controls |
-| Bone | `oklch(0.93 0.008 80)` | primary text |
-| Smoke | `oklch(0.6 0.012 35)` | supporting text |
-| Crimson | `oklch(0.42 0.155 26)` | action, human gate |
-| Safelight | `oklch(0.58 0.175 27)` | hover and active |
-| Hairline | `oklch(0.22 0.018 27)` | structural rules |
-| Oxblood | `oklch(0.13 0.05 26)` | committed field |
+| Blackout | `oklch(0.035 0.01 26)` | page canvas |
+| Chamber | `oklch(0.065 0.014 27)` | board and raised sections |
+| Raised | `oklch(0.1 0.02 27)` | selected controls |
+| Bone | `oklch(0.94 0.008 80)` | primary text |
+| Smoke | `oklch(0.62 0.014 35)` | supporting text |
+| Crimson | `oklch(0.66 0.29 23)` | neon action, slash, human gate |
+| Safelight | `oklch(0.74 0.27 22)` | hover and death-line heat |
+| Hairline | `oklch(0.18 0.02 27)` | structural rules |
+| Oxblood | `oklch(0.07 0.09 26)` | committed field |
 
 Crimson is scarce. It marks an action, a human gate, or hover. It does not decorate empty corners.
 
@@ -34,9 +34,10 @@ Controls are 4px. The outer plane is 8px. No pills.
 
 ## Components
 
-- Sticky 64px masthead: BFB, Coming soon, Demo, Product, Why BFB, Get BFB.
-- Hero: full-width manifesto, Get BFB plus Watch the demo.
-- Demo: scripted interactive board. Project lanes, human gate, live Timo answer, Codex handoff, Adina on the CLI.
+- Sticky 64px masthead: BFB, Coming soon, Demo, Product, Why BFB. No signup in the header.
+- Hero: slashed death lines, loud neon signup, Watch the demo.
+- Demo: smaller carded preview of the scripted board.
+- Close: get on the BIG FAT BOARD plus the same loud signup.
 - Product: left stacked manifesto.
 - Solves: type plus safelight still. Ticket machines as struck names.
 - Promises: oxblood lead band plus a 2x2 operational surface.

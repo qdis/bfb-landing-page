@@ -1,6 +1,6 @@
 ---
 // ABOUTME: Single-line masthead for the waitlist landing.
-// ABOUTME: Product and How it works jump in-page; Get BFB is the only action.
+// ABOUTME: In-page jumps only. Signup lives in the hero and the close.
 
 import { COPY } from "../lib/copy";
 
@@ -16,7 +16,6 @@ const { nav, comingSoon, shortName } = COPY;
       <a href="#product">{nav.product}</a>
       <a href="#how">{nav.how}</a>
     </nav>
-    <a class="cta" href="#signup">{nav.cta}</a>
   </div>
 </header>
 
@@ -55,7 +54,7 @@ const { nav, comingSoon, shortName } = COPY;
   .links {
     display: none;
     gap: 1.5rem;
-    margin-left: 0.5rem;
+    margin-left: auto;
     font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.08em;
@@ -64,31 +63,6 @@ const { nav, comingSoon, shortName } = COPY;
 
   .links a:hover {
     color: var(--safelight);
-  }
-
-  .cta {
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    height: 2.25rem;
-    padding: 0 0.95rem;
-    border: 1px solid var(--crimson);
-    border-radius: var(--radius-control);
-    color: var(--crimson);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .cta:hover {
-    background: var(--crimson);
-    color: var(--bone);
-  }
-
-  .cta:active {
-    transform: translateY(1px);
   }
 
   @media (min-width: 768px) {
