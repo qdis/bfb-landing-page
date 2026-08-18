@@ -131,7 +131,7 @@ export const COPY = {
     headline: "The board is free. The work stays local.",
     steps: [
       { title: "Coordinate", body: "The cloud board routes work. It does not see your secrets." },
-      { title: "Execute", body: "Enrolled Macs run Claude, Codex, or Grok on device." },
+      { title: "Execute", body: "Enrolled devices run Claude Code, Codex, or Grok." },
       { title: "Handoff", body: "One agent passes the same task to another provider." },
       { title: "Interrupt", body: "A human only sees what actually needs a person." },
       { title: "Keep it", body: "Use our board or host your own. Always free. Open source." },

@@ -53,6 +53,8 @@ describe("landing copy", () => {
     expect(text).toContain("BFB = BIG FAT BOARD");
     expect(text).toContain("AI-FIRST COMPANIES NEED BIG FAT BOARD");
     expect(text).toContain("You may sit.");
+    expect(text).toContain("Enrolled devices run Claude Code, Codex, or Grok.");
+    expect(text).not.toContain("Enrolled Macs");
   });
 
   it("does not give the masthead a signup label", () => {
