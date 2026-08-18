@@ -4,7 +4,7 @@ One darkroom waitlist. Near-black canvas. Unbounded death lines. A live simulate
 
 ## Creative direction
 
-A night operations room under one photographic safelight. The product plane is the largest object. The only action is Get BFB.
+A night operations room under one photographic safelight. Full-width death lines first. The scripted board is the next object. The only signup action is Get BFB.
 
 **Dials:** variance 8, motion 6, density 5.
 
@@ -34,8 +34,9 @@ Controls are 4px. The outer plane is 8px. No pills.
 
 ## Components
 
-- Sticky 64px masthead: BFB, Coming soon, Product, How it works, Get BFB.
-- Hero: two-line manifesto, one crimson button, perspective operational plane.
+- Sticky 64px masthead: BFB, Coming soon, Demo, Product, Why BFB, Get BFB.
+- Hero: full-width manifesto, Get BFB plus Watch the demo.
+- Demo: scripted interactive board. Project lanes, human gate, live Timo answer, Codex handoff, Adina on the CLI.
 - Product: left stacked manifesto.
 - Solves: type plus safelight still. Ticket machines as struck names.
 - Promises: oxblood lead band plus a 2x2 operational surface.

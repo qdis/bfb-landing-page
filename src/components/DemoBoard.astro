@@ -1,0 +1,1262 @@
+---
+// ABOUTME: Clickable BFB demo board that plays a scripted product story.
+// ABOUTME: Claude asks Timo, Timo answers live, Codex takes the review, Adina ships.
+
+import Icon from "./Icon.astro";
+import {
+  BEATS,
+  INSPECT,
+  PROJECTS,
+  QUESTION,
+  snapshot,
+} from "../lib/demo-script";
+
+const seed = snapshot(0, "runner");
+---
+
+<div class="demo" data-demo>
+  <div class="toolbar">
+    <button class="live on" type="button" data-live aria-pressed="true">Live</button>
+    <button class="ghost space" type="button" data-space>workspace <b>bfb</b></button>
+    <div class="crew" data-crew>
+      {
+        ["Timo", "Adina", "Claude", "Codex", "Grok"].map((actor) => (
+          <button type="button" data-actor={actor}>
+            <i data-dot={actor}></i>
+            {actor}
+            <span data-mode={actor}>idle</span>
+          </button>
+        ))
+      }
+    </div>
+    <button class="stat" type="button" data-need-btn>
+      <b data-need>0</b> need a human
+    </button>
+    <span class="mono ping" data-ping>24ms</span>
+    <span class="mono sess" data-session>00:00</span>
+    <button class="ghost" type="button" data-replay>Replay</button>
+  </div>
+
+  <button class="attention" type="button" data-attention hidden>
+    <span class="octagon" aria-hidden="true">
+      <Icon name="HandPalm" size={18} />
+    </span>
+    <span class="att-rail">
+      <span class="att-k" data-att-k>Human needed</span>
+      <span class="att-who" data-att-who>Claude to Timo · A01</span>
+    </span>
+    <span class="att-body">
+      <span class="att-title" data-att-title></span>
+      <span class="att-why" data-att-why></span>
+    </span>
+    <span class="att-go" data-att-go>Answer</span>
+  </button>
+
+  <ol class="beats">
+    {
+      BEATS.map((beat, index) => (
+        <li>
+          <button type="button" data-beat={String(index)} class:list={[{ on: index === 0 }]}>
+            {beat.label}
+          </button>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="stage">
+    <div class="lanes">
+      {
+        PROJECTS.map((project) => (
+          <section>
+            <h3>{project}</h3>
+            <ul>
+              {seed.cards
+                .filter((item) => item.project === project)
+                .map((item) => (
+                  <li>
+                    <button
+                      class:list={["card", { on: item.id === "a01", wait: item.id === "e02" }]}
+                      type="button"
+                      data-card={item.id}
+                      hidden={item.id === "wake"}
+                    >
+                      <span class="row">
+                        <span class="who">
+                          <span data-owner={item.id}>{item.owner}</span>
+                          <span class="pack">{item.pack}</span>
+                        </span>
+                        <span class="act" data-act={item.id}>{item.activity}</span>
+                      </span>
+                      <span class="title">{item.title}</span>
+                      <span class="now">{item.now}</span>
+                      <span class="pass" data-pass={item.id} hidden></span>
+                      <span class="meta">
+                        <span class="hashline" data-out={item.id}>{item.checkout}</span>
+                        <span class="clock" data-clock={item.id}>00:00</span>
+                        <span class="spinner" data-spin={item.id} hidden></span>
+                      </span>
+                    </button>
+                  </li>
+                ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+
+    <aside class="inspect" data-inspect aria-live="polite">
+      <div class="thread">
+        <p class="k" data-k>Inspect</p>
+        <p class="route" data-route hidden>Claude to Timo · request_human</p>
+        <p class="ask" data-question hidden>{QUESTION}</p>
+        <p class="wait" data-typing hidden>Timo is answering.</p>
+        <p class="said" data-answer hidden></p>
+        <div class="acts" data-answers hidden>
+          <button type="button" data-say="safe">Send Timo's answer</button>
+          <button type="button" data-say="wrong">Give it the full CLI</button>
+          <button class="quiet" type="button" data-say="shell">Approve shell</button>
+        </div>
+      </div>
+      <div class="facts">
+        <p class="k">Checkout</p>
+        <button class="hash" type="button" data-hash>bfb / Mac Studio / main@76ab1f9</button>
+        <p class="blurb" data-blurb>{INSPECT.a01}</p>
+        <ol class="log" data-log></ol>
+      </div>
+    </aside>
+  </div>
+
+  <p class="hint" data-toast>
+    Click a card. The script keeps moving unless you pause Live.
+  </p>
+</div>
+
+<script>
+  import {
+    BEATS,
+    BEAT_HINTS,
+    INSPECT,
+    TIMO_ANSWER,
+    attention,
+    dwellFor,
+    formatClock,
+    labelActivity,
+    nextBeat,
+    presence,
+    snapshot,
+    type DemoState,
+  } from "../lib/demo-script";
+
+  const root = document.querySelector("[data-demo]");
+  if (root instanceof HTMLElement) {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let beat = 0;
+    let egg: DemoState["egg"] = "none";
+    let state = snapshot(0);
+    let paused = false;
+    let visible = false;
+    let timer = 0;
+    let typeTimer = 0;
+    let typed = "";
+    let adinaHits = 0;
+    let timoHits = 0;
+    let keys = "";
+    let focusActor = "";
+    let session = 0;
+    const konami = "ArrowUpArrowUpArrowDownArrowDownArrowLeftArrowRightArrowLeftArrowRightba";
+
+    const toast = (text: string) => {
+      const node = root.querySelector("[data-toast]");
+      if (node) {
+        node.textContent = text;
+      }
+    };
+
+    const paint = () => {
+      root.querySelectorAll("[data-beat]").forEach((node) => {
+        if (node instanceof HTMLElement) {
+          node.classList.toggle("on", Number(node.dataset.beat) === beat);
+        }
+      });
+
+      root.querySelectorAll("[data-card]").forEach((node) => {
+        if (!(node instanceof HTMLElement)) {
+          return;
+        }
+        const id = node.dataset.card ?? "";
+        const card = state.cards.find((item) => item.id === id);
+        node.hidden = !card;
+        if (!card) {
+          return;
+        }
+        node.classList.toggle("on", state.selected === id);
+        node.classList.toggle("gate", card.activity === "needs_human");
+        node.classList.toggle("human", card.kind === "human");
+        node.classList.toggle("wait", card.activity === "waiting");
+        node.classList.toggle("handed", card.activity === "handoff");
+        node.classList.toggle("ok", card.activity === "accepted");
+        node.classList.toggle("lit", focusActor !== "" && card.owner === focusActor);
+        const owner = node.querySelector(`[data-owner="${id}"]`);
+        const title = node.querySelector(".title");
+        const now = node.querySelector(".now");
+        const act = node.querySelector(`[data-act="${id}"]`);
+        const clock = node.querySelector(`[data-clock="${id}"]`);
+        const spin = node.querySelector(`[data-spin="${id}"]`);
+        const out = node.querySelector(`[data-out="${id}"]`);
+        const pass = node.querySelector(`[data-pass="${id}"]`);
+        if (owner) {
+          owner.textContent = card.owner;
+        }
+        if (title) {
+          title.textContent = card.title;
+        }
+        if (now) {
+          now.textContent = card.now;
+        }
+        if (act) {
+          act.textContent = labelActivity(card.activity);
+        }
+        if (clock) {
+          clock.textContent = formatClock(card.seconds);
+        }
+        if (out) {
+          out.textContent = card.checkout;
+        }
+        if (spin instanceof HTMLElement) {
+          spin.hidden = card.activity !== "working" && card.activity !== "reviewing";
+        }
+        if (pass instanceof HTMLElement) {
+          if (card.previous) {
+            pass.hidden = false;
+            pass.textContent = `${card.previous} to ${card.owner}`;
+          } else {
+            pass.hidden = true;
+          }
+        }
+      });
+
+      const need = state.cards.filter((card) => card.activity === "needs_human").length;
+      const needNode = root.querySelector("[data-need]");
+      if (needNode) {
+        needNode.textContent = String(need);
+      }
+
+      const crew = presence({
+        ...state,
+        thread: beat === 2 && typed !== TIMO_ANSWER
+          ? {
+              from: "Claude",
+              to: "Timo",
+              question: state.thread?.question ?? "",
+              answer: null,
+              typing: true,
+            }
+          : state.thread,
+      });
+      for (const item of crew) {
+        const mode = root.querySelector(`[data-mode="${item.actor}"]`);
+        const dot = root.querySelector(`[data-dot="${item.actor}"]`);
+        const btn = root.querySelector(`[data-actor="${item.actor}"]`);
+        if (mode) {
+          mode.textContent = item.mode;
+        }
+        if (dot instanceof HTMLElement) {
+          dot.dataset.mode = item.mode;
+        }
+        if (btn instanceof HTMLElement) {
+          btn.classList.toggle("on", focusActor === item.actor);
+          btn.dataset.mode = item.mode;
+        }
+      }
+
+      const gate = attention({
+        ...state,
+        thread: beat === 2 && typed !== TIMO_ANSWER
+          ? {
+              from: "Claude",
+              to: "Timo",
+              question: state.thread?.question ?? "",
+              answer: null,
+              typing: true,
+            }
+          : state.thread,
+      });
+      const att = root.querySelector("[data-attention]");
+      if (att instanceof HTMLElement) {
+        att.hidden = gate === null;
+        att.classList.toggle("talk", gate?.kind === "answering");
+        if (gate) {
+          const k = att.querySelector("[data-att-k]");
+          const who = att.querySelector("[data-att-who]");
+          const title = att.querySelector("[data-att-title]");
+          const why = att.querySelector("[data-att-why]");
+          const go = att.querySelector("[data-att-go]");
+          if (k) {
+            k.textContent = gate.kind === "needed" ? "Human needed" : "Timo answering";
+          }
+          if (who) {
+            who.textContent = `${gate.from} to ${gate.to} · ${gate.pack}`;
+          }
+          if (title) {
+            title.textContent = gate.title;
+          }
+          if (why) {
+            why.textContent = gate.why;
+          }
+          if (go) {
+            go.textContent = gate.kind === "needed" ? "Answer" : "Watch";
+          }
+        }
+      }
+
+      const question = root.querySelector("[data-question]");
+      const typing = root.querySelector("[data-typing]");
+      const answer = root.querySelector("[data-answer]");
+      const answers = root.querySelector("[data-answers]");
+      const blurb = root.querySelector("[data-blurb]");
+      const log = root.querySelector("[data-log]");
+      const route = root.querySelector("[data-route]");
+      const hash = root.querySelector("[data-hash]");
+      const selected = state.cards.find((card) => card.id === state.selected);
+
+      if (route instanceof HTMLElement) {
+        route.hidden = !state.thread;
+        if (state.thread) {
+          route.textContent = `${state.thread.from} to ${state.thread.to} · request_human`;
+        }
+      }
+      if (question instanceof HTMLElement) {
+        question.hidden = !state.thread;
+        if (state.thread) {
+          question.textContent = state.thread.question;
+        }
+      }
+      if (typing instanceof HTMLElement) {
+        typing.hidden = beat !== 2 || typed === TIMO_ANSWER;
+      }
+      const head = root.querySelector("[data-k]");
+      if (head) {
+        head.textContent = state.thread ? "Thread" : "Inspect";
+      }
+      if (answer instanceof HTMLElement) {
+        const text = typed || state.thread?.answer || "";
+        answer.textContent = text;
+        answer.classList.toggle("caret", beat === 2 && typed !== TIMO_ANSWER && text.length > 0);
+        answer.hidden = text.length === 0;
+      }
+      if (answers instanceof HTMLElement) {
+        answers.hidden = beat !== 1;
+      }
+      if (blurb) {
+        blurb.textContent = selected
+          ? (INSPECT[selected.id] ?? selected.now)
+          : "Click a card.";
+      }
+      if (hash && selected) {
+        hash.textContent = selected.checkout;
+      }
+      if (log) {
+        log.replaceChildren(
+          ...state.log.slice(-7).map((line) => {
+            const item = document.createElement("li");
+            const who = document.createElement("b");
+            who.textContent = line.actor;
+            item.append(who, document.createTextNode(` ${line.text}`));
+            return item;
+          }),
+        );
+      }
+
+      const live = root.querySelector("[data-live]");
+      if (live instanceof HTMLElement) {
+        live.classList.toggle("on", !paused);
+        live.setAttribute("aria-pressed", paused ? "false" : "true");
+      }
+
+      const sess = root.querySelector("[data-session]");
+      if (sess) {
+        sess.textContent = formatClock(session);
+      }
+
+      if (!root.dataset.lockedHint) {
+        toast(BEAT_HINTS[beat] ?? BEAT_HINTS[0]);
+      }
+    };
+
+    const arm = () => {
+      window.clearTimeout(timer);
+      if (paused || reduce || !visible || document.hidden) {
+        return;
+      }
+      if (beat >= BEATS.length - 1) {
+        return;
+      }
+      timer = window.setTimeout(() => goto(nextBeat(beat)), dwellFor(beat));
+    };
+
+    const goto = (next: number) => {
+      beat = Math.max(0, Math.min(BEATS.length - 1, next));
+      typed = beat >= 2 ? TIMO_ANSWER : "";
+      state = snapshot(beat, egg);
+      root.dataset.lockedHint = "";
+      if (beat === 2 && !reduce) {
+        typed = "";
+        state.thread = {
+          from: "Claude",
+          to: "Timo",
+          question: state.thread?.question ?? "",
+          answer: null,
+          typing: true,
+        };
+        window.clearInterval(typeTimer);
+        typeTimer = window.setInterval(() => {
+          typed = TIMO_ANSWER.slice(0, typed.length + 1);
+          const a01 = state.cards.find((card) => card.id === "a01");
+          if (a01) {
+            a01.now = "Timo is answering Claude.";
+          }
+          if (typed === TIMO_ANSWER) {
+            window.clearInterval(typeTimer);
+            state.thread = {
+              from: "Claude",
+              to: "Timo",
+              question: state.thread?.question ?? "",
+              answer: TIMO_ANSWER,
+              typing: false,
+            };
+            if (a01) {
+              a01.now = "Claude resumed with Timo's bootstrap policy.";
+            }
+          }
+          paint();
+        }, 22);
+      }
+      paint();
+      arm();
+    };
+
+    const onClick = (event: Event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) {
+        return;
+      }
+      const liveBtn = target.closest("[data-live]");
+      if (liveBtn) {
+        paused = !paused;
+        root.dataset.lockedHint = "1";
+        toast(paused ? "You paused the board." : "The board is moving again.");
+        paint();
+        arm();
+        return;
+      }
+      if (target.closest("[data-space]")) {
+        root.dataset.lockedHint = "1";
+        toast("The board is free. Host your own.");
+        return;
+      }
+      if (target.closest("[data-hash]")) {
+        root.dataset.lockedHint = "1";
+        toast("Exact checkout. Not a guess.");
+        return;
+      }
+      if (target.closest("[data-need-btn]")) {
+        goto(1);
+        return;
+      }
+      if (target.closest("[data-attention]")) {
+        state.selected = "a01";
+        if (beat === 0) {
+          goto(1);
+          return;
+        }
+        paint();
+        return;
+      }
+      if (target.closest("[data-replay]")) {
+        egg = "none";
+        focusActor = "";
+        root.dataset.lockedHint = "1";
+        toast("Replay from the live board.");
+        goto(0);
+        return;
+      }
+      const actorBtn = target.closest("[data-actor]");
+      if (actorBtn instanceof HTMLElement) {
+        const actor = actorBtn.dataset.actor ?? "";
+        if (actor === "Timo") {
+          timoHits += 1;
+          if (beat === 2 && typed !== TIMO_ANSWER) {
+            root.dataset.lockedHint = "1";
+            toast("He's already typing.");
+            return;
+          }
+          if (timoHits === 5) {
+            root.dataset.lockedHint = "1";
+            toast("Operator is already on the board.");
+          }
+        }
+        focusActor = focusActor === actor ? "" : actor;
+        const owned = state.cards.find((card) => card.owner === actor);
+        if (owned) {
+          state.selected = owned.id;
+        }
+        paint();
+        return;
+      }
+      const beatBtn = target.closest("[data-beat]");
+      if (beatBtn instanceof HTMLElement) {
+        goto(Number(beatBtn.dataset.beat));
+        return;
+      }
+      const cardBtn = target.closest("[data-card]");
+      if (cardBtn instanceof HTMLElement) {
+        const id = cardBtn.dataset.card ?? "";
+        state.selected = id;
+        if (id === "c05" || id === "l01") {
+          adinaHits += 1;
+          if (adinaHits === 3) {
+            root.dataset.lockedHint = "1";
+            toast("Adina is in the CLI. She does not file tickets.");
+          }
+        }
+        if (id === "x03a" && event instanceof MouseEvent && event.detail >= 2) {
+          root.dataset.lockedHint = "1";
+          toast("Grok can review. No human permission is required.");
+          beat = 4;
+          state = snapshot(4, egg);
+          state.selected = "x03a";
+        }
+        paint();
+        return;
+      }
+      const say = target.closest("[data-say]");
+      if (say instanceof HTMLElement) {
+        const kind = say.dataset.say;
+        root.dataset.lockedHint = "1";
+        if (kind === "safe") {
+          toast("Answer committed. Claude can move.");
+          goto(2);
+          return;
+        }
+        if (kind === "wrong") {
+          toast("That is how tickets work. Try again.");
+          paint();
+          return;
+        }
+        if (kind === "shell") {
+          toast("A heartbeat is not work. A shell is not BFB.");
+          paint();
+        }
+      }
+    };
+
+    const onKey = (event: KeyboardEvent) => {
+      keys = (keys + event.key).slice(-Math.max(konami.length, 8));
+      if (keys.endsWith(konami)) {
+        egg = "runner";
+        root.dataset.lockedHint = "1";
+        toast("You woke Timo's Mac Studio.");
+        state = snapshot(beat, egg);
+        state.selected = "wake";
+        paint();
+      }
+      if (/qdis$/i.test(keys.slice(-4))) {
+        root.dataset.lockedHint = "1";
+        toast("Operator is already on the board.");
+      }
+      if (beat === 1 && /shell$/i.test(keys.slice(-5))) {
+        root.dataset.lockedHint = "1";
+        toast("No shell. Ever.");
+      }
+      if (!root.matches(":hover, :focus-within")) {
+        return;
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        goto(nextBeat(beat));
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        goto(beat - 1);
+      }
+    };
+
+    const clocks = window.setInterval(() => {
+      if (paused || !visible) {
+        return;
+      }
+      session += 1;
+      for (const card of state.cards) {
+        if (card.activity === "working" || card.activity === "reviewing") {
+          card.seconds += 1;
+        }
+      }
+      paint();
+    }, 1000);
+
+    const pings = window.setInterval(() => {
+      if (paused || !visible) {
+        return;
+      }
+      const ping = root.querySelector("[data-ping]");
+      if (ping) {
+        ping.textContent = `${18 + Math.floor(Math.random() * 37)}ms`;
+      }
+    }, 1800);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.some((entry) => entry.isIntersecting);
+        if (hit && !visible) {
+          visible = true;
+          paint();
+          arm();
+        }
+      },
+      { threshold: 0.28 },
+    );
+    io.observe(root);
+
+    root.addEventListener("click", onClick);
+    window.addEventListener("keydown", onKey);
+    document.addEventListener("visibilitychange", arm);
+    paint();
+
+    window.addEventListener(
+      "pagehide",
+      () => {
+        window.clearTimeout(timer);
+        window.clearInterval(typeTimer);
+        window.clearInterval(clocks);
+        window.clearInterval(pings);
+        io.disconnect();
+        root.removeEventListener("click", onClick);
+        window.removeEventListener("keydown", onKey);
+        document.removeEventListener("visibilitychange", arm);
+      },
+      { once: true },
+    );
+  }
+</script>
+
+<style>
+  .demo {
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-panel);
+    background: var(--chamber);
+    overflow: hidden;
+  }
+
+  .toolbar,
+  .beats,
+  .hint,
+  .crew,
+  .row,
+  .meta,
+  .acts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem 0.85rem;
+  }
+
+  .toolbar {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--hairline);
+    color: var(--smoke);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .toolbar b,
+  .stat b {
+    color: var(--bone);
+    font-weight: 600;
+  }
+
+  .crew {
+    gap: 0.35rem;
+  }
+
+  .crew button,
+  .live,
+  .ghost,
+  .stat,
+  .beats button,
+  .acts button,
+  .card,
+  .attention {
+    font: inherit;
+    cursor: pointer;
+    color: inherit;
+    background: transparent;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-control);
+  }
+
+  .crew button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.22rem 0.45rem;
+    text-transform: uppercase;
+  }
+
+  .crew button span {
+    color: var(--smoke);
+    font-size: 0.62rem;
+  }
+
+  .crew button.on {
+    border-color: color-mix(in oklab, var(--bone) 30%, var(--hairline));
+    background: var(--raised);
+    color: var(--bone);
+  }
+
+  .crew i {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--hairline);
+  }
+
+  .crew i[data-mode="working"],
+  .crew i[data-mode="reviewing"],
+  .crew i[data-mode="handoff"] {
+    background: var(--bone);
+  }
+
+  .crew i[data-mode="needed"],
+  .crew i[data-mode="waiting"] {
+    background: var(--safelight);
+  }
+
+  .crew i[data-mode="answering"] {
+    background: var(--safelight);
+    box-shadow: 0 1px 0 color-mix(in oklab, var(--safelight) 50%, transparent);
+  }
+
+  .live,
+  .ghost,
+  .stat {
+    padding: 0.3rem 0.55rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .live.on {
+    color: var(--safelight);
+    border-color: var(--crimson);
+  }
+
+  .ghost.space {
+    border-color: transparent;
+    padding-inline: 0.2rem;
+  }
+
+  .ghost:last-child {
+    margin-left: auto;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .ping,
+  .sess {
+    color: var(--smoke);
+  }
+
+  .attention {
+    display: none;
+    width: calc(100% - 2rem);
+    margin: 0.85rem 1rem 0;
+    padding: 0;
+    text-align: left;
+    overflow: hidden;
+  }
+
+  .attention:not([hidden]) {
+    display: grid;
+    grid-template-columns: auto minmax(6rem, 9rem) minmax(0, 1fr) auto;
+    align-items: stretch;
+  }
+
+  .attention.talk {
+    border-color: color-mix(in oklab, var(--safelight) 45%, var(--hairline));
+  }
+
+  .octagon {
+    display: grid;
+    place-items: center;
+    width: 3.4rem;
+    color: var(--safelight);
+    background: color-mix(in oklab, var(--crimson) 22%, var(--chamber));
+    clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+    margin: 0.55rem;
+  }
+
+  .att-rail {
+    display: grid;
+    align-content: center;
+    gap: 0.15rem;
+    padding: 0.7rem 0.75rem;
+    border-right: 1px solid var(--hairline);
+    background: color-mix(in oklab, var(--crimson) 16%, var(--chamber));
+  }
+
+  .att-k,
+  .att-who,
+  .k,
+  .act,
+  .pack,
+  .who {
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .att-k {
+    color: var(--safelight);
+  }
+
+  .att-who,
+  .k {
+    color: var(--smoke);
+  }
+
+  .att-body {
+    display: grid;
+    align-content: center;
+    gap: 0.15rem;
+    padding: 0.75rem 0.9rem;
+    min-width: 0;
+  }
+
+  .att-title {
+    color: var(--bone);
+    font-size: 0.98rem;
+    font-weight: 600;
+  }
+
+  .att-why {
+    color: var(--smoke);
+    font-size: 0.86rem;
+  }
+
+  .att-go {
+    align-self: center;
+    margin-right: 0.75rem;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--crimson);
+    border-radius: var(--radius-control);
+    color: var(--safelight);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .beats {
+    margin: 0;
+    padding: 0.65rem 1rem;
+    list-style: none;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .beats button {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+
+  .beats button.on {
+    color: var(--bone);
+    border-color: var(--crimson);
+    background: color-mix(in oklab, var(--crimson) 16%, var(--chamber));
+  }
+
+  .stage,
+  .lanes,
+  .lanes > section,
+  .card,
+  .inspect {
+    min-width: 0;
+  }
+
+  .stage {
+    display: grid;
+  }
+
+  .lanes {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .lanes h3 {
+    margin: 0 0 0.45rem;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+
+  .lanes ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .lanes li:has(> .card[hidden]) {
+    display: none;
+  }
+
+  .card {
+    display: grid;
+    gap: 0.18rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.7rem 0.75rem;
+  }
+
+  .card.on {
+    background: var(--raised);
+    border-color: color-mix(in oklab, var(--bone) 28%, var(--hairline));
+  }
+
+  .card.gate {
+    background: color-mix(in oklab, var(--crimson) 20%, var(--chamber));
+    border-color: var(--crimson);
+  }
+
+  .card.wait {
+    opacity: 0.72;
+  }
+
+  .card.handed {
+    border-color: color-mix(in oklab, var(--safelight) 40%, var(--hairline));
+  }
+
+  .card.ok .act {
+    color: var(--bone);
+  }
+
+  .card.lit {
+    border-color: color-mix(in oklab, var(--bone) 40%, var(--hairline));
+  }
+
+  .card.human .who {
+    color: var(--bone);
+  }
+
+  .row {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 0.4rem;
+  }
+
+  .pack {
+    margin-left: 0.4rem;
+    color: var(--safelight);
+  }
+
+  .act {
+    font-family: var(--font-mono);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--smoke);
+  }
+
+  .title {
+    font-size: 0.96rem;
+    font-weight: 600;
+    color: var(--bone);
+  }
+
+  .now {
+    color: var(--smoke);
+    font-size: 0.84rem;
+    line-height: 1.35;
+  }
+
+  .pass[hidden] {
+    display: none;
+  }
+
+  .pass {
+    width: fit-content;
+    color: var(--safelight);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .meta {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 0.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--smoke);
+  }
+
+  .acts[hidden] {
+    display: none;
+  }
+
+  .hashline {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .clock {
+    margin-left: auto;
+  }
+
+  .spinner {
+    width: 0.95rem;
+    height: 0.95rem;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0 12%,
+      var(--smoke) 0 16%,
+      transparent 0 29%,
+      var(--smoke) 0 33%,
+      transparent 0 46%,
+      var(--smoke) 0 50%,
+      transparent 0 63%,
+      var(--smoke) 0 67%,
+      transparent 0 80%,
+      var(--smoke) 0 84%,
+      transparent 0 97%,
+      var(--smoke) 0 100%
+    );
+    -webkit-mask: radial-gradient(farthest-side, transparent 58%, #000 59%);
+    mask: radial-gradient(farthest-side, transparent 58%, #000 59%);
+  }
+
+  .inspect {
+    display: grid;
+    gap: 1rem 2rem;
+    padding: 1rem;
+    border-top: 1px solid var(--hairline);
+    background: var(--blackout);
+  }
+
+  .k {
+    margin: 0 0 0.45rem;
+  }
+
+  .route,
+  .ask,
+  .said,
+  .blurb,
+  .wait {
+    margin: 0 0 0.55rem;
+    line-height: 1.4;
+  }
+
+  .route {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+
+  .ask,
+  .said {
+    color: var(--bone);
+  }
+
+  .wait {
+    color: var(--safelight);
+    font-size: 0.86rem;
+  }
+
+  .said.caret::after {
+    content: "";
+    display: inline-block;
+    width: 0.42em;
+    height: 0.95em;
+    margin-left: 1px;
+    background: var(--safelight);
+    vertical-align: text-bottom;
+  }
+
+  .acts {
+    margin-bottom: 0.75rem;
+  }
+
+  .acts button {
+    padding: 0.45rem 0.65rem;
+    font-size: 0.78rem;
+    color: var(--bone);
+  }
+
+  .acts button:hover,
+  .card:hover,
+  .beats button:hover,
+  .crew button:hover,
+  .attention:hover {
+    background: var(--raised);
+  }
+
+  .quiet,
+  .hash {
+    color: var(--smoke);
+  }
+
+  .hash {
+    display: block;
+    width: fit-content;
+    margin: 0 0 0.65rem;
+    padding: 0;
+    border: 0;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0;
+    text-transform: none;
+    text-align: left;
+    background: transparent;
+    cursor: pointer;
+    color: var(--smoke);
+  }
+
+  .log {
+    margin: 0.85rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--smoke);
+  }
+
+  .log li {
+    padding: 0.22rem 0;
+  }
+
+  .log b {
+    color: var(--bone);
+    font-weight: 600;
+  }
+
+  .hint {
+    margin: 0;
+    padding: 0.7rem 1rem 0.85rem;
+    border-top: 1px solid var(--hairline);
+    color: var(--smoke);
+    font-size: 0.88rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .spinner {
+      animation: spin 1.25s linear infinite;
+    }
+
+    .card.gate {
+      animation: gate 1.8s ease-in-out infinite;
+    }
+
+    .live.on {
+      animation: live 2.4s ease-in-out infinite;
+    }
+
+    .said.caret::after {
+      animation: blink 1s step-end infinite;
+    }
+
+    .crew i[data-mode="needed"],
+    .crew i[data-mode="answering"],
+    .crew i[data-mode="waiting"] {
+      animation: blink 1.2s step-end infinite;
+    }
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes gate {
+    50% {
+      background: color-mix(in oklab, var(--crimson) 32%, var(--chamber));
+    }
+  }
+
+  @keyframes live {
+    50% {
+      border-color: var(--safelight);
+    }
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 1099px) {
+    .crew button span,
+    .ping {
+      display: none;
+    }
+  }
+
+  @media (max-width: 819px) {
+    .sess {
+      display: none;
+    }
+
+    .attention:not([hidden]) {
+      grid-template-columns: auto 1fr;
+    }
+
+    .att-rail {
+      border-right: 0;
+    }
+
+    .att-body {
+      grid-column: 1 / -1;
+    }
+
+    .att-go {
+      grid-column: 1 / -1;
+      margin: 0 0.75rem 0.75rem;
+      text-align: center;
+    }
+  }
+
+  @media (min-width: 820px) {
+    .lanes {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .inspect {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    }
+  }
+</style>

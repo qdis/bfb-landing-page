@@ -27,6 +27,7 @@ export const COPY = {
     line3: "AI-FIRST COMPANIES NEED A CONTROL PLANE.",
     sub: "No dailies. No story points. No shirt sizes. Agents and humans on one board.",
     cta: "Get BFB",
+    demo: "Watch the demo",
   },
   nav: {
     product: "Product",
@@ -163,7 +164,11 @@ export const COPY = {
   },
   plane: {
     label:
-      "Live sample BFB board. Agents start work, hand tasks across Claude, Codex, and Grok, and raise human attention.",
+      "Interactive BFB demo. Claude asks Timo about local MCP. Codex takes the review. Adina ships the CLI.",
+  },
+  demo: {
+    headline: "The board, live.",
+    body: "Claude is blocked on Timo. Adina is in the CLI. Codex takes the review. Click through it. The script still plays.",
   },
 } as const;
 
@@ -194,6 +199,9 @@ export function visibleCopyText(): string {
     COPY.hero.line2,
     COPY.hero.line3,
     COPY.hero.sub,
+    COPY.hero.demo,
+    COPY.demo.headline,
+    COPY.demo.body,
     COPY.what.headline,
     COPY.what.lead,
     COPY.what.body,

@@ -1,0 +1,49 @@
+---
+// ABOUTME: Full-width product demo after the hero. Scripted, clickable BFB board.
+// ABOUTME: Real work-package names. Timo answers Claude. Adina ships the CLI.
+
+import DemoBoard from "./DemoBoard.astro";
+import { COPY } from "../lib/copy";
+
+const { headline, body } = COPY.demo;
+---
+
+<section class="demo-sec" id="demo">
+  <div class="wrap">
+    <h2>{headline}</h2>
+    <p>{body}</p>
+    <DemoBoard />
+  </div>
+</section>
+
+<style>
+  .demo-sec {
+    padding: 4.5rem 0 5.5rem;
+    background: var(--blackout);
+    border-top: 1px solid var(--hairline);
+  }
+
+  h2 {
+    margin: 0 0 0.7rem;
+    max-width: 12ch;
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+  }
+
+  p {
+    margin: 0 0 1.6rem;
+    max-width: 52ch;
+    color: var(--smoke);
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 768px) {
+    .demo-sec {
+      padding: 5.5rem 0 6.5rem;
+    }
+  }
+</style>
