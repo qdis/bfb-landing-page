@@ -18,31 +18,36 @@ export const COPY = {
   comingSoon: "Coming soon",
   name: SITE_NAME,
   shortName: "BFB",
-  tagline: "The board where agents and humans actually work.",
+  tagline: "The control plane for AI-first companies.",
   description:
-    "Big Fat Board is the first AI-native board for agents and humans to collaborate. Coming soon. Traditional team management software is dead. Jira is dead. Start agents remotely on your machine. Integrated time tracking. Grok, Codex, and Claude Code talk to each other to solve problems together.",
+    "Jira is dead. Scrum is dead. Traditional team management software is dead. Big Fat Board is the first AI-native board for agents and humans to collaborate. Coming soon. Start agents remotely on your machine. Integrated time tracking. Grok, Codex, and Claude Code talk to each other to solve problems together.",
   hero: {
-    display: "THE TICKET ERA IS OVER.",
-    sub: "Launch Claude, Codex, or Grok in the exact checkout. Watch work, attention, and evidence move live.",
+    line1: "JIRA IS DEAD.",
+    line2: "SCRUM IS DEAD.",
+    line3: "AI-FIRST COMPANIES NEED A CONTROL PLANE.",
+    sub: "No dailies. No story points. No shirt sizes. Agents and humans on one board.",
     cta: "Get BFB",
   },
   nav: {
     product: "Product",
-    how: "How it works",
+    how: "Why BFB",
     cta: "Get BFB",
   },
   what: {
-    headline: "You already run the agents. You still cannot see the work.",
-    lead: "Big Fat Board is the first AI-native board for agents and humans to collaborate.",
-    body: "Start Claude, Codex, or Grok on an enrolled Mac, in the checkout you approved. The board shows who is working, what they are doing, and the moment a person has to decide. Evidence stays attached to the work.",
+    headline: "Built for people running agents, not filing tickets.",
+    lead: "Big Fat Board is the first AI-native board for agents and humans to collaborate. It is for AI-first companies. There is no time for dailies, story points, or t-shirt sizes.",
+    body: "Agents hand work to other agents, including cross-handoff between Claude, Codex, and Grok. We track human attention, human interventions, and delivered results. Integrated time tracking is part of the work. Start agents remotely on your machine.",
   },
   solves: {
-    headline: "Traditional team management software is dead.",
-    jira: "Jira is dead.",
-    body: "Linear, Asana, Monday, ClickUp, Azure Boards, YouTrack, Shortcut, Trello, and Notion still organize status. Agents do not file tickets. They work, they stall, they wait for a human who never saw the question.",
-    punch: "The ticket says in progress. BFB says Claude needs you.",
+    headline: "Jira is dead. Scrum is dead.",
+    jira: "Traditional team management software is dead.",
+    body: "Linear, Asana, Monday, ClickUp, Azure Boards, YouTrack, Shortcut, Trello, and Notion still organize status. Claude Code remote and Codex remote keep you inside one vendor. Agents do not file tickets. They work, they stall, they wait for a human who never saw the question.",
+    punch: "If you still estimate t-shirt sizes, this is not for you.",
     names: [
       "Jira",
+      "Scrum",
+      "Standups",
+      "Story points",
       "Linear",
       "Asana",
       "Monday",
@@ -54,45 +59,49 @@ export const COPY = {
       "Notion",
     ],
   },
+  different: {
+    headline: "Not another remote for one model.",
+    body: "Claude Code remote and Codex remote are still one provider, one session, one silo. BFB is the handoff layer for hybrid teams and for people who use every agent they can get. Grok, Codex, and Claude Code talk to each other to solve problems together. We sync, schedule, and route work between people and AIs.",
+  },
   promises: {
-    headline: "What the board actually does",
+    headline: "On your machine. Across every agent.",
     items: [
       {
-        title: "Start on your machine",
-        body: "Start agents remotely on your machine. The provider opens in the exact registered checkout. Cloudflare coordinates. Your Mac executes. Credentials stay local.",
+        title: "Your Mac executes",
+        body: "Start agents remotely on your machine, in the exact checkout you approved. We coordinate. We never run the model in our cloud.",
       },
       {
-        title: "Three agents, one task",
-        body: "Grok, Codex, and Claude Code talk to each other to solve problems together. Same task. Same context. Named actors, not a blended assistant.",
+        title: "Cross-provider handoff",
+        body: "Grok, Codex, and Claude Code talk to each other to solve problems together. Same task. Named actors. Not a blended assistant.",
       },
       {
-        title: "Time with a source",
-        body: "Integrated time tracking is part of the work, not a timesheet bolted on later. Human minutes, agent active time, attention wait, and tokens, each labeled for how it was measured.",
+        title: "Attention is the metric",
+        body: "Integrated time tracking labels human minutes, agent time, wait, and interventions. The first question is what needs you now.",
       },
       {
-        title: "Attention that explains itself",
-        body: "The first question is what needs you now. Every request says why you, and whether another agent can take it.",
+        title: "Five projects. Fifty agents.",
+        body: "BFB is not for legacy teams. It is for people on several projects, a pile of live tasks, and a swarm of agents who need one board.",
       },
       {
-        title: "Review that binds",
-        body: "Plans, diffs, previews, and evidence are versioned artifacts. Approval binds a hash, not a filename.",
+        title: "No provider keys",
+        body: "Keep your existing Claude, Codex, and Grok subscriptions. We never take API keys or provider tokens. MCP and the CLI move work. Confidential data stays on the device.",
       },
     ],
-    measures: ["Human time", "Agent time", "Wait", "Tokens"],
+    measures: ["Human attention", "Interventions", "Agent time", "Delivered"],
     providers: ["Claude", "Codex", "Grok"],
   },
   loop: {
-    headline: "The work, start to finish",
+    headline: "The board is free. The work stays local.",
     steps: [
-      { title: "Create", body: "A human names the work and the outcome." },
-      { title: "Start", body: "Pick Claude, Codex, or Grok and the exact checkout." },
-      { title: "Watch", body: "State, attention, and evidence move live." },
-      { title: "Answer", body: "You only see what actually needs a person." },
-      { title: "Accept", body: "A human decides whether the work is done." },
+      { title: "Coordinate", body: "The cloud board routes work. It does not see your secrets." },
+      { title: "Execute", body: "Enrolled Macs run Claude, Codex, or Grok on device." },
+      { title: "Handoff", body: "One agent passes the same task to another provider." },
+      { title: "Interrupt", body: "A human only sees what actually needs a person." },
+      { title: "Keep it", body: "Use our board or host your own. Always free. Open source." },
     ],
   },
   close: {
-    headline: "Get a seat on the board.",
+    headline: "Get on the board.",
     body: "Coming soon. Leave a work email. We write once, when the board opens.",
   },
   claims: {
@@ -118,12 +127,12 @@ export const COPY = {
   },
   plane: {
     label:
-      "Sample BFB board: a human gate, a live Claude Code run, a committed review, and a session start for Claude, Codex, or Grok.",
+      "Live sample BFB board. Agents start work, hand tasks across Claude, Codex, and Grok, and raise human attention.",
   },
 } as const;
 
 export const OG_IMAGE = "/images/og.png";
-export const THEME_COLOR = "#161010";
+export const THEME_COLOR = "#0a0808";
 
 export function publicPages(): { path: string; title: string; summary: string }[] {
   return [
@@ -145,7 +154,9 @@ export function visibleCopyText(): string {
     COPY.name,
     COPY.tagline,
     COPY.description,
-    COPY.hero.display,
+    COPY.hero.line1,
+    COPY.hero.line2,
+    COPY.hero.line3,
     COPY.hero.sub,
     COPY.what.headline,
     COPY.what.lead,
@@ -155,6 +166,8 @@ export function visibleCopyText(): string {
     COPY.solves.body,
     COPY.solves.punch,
     COPY.solves.names.join(" "),
+    COPY.different.headline,
+    COPY.different.body,
     COPY.promises.headline,
     ...COPY.promises.items.map((item) => `${item.title} ${item.body}`),
     COPY.loop.headline,

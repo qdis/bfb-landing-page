@@ -1,13 +1,20 @@
 ---
-// ABOUTME: Sample operational plane matching the official Redline mockup.
-// ABOUTME: Demonstration chrome only; marketing actions stay on Get BFB.
+// ABOUTME: Live sample board. Agents work, hand off, and raise human gates.
+// ABOUTME: State is simulated in the browser. Not a looping CSS costume.
 
 import { COPY } from "../lib/copy";
 import Icon from "./Icon.astro";
 ---
 
-<div class="plane" role="img" aria-label={COPY.plane.label}>
-  <div class="row attention">
+<div class="plane" data-board role="region" aria-label={COPY.plane.label}>
+  <div class="strip">
+    <span class="live">Live</span>
+    <span><b data-stat-agents>4</b> agents</span>
+    <span><b data-stat-need>1</b> need you</span>
+    <span><b data-stat-handoff>1</b> handoff</span>
+  </div>
+
+  <div class="row attention" data-attention-row>
     <div class="rail">
       <span class="octagon">
         <Icon name="HandPalm" size={22} />
@@ -18,109 +25,143 @@ import Icon from "./Icon.astro";
       <Icon name="User" size={22} />
       <div class="copy">
         <p class="need">Human needed</p>
-        <p class="title">Approve runner wake on Timo's Mac Studio</p>
+        <p class="title" data-attention-title>Approve runner wake on Timo's Mac Studio</p>
+        <p class="mono" data-attention-why>You own this runner</p>
       </div>
-      <span class="start">Start</span>
+      <button class="start" type="button" data-clear-attention>Start</button>
     </div>
   </div>
 
-  <div class="row working">
+  {
+    [0, 1, 2].map((index) => (
+      <div class="row working">
+        <div class="rail">
+          <Icon name="ArrowsClockwise" size={22} />
+          <span class="rail-label" data-lane-provider={`${index}`}>
+            {index === 0 ? "Claude" : index === 1 ? "Codex" : "Grok"}
+          </span>
+        </div>
+        <div class="body">
+          <Icon name="GearSix" size={20} />
+          <div class="copy">
+            <p class="state">
+              <span data-lane-activity={`${index}`}>working</span>
+              <span class="clock" data-lane-clock={`${index}`}>04:07</span>
+            </p>
+            <p class="title" data-lane-title={`${index}`}>
+              {index === 0
+                ? "Replay live events after reconnect"
+                : index === 1
+                  ? "Run checkout lease tests"
+                  : "Draft reconnect plan"}
+            </p>
+            <p class="mono" data-lane-checkout={`${index}`}>
+              bfb / Mac Studio / main@76ab1f9
+            </p>
+          </div>
+          <span class="spinner" aria-hidden="true"></span>
+        </div>
+      </div>
+    ))
+  }
+
+  <div class="row handoff" data-handoff-row>
     <div class="rail">
-      <Icon name="ArrowsClockwise" size={26} />
-      <span class="rail-label">Claude Code</span>
+      <Icon name="ArrowsClockwise" size={22} />
+      <span class="rail-label">Handoff</span>
     </div>
     <div class="body">
-      <Icon name="GearSix" size={22} />
       <div class="copy">
-        <p class="state">Working</p>
-        <p class="title">Replay live events after reconnect</p>
-        <p class="mono">bfb / Mac Studio / main@76ab1f9</p>
+        <p class="need" data-handoff-line>Claude passed this to Codex</p>
+        <p class="title" data-handoff-title>Compare review policy across providers</p>
       </div>
-      <span class="spinner" aria-hidden="true"></span>
     </div>
   </div>
 
   <div class="row committed">
     <div class="rail">
-      <Icon name="ShieldCheck" size={34} />
-      <span class="rail-label">Activity committed</span>
-      <span class="rail-meta">12 sec ago</span>
+      <Icon name="ShieldCheck" size={28} />
+      <span class="rail-label">Delivered</span>
+      <span class="rail-meta" data-delivered-ago>20m ago</span>
     </div>
-    <div class="body stacked">
-      <div class="review">
-        <Icon name="User" size={20} />
-        <div>
-          <p class="state">Timo reviewed artifact v3</p>
-          <p class="mono">20 min ago</p>
-        </div>
-      </div>
-      <div class="facts">
-        <div class="fact">
-          <Icon name="FileCode" size={18} />
-          <div>
-            <p class="fact-k">Changeset</p>
-            <p class="mono">main@76ab1f9</p>
-          </div>
-        </div>
-        <div class="fact">
-          <p class="fact-k">Commit</p>
-          <p class="mono">76ab1f9342c8d8e2</p>
-        </div>
-        <div class="fact">
-          <Icon name="Database" size={18} />
-          <div>
-            <p class="fact-k">Evidence</p>
-            <p class="mono">build, tests, logs</p>
-          </div>
-        </div>
-        <div class="fact">
-          <p class="fact-k">Duration</p>
-          <p class="mono">02:47</p>
-        </div>
+    <div class="body">
+      <Icon name="User" size={20} />
+      <div class="copy">
+        <p class="state">Accepted</p>
+        <p class="title" data-delivered-title>Timo accepted artifact v3</p>
       </div>
     </div>
   </div>
 
   <div class="row launch">
     <div class="rail">
-      <Icon name="RocketLaunch" size={26} />
+      <Icon name="RocketLaunch" size={22} />
       <span class="rail-label">Start a session</span>
     </div>
     <div class="body launch-body">
       <div class="providers">
-        <span class="provider on">
+        <button class="provider on" type="button" data-start-provider="Claude">
           <span class="ai">AI</span>
           Claude
-        </span>
-        <span class="provider">
+        </button>
+        <button class="provider" type="button" data-start-provider="Codex">
           <Icon name="Cube" size={16} />
           Codex
-        </span>
-        <span class="provider">
+        </button>
+        <button class="provider" type="button" data-start-provider="Grok">
           <Icon name="Crosshair" size={16} />
           Grok
-        </span>
+        </button>
       </div>
-      <span class="start">Start</span>
     </div>
   </div>
 </div>
 
+<script>
+  import { mountBoard } from "../lib/board-sim";
+
+  const root = document.querySelector("[data-board]");
+  if (root instanceof HTMLElement) {
+    const stop = mountBoard(root);
+    window.addEventListener("pagehide", stop, { once: true });
+  }
+</script>
+
 <style>
   .plane {
     display: grid;
-    grid-template-rows: auto auto 1fr auto;
-    width: min(100%, 48rem);
-    min-height: 28rem;
+    width: min(100%, 50rem);
     border: 1px solid var(--hairline);
     border-radius: var(--radius-panel);
     background: var(--chamber);
     overflow: hidden;
   }
 
+  .strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.1rem;
+    padding: 0.7rem 0.95rem;
+    border-bottom: 1px solid var(--hairline);
+    color: var(--smoke);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .strip b {
+    color: var(--bone);
+    font-weight: 600;
+  }
+
+  .live {
+    color: var(--safelight);
+  }
+
   .row {
     display: grid;
-    grid-template-columns: 8.6rem 1fr;
+    grid-template-columns: 8.2rem 1fr;
     border-bottom: 1px solid var(--hairline);
   }
 
@@ -133,8 +174,8 @@ import Icon from "./Icon.astro";
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.45rem;
-    padding: 0.9rem 0.6rem;
+    gap: 0.4rem;
+    padding: 0.75rem 0.5rem;
     border-right: 1px solid var(--hairline);
     color: var(--smoke);
     text-align: center;
@@ -146,87 +187,106 @@ import Icon from "./Icon.astro";
   .state,
   .fact-k {
     margin: 0;
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  .rail-meta {
-    color: var(--smoke);
-    letter-spacing: 0.06em;
-  }
-
   .body {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
-    padding: 0.95rem 1rem;
+    gap: 0.75rem;
+    padding: 0.8rem 0.9rem;
     min-width: 0;
   }
 
-  .copy,
-  .review > div,
-  .fact > div {
+  .copy {
     min-width: 0;
+    flex: 1;
   }
 
   .title {
-    margin: 0.15rem 0 0;
-    font-size: 0.95rem;
+    margin: 0.12rem 0 0;
+    font-size: 0.92rem;
     font-weight: 500;
     line-height: 1.3;
     color: var(--bone);
   }
 
-  .mono {
-    margin: 0.2rem 0 0;
+  .mono,
+  .clock {
+    margin: 0.15rem 0 0;
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 500;
     letter-spacing: 0;
     text-transform: none;
     color: var(--smoke);
   }
 
+  .state {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+  }
+
   .octagon {
     display: grid;
     place-items: center;
-    width: 2.1rem;
-    height: 2.1rem;
+    width: 2rem;
+    height: 2rem;
     color: var(--crimson);
-    background: color-mix(in oklab, var(--crimson) 16%, var(--chamber));
+    background: color-mix(in oklab, var(--crimson) 18%, var(--chamber));
     clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
   }
 
   .attention .body {
-    background: color-mix(in oklab, var(--crimson) 28%, var(--chamber));
+    background: color-mix(in oklab, var(--crimson) 24%, var(--chamber));
   }
 
   .need {
     color: var(--safelight);
   }
 
+  .start,
+  .provider {
+    font: inherit;
+    cursor: pointer;
+    background: transparent;
+  }
+
   .start {
     margin-left: auto;
     display: inline-flex;
     align-items: center;
-    height: 2.1rem;
-    padding: 0 0.9rem;
+    height: 2.05rem;
+    padding: 0 0.85rem;
     border: 1px solid var(--crimson);
     border-radius: var(--radius-control);
     color: var(--crimson);
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     white-space: nowrap;
   }
 
+  .start:hover,
+  .provider:hover {
+    background: var(--raised);
+    color: var(--bone);
+  }
+
+  .start:active,
+  .provider:active {
+    transform: translateY(1px);
+  }
+
   .spinner {
     margin-left: auto;
-    width: 1.7rem;
-    height: 1.7rem;
+    width: 1.45rem;
+    height: 1.45rem;
     flex: 0 0 auto;
     border-radius: 50%;
     background: conic-gradient(
@@ -248,36 +308,6 @@ import Icon from "./Icon.astro";
     mask: radial-gradient(farthest-side, transparent 58%, #000 59%);
   }
 
-  .stacked {
-    display: block;
-    padding: 0.85rem 1rem 1rem;
-  }
-
-  .review {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.7rem;
-    padding-bottom: 0.75rem;
-    margin-bottom: 0.75rem;
-    border-bottom: 1px solid var(--hairline);
-  }
-
-  .facts {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 0.65rem 1.5rem;
-  }
-
-  .fact {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .launch-body {
-    gap: 0.75rem;
-  }
-
   .providers {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -291,10 +321,10 @@ import Icon from "./Icon.astro";
     align-items: center;
     justify-content: center;
     gap: 0.35rem;
-    height: 2.35rem;
+    height: 2.25rem;
     border: 1px solid var(--hairline);
     border-radius: var(--radius-control);
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -310,11 +340,11 @@ import Icon from "./Icon.astro";
   .ai {
     display: grid;
     place-items: center;
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1.15rem;
+    height: 1.15rem;
     border: 1px solid currentColor;
     border-radius: 50%;
-    font-size: 0.48rem;
+    font-size: 0.46rem;
     letter-spacing: 0;
   }
 
@@ -330,11 +360,7 @@ import Icon from "./Icon.astro";
     }
   }
 
-  @media (max-width: 640px) {
-    .plane {
-      min-height: 0;
-    }
-
+  @media (max-width: 700px) {
     .row {
       grid-template-columns: 1fr;
     }
@@ -344,11 +370,7 @@ import Icon from "./Icon.astro";
       justify-content: flex-start;
       border-right: 0;
       border-bottom: 1px solid var(--hairline);
-      padding: 0.65rem 0.85rem;
-    }
-
-    .facts {
-      grid-template-columns: 1fr;
+      padding: 0.55rem 0.8rem;
     }
 
     .providers {

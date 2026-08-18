@@ -1,6 +1,6 @@
 # Design System: Big Fat Board coming soon
 
-One darkroom waitlist. The official Redline Control Room mockup is the first viewport. The page is theme-locked dark.
+One darkroom waitlist. Near-black canvas. Unbounded death lines. A live simulated board on the right. The page is theme-locked dark.
 
 ## Creative direction
 
@@ -12,21 +12,21 @@ A night operations room under one photographic safelight. The product plane is t
 
 | Token | Value | Role |
 | --- | --- | --- |
-| Blackout | `oklch(0.135 0.014 26)` | page canvas |
-| Chamber | `oklch(0.185 0.024 27)` | board and raised sections |
-| Raised | `oklch(0.235 0.032 27)` | selected controls |
-| Bone | `oklch(0.945 0.010 72)` | primary text |
-| Smoke | `oklch(0.705 0.018 35)` | supporting text |
-| Crimson | `oklch(0.464 0.169 26.9)` | action, human gate |
-| Safelight | `oklch(0.625 0.190 27)` | hover and active |
-| Hairline | `oklch(0.335 0.040 27)` | structural rules |
-| Oxblood | `oklch(0.22 0.09 26)` | committed field |
+| Blackout | `oklch(0.08 0.006 26)` | page canvas |
+| Chamber | `oklch(0.12 0.012 27)` | board and raised sections |
+| Raised | `oklch(0.16 0.018 27)` | selected controls |
+| Bone | `oklch(0.93 0.008 80)` | primary text |
+| Smoke | `oklch(0.6 0.012 35)` | supporting text |
+| Crimson | `oklch(0.42 0.155 26)` | action, human gate |
+| Safelight | `oklch(0.58 0.175 27)` | hover and active |
+| Hairline | `oklch(0.22 0.018 27)` | structural rules |
+| Oxblood | `oklch(0.13 0.05 26)` | committed field |
 
 Crimson is scarce. It marks an action, a human gate, or hover. It does not decorate empty corners.
 
 ## Typography
 
-Geologica for human language. Azeret Mono for checkout, hash, duration, and measured labels. No Inter. Display tracking sits at `-0.035em`. Body measure stays near 62ch.
+Unbounded for display death lines. Anybody for body. Azeret Mono for checkout, clocks, and measured labels. No Inter. Display tracking sits at `-0.045em`. Body measure stays near 62ch.
 
 ## Shape
 

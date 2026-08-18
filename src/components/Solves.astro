@@ -9,7 +9,8 @@ const { headline, jira, body, punch, names } = COPY.solves;
 
 <section class="solves" id="solves">
   <div class="copy">
-    <h2>{headline} {jira}</h2>
+    <h2>{headline}</h2>
+    <p class="dead">{jira}</p>
     <p>{body}</p>
     <p class="punch">{punch}</p>
     <ul>
@@ -46,10 +47,17 @@ const { headline, jira, body, punch, names } = COPY.solves;
   h2 {
     margin: 0 0 1.2rem;
     max-width: 16ch;
+    font-family: var(--font-display);
     font-size: clamp(1.9rem, 4vw, 3.1rem);
-    font-weight: 650;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+
+  .dead {
+    margin: 0 0 1rem;
+    color: var(--safelight);
+    font-weight: 600;
   }
 
   p {
