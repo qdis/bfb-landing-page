@@ -1,6 +1,6 @@
 ---
-// ABOUTME: Type attack on ticket ceremony. Giant struck names, uneven, crimson.
-// ABOUTME: The graveyard is the section. The photo sits as a stain, not a split.
+// ABOUTME: Type attack on ticket ceremony. Giant struck names, then copy wraps the chair.
+// ABOUTME: The chair sits in the text. It is not a leftover under the punch.
 
 import { COPY } from "../lib/copy";
 
@@ -10,7 +10,6 @@ const tilt = [-3.2, 2.1, -1.4, 3.6, -2.6, 1.2, -4.1, 2.8, -1.8, 3.1, -2.2, 1.6, 
 ---
 
 <section class="solves" id="solves">
-  <div class="stain" aria-hidden="true"></div>
   <div class="wrap">
     <h2>
       <span class="kill a"><s>JIRA</s></span>
@@ -18,25 +17,27 @@ const tilt = [-3.2, 2.1, -1.4, 3.6, -2.6, 1.2, -4.1, 2.8, -1.8, 3.1, -2.2, 1.6, 
       <span class="kill b"><s>SCRUM</s></span>
       <span class="is-dead">IS DEAD.</span>
     </h2>
-    <p class="law">{jira}</p>
-    <p class="attack">{body}</p>
-    <ul class="grave">
-      {
-        names.map((name, index) => (
-          <li style={`--rot: ${tilt[index] ?? 0}deg`}>
-            <s>{name}</s>
-          </li>
-        ))
-      }
-    </ul>
-    <p class="punch">{punch}</p>
-    <img
-      class="chair"
-      src="/images/chair-outlet.jpg"
-      alt="An office chair with a wall outlet growing from the seat and a neon cord on the floor."
-      width="1200"
-      height="900"
-    />
+    <div class="after">
+      <img
+        class="chair"
+        src="/images/chair-outlet.jpg"
+        alt="An office chair with a wall outlet growing from the seat and a neon cord on the floor."
+        width="1200"
+        height="900"
+      />
+      <p class="law">{jira}</p>
+      <p class="attack">{body}</p>
+      <ul class="grave">
+        {
+          names.map((name, index) => (
+            <li style={`--rot: ${tilt[index] ?? 0}deg`}>
+              <s>{name}</s>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="punch">{punch}</p>
+    </div>
   </div>
 </section>
 
@@ -47,25 +48,7 @@ const tilt = [-3.2, 2.1, -1.4, 3.6, -2.6, 1.2, -4.1, 2.8, -1.8, 3.1, -2.2, 1.6, 
     overflow: hidden;
     padding: 4.5rem 0 5rem;
     background: var(--oxblood-deep);
-    border-top: 1px solid color-mix(in oklab, var(--crimson) 45%, var(--hairline));
-  }
-
-  .stain {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background:
-      linear-gradient(
-        oklch(0.08 0.04 26 / 0.78),
-        oklch(0.07 0.03 26 / 0.88)
-      ),
-      url("/images/chair-outlet.jpg") center / cover no-repeat;
-    filter: saturate(1.25) contrast(1.1);
-  }
-
-  .wrap {
-    position: relative;
-    z-index: 1;
+    border-top: 1px solid color-mix(in oklab, var(--crimson) 35%, var(--hairline));
   }
 
   h2 {
@@ -124,6 +107,26 @@ const tilt = [-3.2, 2.1, -1.4, 3.6, -2.6, 1.2, -4.1, 2.8, -1.8, 3.1, -2.2, 1.6, 
     color: var(--safelight);
   }
 
+  .after {
+    margin-top: 2rem;
+  }
+
+  .after::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+  .chair {
+    display: block;
+    width: min(100%, 22rem);
+    margin: 0 0 1.4rem;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 55% 40%;
+    filter: saturate(1.2) contrast(1.12) brightness(1.35);
+  }
+
   .law,
   .attack,
   .punch {
@@ -132,7 +135,6 @@ const tilt = [-3.2, 2.1, -1.4, 3.6, -2.6, 1.2, -4.1, 2.8, -1.8, 3.1, -2.2, 1.6, 
   }
 
   .law {
-    margin-top: 2rem;
     color: var(--safelight);
     font-weight: 600;
     font-size: 1.1rem;
@@ -189,17 +191,16 @@ const tilt = [-3.2, 2.1, -1.4, 3.6, -2.6, 1.2, -4.1, 2.8, -1.8, 3.1, -2.2, 1.6, 
     line-height: 1.15;
   }
 
-  .chair {
-    display: block;
-    width: min(100%, 28rem);
-    margin: 2.2rem 0 0;
-    border: 1px solid color-mix(in oklab, var(--crimson) 40%, var(--hairline));
-    box-shadow: var(--neon-glow);
-  }
-
   @media (min-width: 768px) {
     .solves {
       padding: 6rem 0 6.5rem;
+    }
+
+    .chair {
+      float: right;
+      width: min(38%, 24rem);
+      margin: 0.2rem 0 1.6rem 2.4rem;
+      shape-outside: margin-box;
     }
   }
 </style>

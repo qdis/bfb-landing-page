@@ -1,6 +1,6 @@
 ---
-// ABOUTME: What BFB is, offset from the hero. Full-width line, two text columns.
-// ABOUTME: Same facts, different presentation: no live board, no death poster.
+// ABOUTME: What BFB is. Type on the left, melting tickets as the object.
+// ABOUTME: Same facts as before. The still sits with the copy, not under it.
 
 import { COPY } from "../lib/copy";
 
@@ -8,81 +8,90 @@ const { headline, lead, body } = COPY.what;
 ---
 
 <section class="product" id="product">
-  <div class="wrap">
-    <h2>{headline}</h2>
-    <div class="cols">
+  <div class="wrap stage">
+    <div class="copy">
+      <h2>{headline}</h2>
       <p class="lead">{lead}</p>
       <p>{body}</p>
+    </div>
+    <figure>
       <img
         src="/images/ticket-melt.jpg"
         alt="Blank tickets melting into a surge protector under neon red light."
         width="1200"
         height="800"
       />
-    </div>
+    </figure>
   </div>
 </section>
 
 <style>
   .product {
-    padding: 5.5rem 0 5rem;
+    padding: 5rem 0 0;
     background: var(--blackout);
     border-top: 1px solid var(--hairline);
   }
 
+  .stage {
+    display: grid;
+    gap: 1.6rem;
+  }
+
   h2 {
-    margin: 0 0 2.2rem;
-    max-width: 18ch;
+    margin: 0 0 1.2rem;
+    max-width: 16ch;
     font-family: var(--font-display);
-    font-size: clamp(2.1rem, 5vw, 4.2rem);
+    font-size: clamp(2.1rem, 5vw, 4rem);
     font-weight: 800;
     line-height: 0.94;
     letter-spacing: -0.045em;
   }
 
-  .cols {
-    display: grid;
-    gap: 1.4rem;
-  }
-
   p {
-    margin: 0;
-    max-width: 58ch;
+    margin: 0 0 1rem;
+    max-width: 38ch;
     font-size: 1.06rem;
-    line-height: 1.55;
+    line-height: 1.5;
     color: var(--smoke);
   }
 
   .lead {
     color: var(--bone);
     font-weight: 500;
+    max-width: 42ch;
+  }
+
+  figure {
+    margin: 0;
   }
 
   img {
+    display: block;
     width: 100%;
-    max-width: 28rem;
-    margin-top: 0.4rem;
-    border: 1px solid var(--hairline);
-    border-radius: var(--radius-panel);
-    filter: saturate(1.15) contrast(1.08);
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 30%;
+    filter: saturate(1.12) contrast(1.06);
   }
 
   @media (min-width: 768px) {
     .product {
-      padding: 7.5rem 0 6.5rem;
+      padding: 6.5rem 0 0;
     }
 
-    .cols {
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-      gap: 3rem;
-      align-items: start;
+    .stage {
+      grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.85fr);
+      gap: 3.5rem 4rem;
+      align-items: end;
+    }
+
+    .copy {
+      padding-bottom: 3.5rem;
     }
 
     img {
-      grid-column: 1 / -1;
-      width: min(100%, 36rem);
-      justify-self: end;
-      margin-top: 0.5rem;
+      aspect-ratio: 3 / 4;
     }
   }
 </style>
