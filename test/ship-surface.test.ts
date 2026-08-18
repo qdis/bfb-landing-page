@@ -70,6 +70,16 @@ describe("ship surface", () => {
     expect(read("wrangler.jsonc")).toContain('"name": "EMAIL"');
   });
 
+  it("ships a crimson B favicon, not the old ticket mark", () => {
+    const icon = read("public/favicon.svg");
+    const base = read("src/layouts/Base.astro");
+    expect(icon).toContain("#070204");
+    expect(icon).toContain("#ff2f3c");
+    expect(icon).not.toContain("#f0c400");
+    expect(base).toContain("/favicon.svg");
+    expect(base).toContain("/apple-touch-icon.png");
+  });
+
   it("injects Cloudflare Web Analytics", () => {
     const base = read("src/layouts/Base.astro");
     expect(base).toContain("static.cloudflareinsights.com/beacon.min.js");
