@@ -5,7 +5,7 @@
 import { COPY } from "../lib/copy";
 import SignupForm from "./SignupForm.astro";
 
-const { line1, line2, line3, sub, demo } = COPY.hero;
+const { line1, line2, line3, spell, sub, demo } = COPY.hero;
 ---
 
 <section class="hero" id="top">
@@ -18,6 +18,7 @@ const { line1, line2, line3, sub, demo } = COPY.hero;
         <span class="line">{line2}</span>
       </span>
       <span class="need">{line3}</span>
+      <span class="spell">{spell}</span>
     </h1>
     <p>{sub}</p>
     <div class="actions">
@@ -141,8 +142,19 @@ const { line1, line2, line3, sub, demo } = COPY.hero;
     font-size: 0.38em;
     line-height: 1.05;
     letter-spacing: -0.035em;
-    max-width: 18ch;
+    max-width: 22ch;
     padding-top: 0.45em;
+  }
+
+  .spell {
+    display: block;
+    padding-top: 0.35em;
+    max-width: 22ch;
+    font-size: 0.2em;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.15;
+    color: var(--bone);
   }
 
   p {

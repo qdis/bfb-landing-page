@@ -48,6 +48,8 @@ describe("landing copy", () => {
     expect(text).toContain("JIRA IS DEAD");
     expect(text).toContain("SCRUM IS DEAD");
     expect(text).toContain("get on the BIG FAT BOARD");
+    expect(text).toContain("BFB = BIG FAT BOARD");
+    expect(text).toContain("AI-FIRST COMPANIES NEED BIG FAT BOARD");
   });
 
   it("does not give the masthead a signup label", () => {

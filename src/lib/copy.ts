@@ -24,7 +24,8 @@ export const COPY = {
   hero: {
     line1: "JIRA IS DEAD.",
     line2: "SCRUM IS DEAD.",
-    line3: "AI-FIRST COMPANIES NEED A CONTROL PLANE.",
+    line3: "AI-FIRST COMPANIES NEED BIG FAT BOARD.",
+    spell: "BFB = BIG FAT BOARD",
     sub: "No dailies. No story points. No shirt sizes. Agents and humans on one board.",
     cta: "Get BFB",
     demo: "Watch the demo",
@@ -197,6 +198,7 @@ export function visibleCopyText(): string {
     COPY.hero.line1,
     COPY.hero.line2,
     COPY.hero.line3,
+    COPY.hero.spell,
     COPY.hero.sub,
     COPY.hero.demo,
     COPY.demo.headline,
