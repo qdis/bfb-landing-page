@@ -96,7 +96,7 @@ export const COPY = {
       },
       {
         title: "One board for the swarm",
-        body: "Five projects. Ten live tasks. Fifty agents. BFB is not for legacy teams. It is for people who cannot see the work.",
+        body: "5 projects. 10 live tasks. 50 agents. BFB is not for legacy teams. It is for builders of the future.",
       },
     ],
   },

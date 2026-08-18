@@ -55,6 +55,9 @@ describe("landing copy", () => {
     expect(text).toContain("You may sit.");
     expect(text).toContain("Enrolled devices run Claude Code, Codex, or Grok.");
     expect(text).not.toContain("Enrolled Macs");
+    expect(text).toContain("5 projects. 10 live tasks. 50 agents.");
+    expect(text).toContain("It is for builders of the future.");
+    expect(text).not.toContain("cannot see the work");
   });
 
   it("does not give the masthead a signup label", () => {
